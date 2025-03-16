@@ -1,0 +1,35 @@
+# Mac Finder metadata
+.DS_Store
+
+# Node dependencies
+node_modules/
+
+# Build artifacts
+build/
+dist/
+
+# SvelteKit
+/.svelte-kit
+/package
+
+# Local environment variables
+.env
+.env.*
+!.env.example
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# IDE files
+.idea/
+.vscode/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Generated types
+src/lib/$types.d.ts
+
