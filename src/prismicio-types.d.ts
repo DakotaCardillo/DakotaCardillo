@@ -182,6 +182,48 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 export type AllDocumentTypes = PageDocument | SettingsDocument;
 
 /**
+ * Primary content in *Demo → Default → Primary*
+ */
+export interface DemoSliceDefaultPrimary {
+	/**
+	 * Title field in *Demo → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Demo
+	 * - **API ID Path**: demo.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+}
+
+/**
+ * Default variation for Demo Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type DemoSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<DemoSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *Demo*
+ */
+type DemoSliceVariation = DemoSliceDefault;
+
+/**
+ * Demo Shared Slice
+ *
+ * - **API ID**: `demo`
+ * - **Description**: Demo
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type DemoSlice = prismic.SharedSlice<'demo', DemoSliceVariation>;
+
+/**
  * Primary content in *Hero → Default → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -313,6 +355,10 @@ declare module '@prismicio/client' {
 			SettingsDocumentData,
 			SettingsDocumentDataNavigationItem,
 			AllDocumentTypes,
+			DemoSlice,
+			DemoSliceDefaultPrimary,
+			DemoSliceVariation,
+			DemoSliceDefault,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
 			HeroSliceVariation,

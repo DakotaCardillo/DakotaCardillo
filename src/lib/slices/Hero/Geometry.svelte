@@ -9,13 +9,13 @@
 	export let rate = 0.5;
 
 	const materials = [
-		{ color: 0x2ecc71, roughness: 0, transparent: false },
-		{ color: 0xf1c40f, roughness: 0.4, transparent: false },
-		{ color: 0xe74c3c, roughness: 0.1, transparent: false },
-		{ color: 0x8e44ad, roughness: 0.1, transparent: false },
-		{ color: 0x1abc9c, roughness: 0.1, transparent: false },
-		{ color: 0x2980b9, roughness: 0, metalness: 0.5, transparent: false },
-		{ color: 0x2c3e50, roughness: 0.1, metalness: 0.5, transparent: false }
+		{ color: 0x2ecc71, roughness: 0 },
+		{ color: 0xf1c40f, roughness: 0.4 },
+		{ color: 0xe74c3c, roughness: 0.1 },
+		{ color: 0x8e44ad, roughness: 0.1 },
+		{ color: 0x1abc9c, roughness: 0.1 },
+		{ color: 0x2980b9, roughness: 0, metalness: 0.5 },
+		{ color: 0x2c3e50, roughness: 0.1, metalness: 0.5 }
 	];
 
 	function getRandomMaterial() {
@@ -38,7 +38,6 @@
 	>
 		<Threlte.Mesh {geometry} material={getRandomMaterial()} onclick={handleClick}>
 		</Threlte.Mesh>
-
 	</Float>
 </Threlte.Group>
 
