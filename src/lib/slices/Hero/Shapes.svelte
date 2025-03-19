@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { T as Threlte } from '@threlte/core';
-	import { ContactShadows, Environment, interactivity } from '@threlte/extras';
+	import { ContactShadows, Environment, interactivity, transitions } from '@threlte/extras';
 	import * as THREE from 'three';
 	import Geometry from '$lib/slices/Hero/Geometry.svelte';
 
 	interactivity();
+	transitions();
 </script>
 
 <Threlte.PerspectiveCamera

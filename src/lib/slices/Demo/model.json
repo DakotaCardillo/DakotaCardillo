@@ -12,11 +12,16 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "title": {
-          "type": "Text",
+        "demo": {
+          "type": "Select",
           "config": {
-            "label": "Title",
-            "placeholder": "Demo"
+            "label": "Demo",
+            "placeholder": "",
+            "options": [
+              "Shell Texturing",
+              "Water Simulation"
+            ],
+            "default_value": "Shell Texturing"
           }
         }
       },

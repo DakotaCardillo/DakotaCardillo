@@ -186,14 +186,15 @@ export type AllDocumentTypes = PageDocument | SettingsDocument;
  */
 export interface DemoSliceDefaultPrimary {
 	/**
-	 * Title field in *Demo → Default → Primary*
+	 * Demo field in *Demo → Default → Primary*
 	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: Demo
-	 * - **API ID Path**: demo.default.primary.title
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: Shell Texturing
+	 * - **API ID Path**: demo.default.primary.demo
+	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	title: prismic.KeyTextField;
+	demo: prismic.SelectField<'Shell Texturing' | 'Water Simulation', 'filled'>;
 }
 
 /**

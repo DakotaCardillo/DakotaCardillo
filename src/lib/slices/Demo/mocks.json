@@ -3,10 +3,10 @@
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
 		"primary": {
-			"title": {
+			"demo": {
 				"__TYPE__": "FieldContent",
-				"value": "slide",
-				"type": "Text"
+				"value": "Shell Texturing",
+				"type": "Select"
 			}
 		},
 		"items": []
