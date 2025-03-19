@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
 	import { Canvas } from '@threlte/core';
-	import shellTexturing from '$lib/demos/ShellTexturing.svelte';
+	import Index from '$lib/demos/ShellTexturing/index.svelte';
 
 	export let slice: Content.DemoSlice;
 
-	let demoComponent = shellTexturing;
+	let demoComponent = Index;
 	if (slice.primary.demo === 'Shell Texturing') {
-		demoComponent = shellTexturing;
+		demoComponent = Index;
 	}
 </script>
 
