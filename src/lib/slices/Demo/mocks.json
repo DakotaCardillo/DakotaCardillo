@@ -5,8 +5,8 @@
 		"primary": {
 			"demo": {
 				"__TYPE__": "FieldContent",
-				"value": "Shell Texturing",
-				"type": "Select"
+				"type": "Select",
+				"value": "Water Simulation"
 			}
 		},
 		"items": []

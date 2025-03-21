@@ -1,13 +1,16 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
 	import { Canvas } from '@threlte/core';
-	import Index from '$lib/demos/ShellTexturing/index.svelte';
+	import { default as ShellTexturing } from '$lib/demos/ShellTexturing/index.svelte';
+	import { default as WaterSimulation } from '$lib/demos/WaterSimulationn/index.svelte';
 
 	export let slice: Content.DemoSlice;
 
-	let demoComponent = Index;
+	let demoComponent = ShellTexturing;
 	if (slice.primary.demo === 'Shell Texturing') {
-		demoComponent = Index;
+		demoComponent = ShellTexturing;
+	} else if (slice.primary.demo === 'Water Simulation') {
+		demoComponent = WaterSimulation;
 	}
 </script>
 
