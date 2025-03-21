@@ -17,11 +17,15 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="w-screen h-screen"
+	class="w-screen h-screen flex container place-content-center"
 >
-	{#if demoComponent}
-		<Canvas>
-			<svelte:component this={demoComponent} />
-		</Canvas>
-	{/if}
+	<div class="md:m-12 w-full">
+		<div class="w-full h-full rounded-xl shadow-2xl overflow-hidden">
+			{#if demoComponent}
+				<Canvas>
+					<svelte:component this={demoComponent} />
+				</Canvas>
+			{/if}
+		</div>
+	</div>
 </section>

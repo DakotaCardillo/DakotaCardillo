@@ -13,7 +13,7 @@ struct Wave
     float speed;
 };
 
-float Sin(vec3 pos, Wave wave)
+float GetWaveHeight(vec3 pos, Wave wave)
 {
     return wave.amplitude * sin(dot(pos.xz, wave.direction) * wave.frequency + uTime * wave.speed);
 }
@@ -39,7 +39,7 @@ void main() {
 
     for (int i = 0; i < 4; i++)
     {
-        waveHeight += Sin(position, waves[i]);
+        waveHeight += GetWaveHeight(position, waves[i]);
         normal += GetWaveNormal(position, waves[i]);
     }
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { T, useTask, useThrelte } from '@threlte/core';
+	import { T, useTask } from '@threlte/core';
 	import * as THREE from 'three';
 	import { MathUtils } from 'three';
 
@@ -11,11 +11,12 @@
 	import basicFragmentShader from '../../shaders/basic.frag';
 	import normalFragmentShader from '../../shaders/normal.frag';
 	import normalVertexShader from '../../shaders/normal.vert';
+	import halfLambertFragmentShader from '../../shaders/halfLambert.frag';
+	import lambertFragmentShader from '../../shaders/lambert.frag';
 
 	const vertexShader = `${utilsShader}\n${vertexShaderMain}`;
 	const fragmentShader = `${utilsShader}\n${fragmentShaderMain}`;
 
-	let sunDirection = new THREE.Vector3(0, -10, 0);
 	let sunPosition = new THREE.Vector3(0, 10, 0);
 
 	let newEuler = new THREE.Euler();
@@ -35,15 +36,13 @@
 
 	useTask((delta) => {
 		uniforms.uTime.value += delta;
+
 		angle += angularSpeed * delta;
-		// Calculate new position in the XZ plane
 		const x = orbitCenter.x + orbitRadius * Math.cos(angle);
 		const z = orbitCenter.z + orbitRadius * Math.sin(angle);
-		// Update the mesh's position (keeping its y coordinate)
+
 		sunPosition.set(x, sunPosition.y, z);
 		sunPosition = sunPosition;
-		sunDirection.set(-sunPosition.x, -sunPosition.y, -sunPosition.z);
-		sunDirection = sunDirection;
 
 		const matrix = new THREE.Matrix4().lookAt(sunPosition, new THREE.Vector3(0), up);
 		newEuler.setFromRotationMatrix(matrix);
@@ -75,7 +74,7 @@
 	position={[0, 1.2, 0]}
 >
 	<T.PlaneGeometry
-		args={[1, 1, 1000, 1000]}
+		args={[1, 1, 10, 10]}
 		oncreate={(geom) => {
 			geom.rotateX(MathUtils.degToRad(-90));
 		}}
@@ -135,7 +134,31 @@
 >
 	<T.ShaderMaterial
 		vertexShader={basicVertexShader}
-		fragmentShader={fragmentShader}
+		fragmentShader={halfLambertFragmentShader}
+		uniforms={uniforms}
+	/>
+</T.Mesh>
+
+<T.Mesh
+	geometry={new THREE.SphereGeometry(1)}
+	scale={[1, 1, 1]}
+	position={[-10, 0, 0]}
+>
+	<T.ShaderMaterial
+		vertexShader={basicVertexShader}
+		fragmentShader={lambertFragmentShader}
+		uniforms={uniforms}
+	/>
+</T.Mesh>
+
+<T.Mesh
+	geometry={new THREE.SphereGeometry(1)}
+	scale={[1, 1, 1]}
+	position={[-10, 5, 0]}
+>
+	<T.ShaderMaterial
+		vertexShader={basicVertexShader}
+		fragmentShader={basicFragmentShader}
 		uniforms={uniforms}
 	/>
 </T.Mesh>

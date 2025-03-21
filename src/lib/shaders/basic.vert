@@ -1,4 +1,3 @@
-uniform vec3 uSunPosition;
 varying vec3 vWorldPosition;
 varying vec2 vUV;
 varying vec3 vNormal;

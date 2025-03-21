@@ -1,7 +1,14 @@
 <script lang="ts">
-	import { T } from '@threlte/core';
-	import { Environment, OrbitControls } from '@threlte/extras';
+	import { T, useThrelte } from '@threlte/core';
+	import * as THREE from 'three';
+	import { Sky, OrbitControls } from '@threlte/extras';
 	import Water from '$lib/demos/WaterSimulationn/Water.svelte';
+
+	const { scene } = useThrelte();
+	scene.background = new THREE.Color(0xff0000);
+
+	const { renderer } = useThrelte();
+	renderer.setClearColor(0xff0000, 0);
 </script>
 
 <T.PerspectiveCamera
@@ -14,7 +21,17 @@
 	<OrbitControls target={[0, 0, 0]} />
 </T.PerspectiveCamera>
 
-<Environment url="/smallroom.hdr" />
+<!--<Environment url="/smallroom.hdr" isBackground={true} />-->
+
+<Sky
+	turbidity={14.35}
+	rayleigh={3.0}
+	azimuth={100.0}
+	elevation={0.5}
+	mieCoefficient={0.005}
+	mieDirectionalG={0.7}
+	exposure={0.37}
+/>
 
 <T.PointLight position={[10, 10, 10]} intensity={0} />
 

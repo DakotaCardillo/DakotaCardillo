@@ -1,8 +1,15 @@
 <script lang="ts">
-	import { T } from '@threlte/core';
+	import { T, useThrelte } from '@threlte/core';
 	import { Environment, OrbitControls } from '@threlte/extras';
 	import ShellObject from '$lib/demos/ShellTexturing/ShellObject.svelte';
 	import GrassShell from '$lib/demos/ShellTexturing/GrassShell.svelte';
+	import * as THREE from 'three';
+
+	//const { scene } = useThrelte();
+	//scene.background = new THREE.Color(0xff0000);
+
+	const { renderer } = useThrelte();
+	renderer.setClearColor(0x222222, 1);
 
 	const grassPosition = { x: 0, y: 0.5, z: 0 };
 </script>
@@ -25,7 +32,7 @@
 	shellComponent={GrassShell}
 	numShells={100}
 	shellDistance={0.003}
-	shellOpacity={0.1}
+	shellOpacity={1.0}
 	globalPosition={grassPosition}
 	getShellProps={(i) =>({
 		width: 5,

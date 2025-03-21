@@ -32,10 +32,10 @@
 		uThickness: { value: 1 },
 		uIndex: { value: index },
 		uDistanceDelta: { value: shellDistance },
-		uOpacity: { value: shellOpacity },
+		uOpacity: { value: shellOpacity }
 	};
 
-	const task = useTask((delta) => {
+	useTask((delta) => {
 		uniforms.uTime.value += delta;
 	});
 </script>
