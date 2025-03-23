@@ -1,40 +1,67 @@
 <script lang="ts">
-	import { T, useThrelte } from '@threlte/core';
-	import * as THREE from 'three';
-	import { Sky, OrbitControls } from '@threlte/extras';
-	import Water from '$lib/demos/WaterSimulationn/Water.svelte';
+	import { Canvas } from '@threlte/core';
+	import Scene from './Scene.svelte';
+	import { Pane, Folder, List, Slider, Button, Checkbox } from 'svelte-tweakpane-ui';
+	import type { ListOptions } from 'svelte-tweakpane-ui';
 
-	const { scene } = useThrelte();
-	scene.background = new THREE.Color(0xff0000);
+	const waveAlgoOptions: ListOptions<number> = {
+		sum_of_sines: 0,
+		exponential_sum_of_sines: 1,
+		fractional_brownian_motion: 2
+	} as const;
 
-	const { renderer } = useThrelte();
-	renderer.setClearColor(0xff0000, 0);
+	const waveTypeOptions: ListOptions<number> = {
+		sine: 0,
+		circular: 1
+	} as const;
+
+	let waveCount = $state(4);
+	let fragmentWaveCount = $state(40);
+	let waveType = $state(0);
+	let waveAlgorithm = $state(0);
+	let wireframe = $state(false);
+
 </script>
 
-<T.PerspectiveCamera
-	position={[4, 7, 12]}
-	fov={30}
-	near={0.1}
-	far={1000}
-	makeDefault
->
-	<OrbitControls target={[0, 0, 0]} />
-</T.PerspectiveCamera>
+<div class="w-full h-full">
 
-<!--<Environment url="/smallroom.hdr" isBackground={true} />-->
+	<Pane
+		position="draggable"
+		title="Water"
+	>
+		<List
+			bind:value={waveAlgorithm}
+			label="Wave Algorithm"
+			options={waveAlgoOptions}
+		/>
+		<List
+			bind:value={waveType}
+			label="Wave Type"
+			options={waveTypeOptions}
+			disabled={waveAlgorithm !== 0}
+		/>
+		<Slider
+			label="Wave Count"
+			bind:value={waveCount}
+			min={0}
+			max={waveAlgorithm === 2 ? 32 : 4}
+			step={1}
+		/>
+		<Slider
+			label="FBM Fragment Wave Count"
+			bind:value={fragmentWaveCount}
+			min={0}
+			max={100}
+			step={1}
+			disabled={waveAlgorithm !== 2}
+		/>
+		<Checkbox
+			label="Show Wireframe"
+			bind:value={wireframe}
+		/>
+	</Pane>
 
-<Sky
-	turbidity={14.35}
-	rayleigh={3.0}
-	azimuth={100.0}
-	elevation={0.5}
-	mieCoefficient={0.005}
-	mieDirectionalG={0.7}
-	exposure={0.37}
-/>
-
-<T.PointLight position={[10, 10, 10]} intensity={0} />
-
-<T.GridHelper size={100} divisions={10} />
-
-<Water />
+	<Canvas>
+		<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
+	</Canvas>
+</div>

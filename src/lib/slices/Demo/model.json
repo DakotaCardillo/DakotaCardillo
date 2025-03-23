@@ -19,7 +19,8 @@
             "placeholder": "",
             "options": [
               "Shell Texturing",
-              "Water Simulation"
+              "Water Simulation",
+              "Blinn-Phong"
             ],
             "default_value": "Shell Texturing"
           }

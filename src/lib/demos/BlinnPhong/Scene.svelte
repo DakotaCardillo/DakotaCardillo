@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { T, useTask } from '@threlte/core';
+	import { T, useTask, useThrelte } from '@threlte/core';
 	import * as THREE from 'three';
 	import { MathUtils } from 'three';
+
+	const { renderer } = useThrelte();
+	renderer.setClearColor(0x222222, 1);
+
 
 	import utilsShader from '../../shaders/utils.glsl';
 	import vertexShaderMain from '../../shaders/water.vert';
@@ -13,15 +17,20 @@
 	import normalVertexShader from '../../shaders/normal.vert';
 	import halfLambertFragmentShader from '../../shaders/halfLambert.frag';
 	import lambertFragmentShader from '../../shaders/lambert.frag';
+	import phongFragmentShader from '../../shaders/phong.frag';
+	import { OrbitControls } from '@threlte/extras';
 
 	const vertexShader = `${utilsShader}\n${vertexShaderMain}`;
 	const fragmentShader = `${utilsShader}\n${fragmentShaderMain}`;
 
-	let sunPosition = new THREE.Vector3(0, 10, 0);
+	let camera: THREE.PerspectiveCamera;
+
+	let cameraPosition = new THREE.Vector3(13, 25, 12);
+
+	let sunPosition = new THREE.Vector3(10, 7, 0);
 
 	let newEuler = new THREE.Euler();
 	const up = new THREE.Vector3(0, 1, 0);
-
 
 	// Set your orbit center and parameters.
 	const orbitCenter = new THREE.Vector3(0, 10, 0);
@@ -31,7 +40,14 @@
 
 	const uniforms = {
 		uTime: { value: 0 },
-		uSunPosition: { value: sunPosition }
+		uCameraPosition: { value: cameraPosition },
+		uLightPosition: { value: sunPosition },
+		uLightColor: { value: new THREE.Vector3(1, 0.7, 0.5) },
+		uLightIntensity: { value: 40.0 },
+		uDiffuseColor: { value: new THREE.Vector3(0.1, 0.4, 1.0) },
+		uAmbientColor: { value: new THREE.Vector3(0.04, 0.04, 0.04) },
+		uSpecularColor: { value: new THREE.Vector3(1, 1, 1) },
+		uShininess: { value: 16.0 }
 	};
 
 	useTask((delta) => {
@@ -47,13 +63,41 @@
 		const matrix = new THREE.Matrix4().lookAt(sunPosition, new THREE.Vector3(0), up);
 		newEuler.setFromRotationMatrix(matrix);
 		newEuler = newEuler;
-	});
 
+		if (camera) {
+			cameraPosition.set(camera.position.x, camera.position.y, camera.position.z);
+			cameraPosition = cameraPosition;
+			uniforms.uCameraPosition.value = cameraPosition;
+		}
+	});
 
 	onMount(() => {
 	});
 </script>
 
+<T.GridHelper size={100} divisions={10} />
+
+<T.PerspectiveCamera
+	bind:ref={camera}
+	position={[cameraPosition.x, cameraPosition.y, cameraPosition.z]}
+	fov={30}
+	near={0.1}
+	far={1000}
+	makeDefault
+>
+	<OrbitControls target={[0, 0, 0]} />
+</T.PerspectiveCamera>
+
+<!-- SUN -->
+<T.Mesh
+	geometry={new THREE.SphereGeometry(1)}
+	material={new THREE.MeshBasicMaterial({color: 'red'})}
+	scale={[1, 1, 1]}
+	position={[sunPosition.x, sunPosition.y, sunPosition.z]}
+>
+</T.Mesh>
+
+<!-- SUN DIR -->
 <T.Mesh
 	material={new THREE.MeshBasicMaterial({color: 'yellow'})}
 	position={[sunPosition.x, sunPosition.y, sunPosition.z]}
@@ -70,95 +114,25 @@
 </T.Mesh>
 
 <T.Mesh
-	scale={[5, 5, 5]}
-	position={[0, 1.2, 0]}
->
-	<T.PlaneGeometry
-		args={[1, 1, 10, 10]}
-		oncreate={(geom) => {
-			geom.rotateX(MathUtils.degToRad(-90));
-		}}
-	/>
-	<T.ShaderMaterial
-		vertexShader={vertexShader}
-		fragmentShader={fragmentShader}
-		uniforms={uniforms}
-	/>
-</T.Mesh>
-
-<T.Mesh
-	scale={[5, 5, 5]}
-	position={[6, 1.2, 0]}
->
-	<T.PlaneGeometry
-		args={[1, 1, 1000, 1000]}
-		oncreate={(geom) => {
-			geom.rotateX(MathUtils.degToRad(-90));
-			//geom.rotateZ(MathUtils.degToRad(-90));
-		}}
-	/>
-	<T.ShaderMaterial
-		vertexShader={basicVertexShader}
-		fragmentShader={normalFragmentShader}
-		uniforms={uniforms}
-	/>
-</T.Mesh>
-
-<T.Mesh
-	scale={[5, 5, 5]}
-	position={[12, 1.2, 0]}
-	rotation={[MathUtils.degToRad(-90), 0, 0]}
->
-	<T.PlaneGeometry
-		args={[1, 1, 1000, 1000]}
-	/>
-	<T.ShaderMaterial
-		vertexShader={normalVertexShader}
-		fragmentShader={normalFragmentShader}
-		uniforms={uniforms}
-	/>
-</T.Mesh>
-
-<T.Mesh
-	geometry={new THREE.SphereGeometry(1)}
-	material={new THREE.MeshBasicMaterial({color: 'red'})}
-	scale={[1, 1, 1]}
-	position={[sunPosition.x, sunPosition.y, sunPosition.z]}
->
-</T.Mesh>
-
-<T.Mesh
 	geometry={new THREE.SphereGeometry(1)}
 	scale={[1, 1, 1]}
-	position={[-5, 0, 0]}
+	position={[0, 0, 3]}
 >
 	<T.ShaderMaterial
 		vertexShader={basicVertexShader}
-		fragmentShader={halfLambertFragmentShader}
+		fragmentShader={phongFragmentShader}
 		uniforms={uniforms}
 	/>
 </T.Mesh>
 
 <T.Mesh
-	geometry={new THREE.SphereGeometry(1)}
+	geometry={new THREE.DodecahedronGeometry(1)}
 	scale={[1, 1, 1]}
-	position={[-10, 0, 0]}
+	position={[0, 0, 0]}
 >
 	<T.ShaderMaterial
 		vertexShader={basicVertexShader}
-		fragmentShader={lambertFragmentShader}
-		uniforms={uniforms}
-	/>
-</T.Mesh>
-
-<T.Mesh
-	geometry={new THREE.SphereGeometry(1)}
-	scale={[1, 1, 1]}
-	position={[-10, 5, 0]}
->
-	<T.ShaderMaterial
-		vertexShader={basicVertexShader}
-		fragmentShader={basicFragmentShader}
+		fragmentShader={phongFragmentShader}
 		uniforms={uniforms}
 	/>
 </T.Mesh>
@@ -166,11 +140,35 @@
 <T.Mesh
 	geometry={new THREE.BoxGeometry(1)}
 	scale={[1, 1, 1]}
-	position={[5, 0, 5]}
+	position={[-3, 0, 0]}
 >
 	<T.ShaderMaterial
 		vertexShader={basicVertexShader}
-		fragmentShader={normalFragmentShader}
+		fragmentShader={phongFragmentShader}
+		uniforms={uniforms}
+	/>
+</T.Mesh>
+
+<T.Mesh
+	geometry={new THREE.IcosahedronGeometry(1)}
+	scale={[1, 1, 1]}
+	position={[3, 0, 0]}
+>
+	<T.ShaderMaterial
+		vertexShader={basicVertexShader}
+		fragmentShader={phongFragmentShader}
+		uniforms={uniforms}
+	/>
+</T.Mesh>
+
+<T.Mesh
+	geometry={new THREE.TorusGeometry(1)}
+	scale={[1, 1, 1]}
+	position={[0, 0, -3]}
+>
+	<T.ShaderMaterial
+		vertexShader={basicVertexShader}
+		fragmentShader={phongFragmentShader}
 		uniforms={uniforms}
 	/>
 </T.Mesh>

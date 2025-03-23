@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
-	import { Canvas } from '@threlte/core';
 	import { default as ShellTexturing } from '$lib/demos/ShellTexturing/index.svelte';
 	import { default as WaterSimulation } from '$lib/demos/WaterSimulationn/index.svelte';
+	import { default as BlinnPhong } from '$lib/demos/BlinnPhong/index.svelte';
 
 	export let slice: Content.DemoSlice;
 
@@ -11,6 +11,8 @@
 		demoComponent = ShellTexturing;
 	} else if (slice.primary.demo === 'Water Simulation') {
 		demoComponent = WaterSimulation;
+	} else if (slice.primary.demo === 'Blinn-Phong') {
+		demoComponent = BlinnPhong;
 	}
 </script>
 
@@ -20,11 +22,9 @@
 	class="w-screen h-screen flex container place-content-center"
 >
 	<div class="md:m-12 w-full">
-		<div class="w-full h-full rounded-xl shadow-2xl overflow-hidden">
+		<div class="w-full h-full rounded-xl shadow-2xl overflow-hidden bg-black">
 			{#if demoComponent}
-				<Canvas>
-					<svelte:component this={demoComponent} />
-				</Canvas>
+				<svelte:component this={demoComponent} />
 			{/if}
 		</div>
 	</div>

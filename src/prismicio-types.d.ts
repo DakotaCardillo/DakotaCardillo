@@ -194,7 +194,7 @@ export interface DemoSliceDefaultPrimary {
 	 * - **API ID Path**: demo.default.primary.demo
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	demo: prismic.SelectField<'Shell Texturing' | 'Water Simulation', 'filled'>;
+	demo: prismic.SelectField<'Shell Texturing' | 'Water Simulation' | 'Blinn-Phong', 'filled'>;
 }
 
 /**
