@@ -15,7 +15,7 @@
 </script>
 
 <T.PerspectiveCamera
-	position={[0, 20, 50]}
+	position={[0, 7, 10]}
 	fov={30}
 	near={0.1}
 	far={1000}
