@@ -25,41 +25,43 @@
 
 <div class="w-full h-full">
 
-	<Pane
-		position="draggable"
-		title="Water"
-	>
-		<List
-			bind:value={waveAlgorithm}
-			label="Wave Algorithm"
-			options={waveAlgoOptions}
-		/>
-		<List
-			bind:value={waveType}
-			label="Wave Type"
-			options={waveTypeOptions}
-			disabled={waveAlgorithm !== 0}
-		/>
-		<Slider
-			label="Wave Count"
-			bind:value={waveCount}
-			min={0}
-			max={waveAlgorithm === 2 ? 32 : 4}
-			step={1}
-		/>
-		<Slider
-			label="FBM Fragment Wave Count"
-			bind:value={fragmentWaveCount}
-			min={0}
-			max={100}
-			step={1}
-			disabled={waveAlgorithm !== 2}
-		/>
-		<Checkbox
-			label="Show Wireframe"
-			bind:value={wireframe}
-		/>
-	</Pane>
+	<div class="absolute top-10 left-10 m-4 z-10">
+		<Pane
+			position="inline"
+			title="Water"
+		>
+			<List
+				bind:value={waveAlgorithm}
+				label="Wave Algorithm"
+				options={waveAlgoOptions}
+			/>
+			<List
+				bind:value={waveType}
+				label="Wave Type"
+				options={waveTypeOptions}
+				disabled={waveAlgorithm !== 0}
+			/>
+			<Slider
+				label="Wave Count"
+				bind:value={waveCount}
+				min={0}
+				max={waveAlgorithm === 2 ? 32 : 4}
+				step={1}
+			/>
+			<Slider
+				label="FBM Fragment Wave Count"
+				bind:value={fragmentWaveCount}
+				min={0}
+				max={100}
+				step={1}
+				disabled={waveAlgorithm !== 2}
+			/>
+			<Checkbox
+				label="Show Wireframe"
+				bind:value={wireframe}
+			/>
+		</Pane>
+	</div>
 
 	<Canvas>
 		<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />

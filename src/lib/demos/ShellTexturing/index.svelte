@@ -6,10 +6,12 @@
 </script>
 
 <div class="w-full h-full">
-	<Pane
-		position="fixed"
-		title="Shell Texturing"
-	/>
+	<div class="absolute top-10 left-10 m-4 z-10">
+		<Pane
+			position="inline"
+			title="Shell Texturing"
+		/>
+	</div>
 
 	<Canvas>
 		<Scene />
