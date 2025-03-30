@@ -4,6 +4,134 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+type HomeDocumentDataSlicesSlice = HomeSlice;
+
+/**
+ * Content for Home documents
+ */
+interface HomeDocumentData {
+	/**
+	 * Slice Zone field in *Home*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices: prismic.SliceZone<HomeDocumentDataSlicesSlice> /**
+	 * Meta Title field in *Home*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: home.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	meta_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Home*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: home.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *Home*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Home document from Prismic
+ *
+ * - **API ID**: `home`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HomeDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+	Simplify<HomeDocumentData>,
+	'home',
+	Lang
+>;
+
+type LiveDemoDocumentDataSlicesSlice = DemoSlice;
+
+/**
+ * Content for Live Demo documents
+ */
+interface LiveDemoDocumentData {
+	/**
+	 * Slice Zone field in *Live Demo*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: live_demo.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices: prismic.SliceZone<LiveDemoDocumentDataSlicesSlice> /**
+	 * Meta Title field in *Live Demo*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: live_demo.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	meta_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Live Demo*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: live_demo.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *Live Demo*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: live_demo.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Live Demo document from Prismic
+ *
+ * - **API ID**: `live_demo`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type LiveDemoDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<LiveDemoDocumentData>,
+	'live_demo',
+	Lang
+>;
+
 type PageDocumentDataSlicesSlice = DemoSlice | HeroSlice | RichTextSlice;
 
 /**
@@ -179,7 +307,7 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 	Lang
 >;
 
-export type AllDocumentTypes = PageDocument | SettingsDocument;
+export type AllDocumentTypes = HomeDocument | LiveDemoDocument | PageDocument | SettingsDocument;
 
 /**
  * Primary content in *Demo → Default → Primary*
@@ -287,6 +415,228 @@ type HeroSliceVariation = HeroSliceDefault;
 export type HeroSlice = prismic.SharedSlice<'hero', HeroSliceVariation>;
 
 /**
+ * Item in *Home → Default → Primary → Techstack_item*
+ */
+export interface HomeSliceDefaultPrimaryTechstackItemItem {
+	/**
+	 * name field in *Home → Default → Primary → Techstack_item*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Unreal
+	 * - **API ID Path**: home.default.primary.techstack_item[].name
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	name: prismic.KeyTextField;
+
+	/**
+	 * Icon field in *Home → Default → Primary → Techstack_item*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.default.primary.techstack_item[].icon
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	icon: prismic.ImageField<never>;
+}
+
+/**
+ * Item in *Home → Default → Primary → Page Link*
+ */
+export interface HomeSliceDefaultPrimaryPageLinkItem {
+	/**
+	 * Title field in *Home → Default → Primary → Page Link*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Live Demos
+	 * - **API ID Path**: home.default.primary.page_link[].title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * Link field in *Home → Default → Primary → Page Link*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: https://pismic.io
+	 * - **API ID Path**: home.default.primary.page_link[].link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Video field in *Home → Default → Primary → Page Link*
+	 *
+	 * - **Field Type**: Embed
+	 * - **Placeholder**: Video
+	 * - **API ID Path**: home.default.primary.page_link[].video
+	 * - **Documentation**: https://prismic.io/docs/field#embed
+	 */
+	video: prismic.EmbedField;
+}
+
+/**
+ * Primary content in *Home → Default → Primary*
+ */
+export interface HomeSliceDefaultPrimary {
+	/**
+	 * First Name field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Dakota
+	 * - **API ID Path**: home.default.primary.first_name
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	first_name: prismic.KeyTextField;
+
+	/**
+	 * Last Name field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Cardillo
+	 * - **API ID Path**: home.default.primary.last_name
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	last_name: prismic.KeyTextField;
+
+	/**
+	 * Title field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Software Developer
+	 * - **API ID Path**: home.default.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * About Me field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Lorem ipsum...
+	 * - **API ID Path**: home.default.primary.about_me
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	about_me: prismic.RichTextField;
+
+	/**
+	 * Live Demos field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Live Demos
+	 * - **API ID Path**: home.default.primary.live_demos
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	live_demos: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Videos field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Videos
+	 * - **API ID Path**: home.default.primary.videos
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	videos: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Resume field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Resume
+	 * - **API ID Path**: home.default.primary.resume
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	resume: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Github field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Github
+	 * - **API ID Path**: home.default.primary.github
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	github: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Blog field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Blog
+	 * - **API ID Path**: home.default.primary.blog
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	blog: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Codex field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Codex
+	 * - **API ID Path**: home.default.primary.codex
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	codex: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Portrait field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.default.primary.portrait
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	portrait: prismic.ImageField<never>;
+
+	/**
+	 * Techstack_item field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.default.primary.techstack_item[]
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	techstack_item: prismic.GroupField<Simplify<HomeSliceDefaultPrimaryTechstackItemItem>>;
+
+	/**
+	 * Page Link field in *Home → Default → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: home.default.primary.page_link[]
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	page_link: prismic.GroupField<Simplify<HomeSliceDefaultPrimaryPageLinkItem>>;
+}
+
+/**
+ * Default variation for Home Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type HomeSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<HomeSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *Home*
+ */
+type HomeSliceVariation = HomeSliceDefault;
+
+/**
+ * Home Shared Slice
+ *
+ * - **API ID**: `home`
+ * - **Description**: Home
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type HomeSlice = prismic.SharedSlice<'home', HomeSliceVariation>;
+
+/**
  * Primary content in *RichText → Default → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -349,6 +699,12 @@ declare module '@prismicio/client' {
 
 	namespace Content {
 		export type {
+			HomeDocument,
+			HomeDocumentData,
+			HomeDocumentDataSlicesSlice,
+			LiveDemoDocument,
+			LiveDemoDocumentData,
+			LiveDemoDocumentDataSlicesSlice,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
@@ -364,6 +720,12 @@ declare module '@prismicio/client' {
 			HeroSliceDefaultPrimary,
 			HeroSliceVariation,
 			HeroSliceDefault,
+			HomeSlice,
+			HomeSliceDefaultPrimaryTechstackItemItem,
+			HomeSliceDefaultPrimaryPageLinkItem,
+			HomeSliceDefaultPrimary,
+			HomeSliceVariation,
+			HomeSliceDefault,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,

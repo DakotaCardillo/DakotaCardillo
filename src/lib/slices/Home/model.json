@@ -1,0 +1,187 @@
+{
+  "id": "home",
+  "type": "SharedSlice",
+  "name": "Home",
+  "description": "Home",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "first_name": {
+          "type": "Text",
+          "config": {
+            "label": "First Name",
+            "placeholder": "Dakota"
+          }
+        },
+        "last_name": {
+          "type": "Text",
+          "config": {
+            "label": "Last Name",
+            "placeholder": "Cardillo"
+          }
+        },
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": "Software Developer"
+          }
+        },
+        "about_me": {
+          "type": "StructuredText",
+          "config": {
+            "label": "About Me",
+            "placeholder": "Lorem ipsum...",
+            "allowTargetBlank": true,
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+          }
+        },
+        "live_demos": {
+          "type": "Link",
+          "config": {
+            "label": "Live Demos",
+            "placeholder": "Live Demos",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        },
+        "videos": {
+          "type": "Link",
+          "config": {
+            "label": "Videos",
+            "placeholder": "Videos",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        },
+        "resume": {
+          "type": "Link",
+          "config": {
+            "label": "Resume",
+            "placeholder": "Resume",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        },
+        "github": {
+          "type": "Link",
+          "config": {
+            "label": "Github",
+            "placeholder": "Github",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        },
+        "blog": {
+          "type": "Link",
+          "config": {
+            "label": "Blog",
+            "placeholder": "Blog",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        },
+        "codex": {
+          "type": "Link",
+          "config": {
+            "label": "Codex",
+            "placeholder": "Codex",
+            "select": null,
+            "allowTargetBlank": true,
+            "allowText": true,
+            "repeat": false
+          }
+        },
+        "portrait": {
+          "type": "Image",
+          "config": {
+            "label": "Portrait",
+            "constraint": {
+              "width": 300,
+              "height": 300
+            },
+            "thumbnails": []
+          }
+        },
+        "techstack_item": {
+          "type": "Group",
+          "config": {
+            "label": "Techstack_item",
+            "repeat": true,
+            "fields": {
+              "name": {
+                "type": "Text",
+                "config": {
+                  "label": "name",
+                  "placeholder": "Unreal"
+                }
+              },
+              "icon": {
+                "type": "Image",
+                "config": {
+                  "label": "Icon",
+                  "constraint": {
+                    "width": 30,
+                    "height": 30
+                  },
+                  "thumbnails": []
+                }
+              }
+            }
+          }
+        },
+        "page_link": {
+          "type": "Group",
+          "config": {
+            "label": "Page Link",
+            "repeat": true,
+            "fields": {
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": "Live Demos"
+                }
+              },
+              "link": {
+                "type": "Link",
+                "config": {
+                  "label": "Link",
+                  "placeholder": "https://pismic.io",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
+                }
+              },
+              "video": {
+                "type": "Embed",
+                "config": {
+                  "label": "Video",
+                  "placeholder": "Video"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

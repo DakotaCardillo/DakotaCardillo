@@ -7,6 +7,10 @@
 	const { renderer } = useThrelte();
 	renderer.setClearColor(0x222222, 1);
 
+	export let ambient = true;
+	export let diffuse = true;
+	export let specular = true;
+
 
 	import utilsShader from '../../shaders/utils.glsl';
 	import vertexShaderMain from '../../shaders/water.vert';
@@ -36,7 +40,7 @@
 	const orbitCenter = new THREE.Vector3(0, 10, 0);
 	const orbitRadius = 5;
 	let angle = 0;
-	const angularSpeed = 0.5;
+	const angularSpeed = 0.05;
 
 	const uniforms = {
 		uTime: { value: 0 },
@@ -45,13 +49,19 @@
 		uLightColor: { value: new THREE.Vector3(1, 0.7, 0.5) },
 		uLightIntensity: { value: 40.0 },
 		uDiffuseColor: { value: new THREE.Vector3(0.1, 0.4, 1.0) },
-		uAmbientColor: { value: new THREE.Vector3(0.04, 0.04, 0.04) },
+		uAmbientColor: { value: new THREE.Vector3(0.1, 0.1, 0.05) },
 		uSpecularColor: { value: new THREE.Vector3(1, 1, 1) },
-		uShininess: { value: 16.0 }
+		uShininess: { value: 16.0 },
+		uUseAmbient: { value: true },
+		uUseDiffuse: { value: true },
+		uUseSpecular: { value: true }
 	};
 
 	useTask((delta) => {
 		uniforms.uTime.value += delta;
+		uniforms.uUseAmbient.value = ambient;
+		uniforms.uUseDiffuse.value = diffuse;
+		uniforms.uUseSpecular.value = specular;
 
 		angle += angularSpeed * delta;
 		const x = orbitCenter.x + orbitRadius * Math.cos(angle);
@@ -70,9 +80,6 @@
 			uniforms.uCameraPosition.value = cameraPosition;
 		}
 	});
-
-	onMount(() => {
-	});
 </script>
 
 <T.GridHelper size={100} divisions={10} />
@@ -87,6 +94,15 @@
 >
 	<OrbitControls target={[0, 0, 0]} />
 </T.PerspectiveCamera>
+
+<T.DirectionalLight
+	position={[sunPosition.x, sunPosition.y, sunPosition.z]}
+	rotation={[newEuler.x, newEuler.y, newEuler.z]}
+	color={[1, 0.7, 0.5]}
+	intensity={40.0}
+>
+
+</T.DirectionalLight>
 
 <!-- SUN -->
 <T.Mesh

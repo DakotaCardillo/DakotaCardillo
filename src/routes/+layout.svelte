@@ -3,12 +3,13 @@
 
 	// Supports weights 100-900
 	import '@fontsource-variable/outfit';
+	import '@fontsource-variable/kode-mono';
+	import '@fontsource/commit-mono';
+	import '@fontsource-variable/source-code-pro';
 
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
 	import { repositoryName } from '$lib/prismicio';
-	import Header from '$lib/components/Header.svelte';
-	import Footer from '$lib/components/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -25,9 +26,7 @@
 	{/if}
 </svelte:head>
 
-<Header settings={$page.data.settings}></Header>
 <main>
 	<slot />
 </main>
-<Footer></Footer>
 <PrismicPreview {repositoryName} />

@@ -1,6 +1,14 @@
 @import "tailwindcss";
 
 body {
-    font-family: "Outfit Variable";
+    /*font-family: "Outfit Variable";*/
+    font-family: "Source Code Pro Variable";
     background: #222222;
+}
+
+@theme {
+    --color-goldenrod: #FE9A00;
+    --color-charcoal: #37505C;
+    --color-seasalt: #F9F9F9;
+    --color-verdigris: #44A1A0;
 }

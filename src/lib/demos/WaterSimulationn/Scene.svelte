@@ -69,7 +69,7 @@
 	const orbitRadius = 20;
 	let angle = 0;
 	const angularSpeed = 0.05;
-
+	
 	const uniforms = {
 		uTime: { value: 0 },
 		uCameraPosition: { value: cameraPosition },
@@ -164,12 +164,6 @@
 	material={wireframe ? wireframeMaterial : waterMaterial}
 	geometry={waterGeometry}
 >
-	<!--	<T.PlaneGeometry-->
-	<!--		args={[10, 10, 1000, 1000]}-->
-	<!--		oncreate={(geom) => {-->
-	<!--			geom.rotateX(MathUtils.degToRad(-90));-->
-	<!--		}}-->
-	<!--	/>-->
 </T.Mesh>
 
 <!-- SUN -->
@@ -194,41 +188,5 @@
       geom.translate(0, 8 / 2, 0);
       geom.rotateX(-Math.PI / 2);
     }}
-	/>
-</T.Mesh>
-
-<T.Mesh
-	geometry={new THREE.TorusGeometry(1)}
-	scale={[1, 1, 1]}
-	position={[0, 5, 0]}
->
-	<T.ShaderMaterial
-		vertexShader={basicVertexShader}
-		fragmentShader={phongFragmentShader}
-		uniforms={uniforms}
-	/>
-</T.Mesh>
-
-<T.Mesh
-	geometry={new THREE.IcosahedronGeometry(1)}
-	scale={[1, 1, 1]}
-	position={[3, 5, 0]}
->
-	<T.ShaderMaterial
-		vertexShader={basicVertexShader}
-		fragmentShader={phongFragmentShader}
-		uniforms={uniforms}
-	/>
-</T.Mesh>
-
-<T.Mesh
-	geometry={new THREE.DodecahedronGeometry(1)}
-	scale={[1, 1, 1]}
-	position={[-3, 5, 0]}
->
-	<T.ShaderMaterial
-		vertexShader={basicVertexShader}
-		fragmentShader={phongFragmentShader}
-		uniforms={uniforms}
 	/>
 </T.Mesh>

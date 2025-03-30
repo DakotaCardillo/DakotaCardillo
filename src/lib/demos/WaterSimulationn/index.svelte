@@ -7,7 +7,8 @@
 	const waveAlgoOptions: ListOptions<number> = {
 		sum_of_sines: 0,
 		exponential_sum_of_sines: 1,
-		fractional_brownian_motion: 2
+		fractional_brownian_motion: 2,
+		fast_forieuire_transform: 3
 	} as const;
 
 	const waveTypeOptions: ListOptions<number> = {

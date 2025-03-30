@@ -2,10 +2,12 @@
 
 import Demo from './Demo/index.svelte';
 import Hero from './Hero/index.svelte';
+import Home from './Home/index.svelte';
 import RichText from './RichText/index.svelte';
 
 export const components = {
 	demo: Demo,
 	hero: Hero,
+	home: Home,
 	rich_text: RichText
 };

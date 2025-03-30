@@ -6,7 +6,7 @@
 			"demo": {
 				"__TYPE__": "FieldContent",
 				"type": "Select",
-				"value": "Water Simulation"
+				"value": "Shell Texturing"
 			}
 		},
 		"items": []

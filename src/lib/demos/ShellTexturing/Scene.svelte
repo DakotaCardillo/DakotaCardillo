@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { T, useThrelte } from '@threlte/core';
-	import { Environment, OrbitControls } from '@threlte/extras';
+	import { T, useThrelte, useTask } from '@threlte/core';
+	import { Environment, OrbitControls, HUD } from '@threlte/extras';
 	import ShellObject from '$lib/demos/ShellTexturing/ShellObject.svelte';
 	import GrassShell from '$lib/demos/ShellTexturing/GrassShell.svelte';
+	import HudScene from '$lib/demos/ShellTexturing/HudScene.svelte';
 	import * as THREE from 'three';
 
 	//const { scene } = useThrelte();
@@ -12,7 +13,30 @@
 	renderer.setClearColor(0x222222, 1);
 
 	const grassPosition = { x: 0, y: 0.5, z: 0 };
+
+	let selected = $state('grass');
+	let rotation = $state(0);
+
+	const quaternion = new THREE.Quaternion();
+	const { camera } = useThrelte();
+	useTask(
+		(delta) => {
+			rotation += delta;
+			// Spin mesh to the inverse of the default cameras matrix
+			quaternion.copy(camera.current.quaternion).invert();
+		},
+		{ autoInvalidate: false }
+	);
 </script>
+
+<HUD>
+	<HudScene
+		{quaternion}
+		onselect={(arg) => {
+      selected = arg
+    }}
+	/>
+</HUD>
 
 <T.PerspectiveCamera
 	position={[0, 7, 10]}

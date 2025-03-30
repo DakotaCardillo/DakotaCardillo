@@ -26,6 +26,7 @@
 	}
 
 	function handleClick(event: MouseEvent) {
+		console.log('HIT');
 		if ('object' in event && event.object instanceof THREE.Mesh) {
 			gsap.to(event.object.rotation, {
 				x: `+=${gsap.utils.random(0, 3)}`,
