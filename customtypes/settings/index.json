@@ -6,28 +6,6 @@
 	"status": true,
 	"json": {
 		"Main": {
-			"site_title": {
-				"type": "Text",
-				"config": {
-					"label": "Site Title",
-					"placeholder": ""
-				}
-			},
-			"meta_description": {
-				"type": "Text",
-				"config": {
-					"label": "Meta Description",
-					"placeholder": ""
-				}
-			},
-			"base_image": {
-				"type": "Image",
-				"config": {
-					"label": "Base Image",
-					"constraint": {},
-					"thumbnails": []
-				}
-			},
 			"navigation": {
 				"type": "Group",
 				"config": {
@@ -62,6 +40,77 @@
 							}
 						}
 					}
+				}
+			},
+			"first_name": {
+				"type": "Text",
+				"config": {
+					"label": "First Name",
+					"placeholder": "Dakota"
+				}
+			},
+			"last_name": {
+				"type": "Text",
+				"config": {
+					"label": "Last Name",
+					"placeholder": "Cardillo"
+				}
+			},
+			"github_link": {
+				"type": "Link",
+				"config": {
+					"label": "Github Link",
+					"placeholder": "",
+					"select": null,
+					"allowTargetBlank": true,
+					"allowText": true,
+					"repeat": false
+				}
+			},
+			"linkedin_link": {
+				"type": "Link",
+				"config": {
+					"label": "Linkedin Link",
+					"placeholder": "",
+					"select": null,
+					"allowTargetBlank": true,
+					"allowText": true,
+					"repeat": false
+				}
+			},
+			"youtube_link": {
+				"type": "Link",
+				"config": {
+					"label": "Youtube Link",
+					"placeholder": "",
+					"select": null,
+					"allowTargetBlank": true,
+					"allowText": true,
+					"repeat": false
+				}
+			}
+		},
+		"Metadata": {
+			"meta_title": {
+				"type": "Text",
+				"config": {
+					"label": "Meta Title",
+					"placeholder": ""
+				}
+			},
+			"meta_description": {
+				"type": "Text",
+				"config": {
+					"label": "Meta Description",
+					"placeholder": ""
+				}
+			},
+			"meta_image": {
+				"type": "Image",
+				"config": {
+					"label": "Meta Image",
+					"constraint": {},
+					"thumbnails": []
 				}
 			}
 		}

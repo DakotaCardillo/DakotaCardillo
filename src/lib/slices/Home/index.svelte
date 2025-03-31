@@ -2,6 +2,7 @@
 	import type { Content } from '@prismicio/client';
 	import Label from '$lib/slices/RichText/Label.svelte';
 	import { PrismicRichText } from '@prismicio/svelte';
+	import IconUnreal from '~icons/file-icons/unrealscript';
 
 	export let slice: Content.HomeSlice;
 </script>
@@ -11,6 +12,7 @@
 		<div class="flex flex-col flex-1 items-center place-content-start">
 			<h3 class="text-goldenrod  text-[clamp(1rem,3vmin,5rem)] text-nowrap">
 				<span>Tech Stack</span>
+				<IconUnreal />
 			</h3>
 			{#each slice.primary.techstack_item as item}
 					<span

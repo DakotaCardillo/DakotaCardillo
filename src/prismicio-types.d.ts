@@ -68,71 +68,7 @@ export type HomeDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
-type LiveDemoDocumentDataSlicesSlice = DemoSlice;
-
-/**
- * Content for Live Demo documents
- */
-interface LiveDemoDocumentData {
-	/**
-	 * Slice Zone field in *Live Demo*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: live_demo.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#slices
-	 */
-	slices: prismic.SliceZone<LiveDemoDocumentDataSlicesSlice> /**
-	 * Meta Title field in *Live Demo*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: live_demo.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */;
-	meta_title: prismic.KeyTextField;
-
-	/**
-	 * Meta Description field in *Live Demo*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: live_demo.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	meta_description: prismic.KeyTextField;
-
-	/**
-	 * Meta Image field in *Live Demo*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: live_demo.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */
-	meta_image: prismic.ImageField<never>;
-}
-
-/**
- * Live Demo document from Prismic
- *
- * - **API ID**: `live_demo`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type LiveDemoDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
-	Simplify<LiveDemoDocumentData>,
-	'live_demo',
-	Lang
->;
-
-type PageDocumentDataSlicesSlice = DemoSlice | HeroSlice | RichTextSlice;
+type PageDocumentDataSlicesSlice = HomeSlice | DemoSlice | HeroSlice | RichTextSlice;
 
 /**
  * Content for Page documents
@@ -248,39 +184,6 @@ export interface SettingsDocumentDataNavigationItem {
  */
 interface SettingsDocumentData {
 	/**
-	 * Site Title field in *Settings*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: settings.site_title
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	site_title: prismic.KeyTextField;
-
-	/**
-	 * Meta Description field in *Settings*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: settings.meta_description
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	meta_description: prismic.KeyTextField;
-
-	/**
-	 * Base Image field in *Settings*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: settings.base_image
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */
-	base_image: prismic.ImageField<never>;
-
-	/**
 	 * Navigation field in *Settings*
 	 *
 	 * - **Field Type**: Group
@@ -290,6 +193,92 @@ interface SettingsDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#group
 	 */
 	navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
+
+	/**
+	 * First Name field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Dakota
+	 * - **API ID Path**: settings.first_name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	first_name: prismic.KeyTextField;
+
+	/**
+	 * Last Name field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Cardillo
+	 * - **API ID Path**: settings.last_name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	last_name: prismic.KeyTextField;
+
+	/**
+	 * Github Link field in *Settings*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.github_link
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	github_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Linkedin Link field in *Settings*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.linkedin_link
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	linkedin_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Youtube Link field in *Settings*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.youtube_link
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	youtube_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never> /**
+	 * Meta Title field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.meta_title
+	 * - **Tab**: Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	meta_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.meta_description
+	 * - **Tab**: Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *Settings*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.meta_image
+	 * - **Tab**: Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	meta_image: prismic.ImageField<never>;
 }
 
 /**
@@ -307,7 +296,7 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 	Lang
 >;
 
-export type AllDocumentTypes = HomeDocument | LiveDemoDocument | PageDocument | SettingsDocument;
+export type AllDocumentTypes = HomeDocument | PageDocument | SettingsDocument;
 
 /**
  * Primary content in *Demo → Default → Primary*
@@ -351,6 +340,83 @@ type DemoSliceVariation = DemoSliceDefault;
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type DemoSlice = prismic.SharedSlice<'demo', DemoSliceVariation>;
+
+/**
+ * Item in *DemoGrid → Default → Primary → Demo Preview*
+ */
+export interface DemoGridSliceDefaultPrimaryDemoPreviewItem {
+	/**
+	 * Title field in *DemoGrid → Default → Primary → Demo Preview*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Water Simulation
+	 * - **API ID Path**: demo_grid.default.primary.demo_preview[].title
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * Video field in *DemoGrid → Default → Primary → Demo Preview*
+	 *
+	 * - **Field Type**: Embed
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo_grid.default.primary.demo_preview[].video
+	 * - **Documentation**: https://prismic.io/docs/field#embed
+	 */
+	video: prismic.EmbedField;
+
+	/**
+	 * Slug field in *DemoGrid → Default → Primary → Demo Preview*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: water-simulation
+	 * - **API ID Path**: demo_grid.default.primary.demo_preview[].slug
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	slug: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *DemoGrid → Default → Primary*
+ */
+export interface DemoGridSliceDefaultPrimary {
+	/**
+	 * Demo Preview field in *DemoGrid → Default → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo_grid.default.primary.demo_preview[]
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	demo_preview: prismic.GroupField<Simplify<DemoGridSliceDefaultPrimaryDemoPreviewItem>>;
+}
+
+/**
+ * Default variation for DemoGrid Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type DemoGridSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<DemoGridSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *DemoGrid*
+ */
+type DemoGridSliceVariation = DemoGridSliceDefault;
+
+/**
+ * DemoGrid Shared Slice
+ *
+ * - **API ID**: `demo_grid`
+ * - **Description**: DemoGrid
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type DemoGridSlice = prismic.SharedSlice<'demo_grid', DemoGridSliceVariation>;
 
 /**
  * Primary content in *Hero → Default → Primary*
@@ -702,9 +768,6 @@ declare module '@prismicio/client' {
 			HomeDocument,
 			HomeDocumentData,
 			HomeDocumentDataSlicesSlice,
-			LiveDemoDocument,
-			LiveDemoDocumentData,
-			LiveDemoDocumentDataSlicesSlice,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
@@ -716,6 +779,11 @@ declare module '@prismicio/client' {
 			DemoSliceDefaultPrimary,
 			DemoSliceVariation,
 			DemoSliceDefault,
+			DemoGridSlice,
+			DemoGridSliceDefaultPrimaryDemoPreviewItem,
+			DemoGridSliceDefaultPrimary,
+			DemoGridSliceVariation,
+			DemoGridSliceDefault,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
 			HeroSliceVariation,

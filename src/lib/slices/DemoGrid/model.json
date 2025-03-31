@@ -1,0 +1,49 @@
+{
+  "id": "demo_grid",
+  "type": "SharedSlice",
+  "name": "DemoGrid",
+  "description": "DemoGrid",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "demo_preview": {
+          "type": "Group",
+          "config": {
+            "label": "Demo Preview",
+            "repeat": true,
+            "fields": {
+              "title": {
+                "type": "Text",
+                "config": {
+                  "label": "Title",
+                  "placeholder": "Water Simulation"
+                }
+              },
+              "video": {
+                "type": "Embed",
+                "config": {
+                  "label": "Video",
+                  "placeholder": ""
+                }
+              },
+              "slug": {
+                "type": "Text",
+                "config": {
+                  "label": "Slug",
+                  "placeholder": "water-simulation"
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

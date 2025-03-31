@@ -27,6 +27,9 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
+						"home": {
+							"type": "SharedSlice"
+						},
 						"demo": {
 							"type": "SharedSlice"
 						},
