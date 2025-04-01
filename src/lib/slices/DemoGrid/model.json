@@ -25,18 +25,20 @@
                   "placeholder": "Water Simulation"
                 }
               },
-              "video": {
-                "type": "Embed",
-                "config": {
-                  "label": "Video",
-                  "placeholder": ""
-                }
-              },
               "slug": {
                 "type": "Text",
                 "config": {
                   "label": "Slug",
                   "placeholder": "water-simulation"
+                }
+              },
+              "video": {
+                "type": "Link",
+                "config": {
+                  "label": "Video",
+                  "placeholder": "",
+                  "select": "media",
+                  "allowText": true
                 }
               }
             }

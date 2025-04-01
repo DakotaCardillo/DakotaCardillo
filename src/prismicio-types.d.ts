@@ -68,7 +68,12 @@ export type HomeDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
-type PageDocumentDataSlicesSlice = HomeSlice | DemoSlice | HeroSlice | RichTextSlice;
+type PageDocumentDataSlicesSlice =
+	| DemoGridSlice
+	| HomeSlice
+	| DemoSlice
+	| HeroSlice
+	| RichTextSlice;
 
 /**
  * Content for Page documents
@@ -356,16 +361,6 @@ export interface DemoGridSliceDefaultPrimaryDemoPreviewItem {
 	title: prismic.KeyTextField;
 
 	/**
-	 * Video field in *DemoGrid → Default → Primary → Demo Preview*
-	 *
-	 * - **Field Type**: Embed
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: demo_grid.default.primary.demo_preview[].video
-	 * - **Documentation**: https://prismic.io/docs/field#embed
-	 */
-	video: prismic.EmbedField;
-
-	/**
 	 * Slug field in *DemoGrid → Default → Primary → Demo Preview*
 	 *
 	 * - **Field Type**: Text
@@ -374,6 +369,16 @@ export interface DemoGridSliceDefaultPrimaryDemoPreviewItem {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	slug: prismic.KeyTextField;
+
+	/**
+	 * Video field in *DemoGrid → Default → Primary → Demo Preview*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo_grid.default.primary.demo_preview[].video
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	video: prismic.LinkToMediaField<prismic.FieldState, never>;
 }
 
 /**

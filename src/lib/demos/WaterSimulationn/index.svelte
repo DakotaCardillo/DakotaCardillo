@@ -26,7 +26,7 @@
 
 <div class="relative w-full h-full">
 
-	<div class="absolute top-0 left-0 m-4 z-10">
+	<div class="absolute top-0 left-0 ml-4 mt-16 z-10">
 		<Pane
 			position="inline"
 			title="Water"
