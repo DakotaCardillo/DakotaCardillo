@@ -12,8 +12,10 @@
 	let activeSlug: string | null;
 	let activeVideoURL: string | null;
 	let isTransitioning = false;
+	let isExpandingOrShrinking = false;
 	let overlayElement: HTMLDivElement;
 	let clickedElement: HTMLElement;
+	let demoContainerElement: HTMLElement;
 	let originalParent: HTMLElement;
 	let originalNextSibling: Node | null = null;
 
@@ -38,6 +40,7 @@
 		activeVideoURL = videoMap.get(slug);
 		activeDemo = demoMap.get(slug);
 		isTransitioning = true;
+		isExpandingOrShrinking = true;
 
 		// Get the clicked video element, in addition to its parent and next sibling
 		clickedElement = event.currentTarget as HTMLElement;
@@ -63,19 +66,22 @@
 		// Remove the video from its original container and add it to the overlay
 		overlayElement.appendChild(clickedElement);
 
+		const demoRect = demoContainerElement.getBoundingClientRect();
+
 		// Animate the overlay to expand to the size of the demo component
 		gsap.to(overlayElement, {
-			duration: 1,
-			top: 0,
-			left: 0,
-			width: '100vw',
-			height: '100vh',
-			padding: 20,
-			ease: 'power2.inOut',
+			duration: 0.25,
+			top: demoRect.top,
+			left: demoRect.left,
+			width: demoRect.width,
+			height: demoRect.height,
+			padding: 10,
+			ease: 'power2.in',
 			onComplete: () => {
+				isExpandingOrShrinking = false;
 				// After expansion, fade out the overlay over 1 second.
 				gsap.to(overlayElement, {
-					duration: 1,
+					duration: 0.25,
 					opacity: 0,
 					onComplete: () => {
 						isTransitioning = false;
@@ -93,14 +99,15 @@
 			duration: 0.25,
 			opacity: 1,
 			onComplete: () => {
+				isExpandingOrShrinking = true;
 				gsap.to(overlayElement, {
-					duration: 1,
+					duration: 0.25,
 					top: clickedElementOriginalStyles.top,
 					left: clickedElementOriginalStyles.left,
 					width: clickedElementOriginalStyles.width,
 					height: clickedElementOriginalStyles.height,
 					padding: 0,
-					ease: 'power2.inOut',
+					ease: 'power2.out',
 					onComplete: () => {
 						if (clickedElement && originalParent) {
 							if (originalNextSibling) {
@@ -114,6 +121,7 @@
 						activeSlug = null;
 						activeVideoURL = null;
 						isTransitioning = false;
+						isExpandingOrShrinking = false;
 					}
 				});
 			}
@@ -121,40 +129,52 @@
 	}
 </script>
 
-<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>
-	<div class="bg-neutral-800 w-screen h-screen">
+<section
+	data-slice-type={slice.slice_type} data-slice-variation={slice.variation}
+	class="w-screen h-screen"
+>
+	<div class="bg-neutral-800 w-full h-full">
 
-		{#if !activeDemo || isTransitioning}
-			<div class="grid grid-cols-3 w-full h-screen bg-neutral-800">
+		{#if !activeDemo || isExpandingOrShrinking}
+			<div class="grid grid-cols-3 w-full h-full bg-neutral-800">
 				{#each slice.primary.demo_preview as preview, index}
-					<button class="columns-[{index}] m-2 w-full p-3">
+					<div class="w-full p-3 place-content-center">
 						<span class="text-seasalt text-2xl">{preview.title}</span>
-						<video
-							onclick={(e) => handlePreviewClick(String(preview.slug), e)}
-							src={preview.video.text}
-							class="rounded-2xl w-full h-max aspect-video bg-transparent"
-							playsinline
-							autoplay
-							loop
-							muted
-						>
-						</video>
-					</button>
+						<div class="video-container w-full h-max aspect-video">
+							<video
+								onclick={(e) => handlePreviewClick(String(preview.slug), e)}
+								src={preview.video.text}
+								class="rounded-2xl bg-transparent"
+								playsinline
+								autoplay
+								loop
+								muted
+							>
+							</video>
+						</div>
+					</div>
 				{/each}
 			</div>
 		{/if}
 
-		<div bind:this={overlayElement} class="fixed pointer-events-none bg-neutral-800"></div>
+		<!--		<div class="pointer-events-none fixed inset-0 z-0 bg-transparent p-10">-->
+		<!--			<div class="rounded-2xl w-full h-full overflow-hidden">-->
+		<!--			</div>-->
+		<!--		</div>-->
+		<div bind:this={overlayElement}
+				 class="fixed pointer-events-none inset-0 rounded-2xl overflow-hidden bg-transparent"></div>
 
-		{#if activeDemo && !isTransitioning}
-			<div class="demo-container fixed inset-0 z-40 bg-neutral-800">
-				<svelte:component this={activeDemo} />
-				<button
-					class="absolute top-4 left-4 z-50 text-seasalt outline-2 bg-seasalt/2 rounded-full outline-seasalt px-3 py-1"
-					onclick={handleBack}>
-					Back
-				</button>
+		<div class="pointer-events-none fixed inset-0 z-0 bg-transparent p-10">
+			<div bind:this={demoContainerElement} class="pointer-events-none rounded-2xl w-full h-full overflow-hidden">
+				{#if activeDemo && !isExpandingOrShrinking}
+					<svelte:component this={activeDemo} />
+					<button
+						class="pointer-events-auto absolute top-14 left-14 z-10 text-seasalt outline-2 bg-white/50 rounded-full outline-seasalt px-3 py-1"
+						onclick={handleBack}>
+						Back
+					</button>
+				{/if}
 			</div>
-		{/if}
+		</div>
 	</div>
 </section>
