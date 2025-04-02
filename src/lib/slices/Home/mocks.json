@@ -196,40 +196,6 @@
 						"__TYPE__": "GroupItemContent",
 						"value": [
 							[
-								"video",
-								{
-									"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-									"type": "video",
-									"version": "1.0",
-									"title": "Ocean waves simulation with Fast Fourier transform",
-									"author_name": "Jump Trajectory",
-									"author_url": "https://www.youtube.com/@JumpTrajectory",
-									"provider_name": "YouTube",
-									"provider_url": "https://www.youtube.com/",
-									"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-									"thumbnail_width": 480,
-									"thumbnail_height": 360,
-									"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-									"__TYPE__": "EmbedContent",
-									"all": {
-										"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-										"type": "video",
-										"version": "1.0",
-										"title": "Ocean waves simulation with Fast Fourier transform",
-										"author_name": "Jump Trajectory",
-										"author_url": "https://www.youtube.com/@JumpTrajectory",
-										"provider_name": "YouTube",
-										"provider_url": "https://www.youtube.com/",
-										"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-										"thumbnail_width": 480,
-										"thumbnail_height": 360,
-										"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-										"height": 113,
-										"width": 200
-									}
-								}
-							],
-							[
 								"title",
 								{
 									"__TYPE__": "FieldContent",
@@ -246,6 +212,18 @@
 										"__TYPE__": "AnyLink",
 										"kind": "any",
 										"text": "Live Demos"
+									}
+								}
+							],
+							[
+								"video",
+								{
+									"__TYPE__": "LinkContent",
+									"key": "9b2ce148-226c-4eac-9dd7-bc67f35b7b72",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "http://google.com",
+										"text": "cool"
 									}
 								}
 							]
@@ -277,34 +255,12 @@
 							[
 								"video",
 								{
-									"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-									"type": "video",
-									"version": "1.0",
-									"title": "Ocean waves simulation with Fast Fourier transform",
-									"author_name": "Jump Trajectory",
-									"author_url": "https://www.youtube.com/@JumpTrajectory",
-									"provider_name": "YouTube",
-									"provider_url": "https://www.youtube.com/",
-									"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-									"thumbnail_width": 480,
-									"thumbnail_height": 360,
-									"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-									"__TYPE__": "EmbedContent",
-									"all": {
-										"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-										"type": "video",
-										"version": "1.0",
-										"title": "Ocean waves simulation with Fast Fourier transform",
-										"author_name": "Jump Trajectory",
-										"author_url": "https://www.youtube.com/@JumpTrajectory",
-										"provider_name": "YouTube",
-										"provider_url": "https://www.youtube.com/",
-										"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-										"thumbnail_width": 480,
-										"thumbnail_height": 360,
-										"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-										"height": 113,
-										"width": 200
+									"__TYPE__": "LinkContent",
+									"key": "12fd152b-8547-4c2b-bfc4-346e1a076715",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "https://prismic.io",
+										"text": "relationship"
 									}
 								}
 							]
@@ -322,40 +278,6 @@
 								}
 							],
 							[
-								"video",
-								{
-									"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-									"type": "video",
-									"version": "1.0",
-									"title": "Ocean waves simulation with Fast Fourier transform",
-									"author_name": "Jump Trajectory",
-									"author_url": "https://www.youtube.com/@JumpTrajectory",
-									"provider_name": "YouTube",
-									"provider_url": "https://www.youtube.com/",
-									"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-									"thumbnail_width": 480,
-									"thumbnail_height": 360,
-									"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-									"__TYPE__": "EmbedContent",
-									"all": {
-										"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-										"type": "video",
-										"version": "1.0",
-										"title": "Ocean waves simulation with Fast Fourier transform",
-										"author_name": "Jump Trajectory",
-										"author_url": "https://www.youtube.com/@JumpTrajectory",
-										"provider_name": "YouTube",
-										"provider_url": "https://www.youtube.com/",
-										"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-										"thumbnail_width": 480,
-										"thumbnail_height": 360,
-										"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-										"height": 113,
-										"width": 200
-									}
-								}
-							],
-							[
 								"link",
 								{
 									"key": "9d13e553-1681-4ef7-82ca-d5f9e5b40bbe",
@@ -364,6 +286,18 @@
 										"__TYPE__": "AnyLink",
 										"kind": "any",
 										"text": "Github"
+									}
+								}
+							],
+							[
+								"video",
+								{
+									"__TYPE__": "LinkContent",
+									"key": "e413c798-c1dd-4261-ac3f-a76d17b48a46",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "http://twitter.com",
+										"text": "frozen"
 									}
 								}
 							]
@@ -395,34 +329,12 @@
 							[
 								"video",
 								{
-									"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-									"type": "video",
-									"version": "1.0",
-									"title": "Ocean waves simulation with Fast Fourier transform",
-									"author_name": "Jump Trajectory",
-									"author_url": "https://www.youtube.com/@JumpTrajectory",
-									"provider_name": "YouTube",
-									"provider_url": "https://www.youtube.com/",
-									"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-									"thumbnail_width": 480,
-									"thumbnail_height": 360,
-									"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-									"__TYPE__": "EmbedContent",
-									"all": {
-										"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-										"type": "video",
-										"version": "1.0",
-										"title": "Ocean waves simulation with Fast Fourier transform",
-										"author_name": "Jump Trajectory",
-										"author_url": "https://www.youtube.com/@JumpTrajectory",
-										"provider_name": "YouTube",
-										"provider_url": "https://www.youtube.com/",
-										"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-										"thumbnail_width": 480,
-										"thumbnail_height": 360,
-										"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-										"height": 113,
-										"width": 200
+									"__TYPE__": "LinkContent",
+									"key": "2c80f423-43ce-48b7-86f2-a781f478bd77",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "http://twitter.com",
+										"text": "wife"
 									}
 								}
 							]
@@ -454,34 +366,12 @@
 							[
 								"video",
 								{
-									"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-									"type": "video",
-									"version": "1.0",
-									"title": "Ocean waves simulation with Fast Fourier transform",
-									"author_name": "Jump Trajectory",
-									"author_url": "https://www.youtube.com/@JumpTrajectory",
-									"provider_name": "YouTube",
-									"provider_url": "https://www.youtube.com/",
-									"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-									"thumbnail_width": 480,
-									"thumbnail_height": 360,
-									"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-									"__TYPE__": "EmbedContent",
-									"all": {
-										"embed_url": "https://www.youtube.com/watch?v=kGEqaX4Y4bQ",
-										"type": "video",
-										"version": "1.0",
-										"title": "Ocean waves simulation with Fast Fourier transform",
-										"author_name": "Jump Trajectory",
-										"author_url": "https://www.youtube.com/@JumpTrajectory",
-										"provider_name": "YouTube",
-										"provider_url": "https://www.youtube.com/",
-										"thumbnail_url": "https://i.ytimg.com/vi/kGEqaX4Y4bQ/hqdefault.jpg",
-										"thumbnail_width": 480,
-										"thumbnail_height": 360,
-										"html": "<iframe width=\"200\" height=\"113\" src=\"https://www.youtube.com/embed/kGEqaX4Y4bQ?feature=oembed\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share\" referrerpolicy=\"strict-origin-when-cross-origin\" allowfullscreen title=\"Ocean waves simulation with Fast Fourier transform\"></iframe>",
-										"height": 113,
-										"width": 200
+									"__TYPE__": "LinkContent",
+									"key": "d53c98e5-f2b0-4180-9e90-f71e81cf6759",
+									"value": {
+										"__TYPE__": "ExternalLink",
+										"url": "https://slicemachine.dev",
+										"text": "needle"
 									}
 								}
 							]

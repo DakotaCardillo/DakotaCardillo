@@ -1,14 +1,14 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
 	import Label from '$lib/slices/RichText/Label.svelte';
-	import { PrismicRichText } from '@prismicio/svelte';
+	import { PrismicRichText, PrismicLink } from '@prismicio/svelte';
 	import IconUnreal from '~icons/file-icons/unrealscript';
 
 	export let slice: Content.HomeSlice;
 </script>
 
 <section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>
-	<div class="flex w-screen h-screen bg-neutral-800">
+	<div class="flex w-full h-full bg-gradient-to-b from-neutral-700 to to-neutral-900 via-neutral-800">
 		<div class="flex flex-col flex-1 items-center place-content-start">
 			<h3 class="text-goldenrod  text-[clamp(1rem,3vmin,5rem)] text-nowrap">
 				<span>Tech Stack</span>
@@ -46,15 +46,20 @@
 			<div
 				class="flex flex-row items-center place-content-center outline-goldenrod outline-2 p-10 rounded-2xl">
 				{#each slice.primary.page_link as link}
-					<div class="text-goldenrod w-[clamp(80px, 200px, 200px)] h-[clamp(80px, 200px, 200px)] m-2">
-						<span>{link.title}</span>
-						{#if link.video}
-							<embed
-								class="aspect-square w-[150px] rounded-2xl"
-								src="{link.video.embed_url}"
-							/>
-						{/if}
-					</div>
+					<PrismicLink field={link.link}>
+						<div class="text-goldenrod w-[clamp(80px, 200px, 200px)] h-[clamp(80px, 200px, 200px)] m-2">
+							<span>{link.title}</span>
+							<!--{#if link.video}-->
+							<!--	<video-->
+							<!--		class="aspect-square w-[150px] rounded-2xl"-->
+							<!--		src={link.video.text}-->
+							<!--		playsInline-->
+							<!--		muted-->
+							<!--		loop-->
+							<!--	></video>-->
+							<!--{/if}-->
+						</div>
+					</PrismicLink>
 				{/each}
 			</div>
 		</div>

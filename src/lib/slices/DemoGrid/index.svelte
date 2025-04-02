@@ -32,7 +32,7 @@
 	const previews = slice.primary.demo_preview;
 
 	previews.forEach((preview) => {
-		videoMap.set(String(preview.slug), String(preview.video.embed_url));
+		videoMap.set(String(preview.slug), String(preview.video.text));
 	});
 
 	function handlePreviewClick(slug: string, event: MouseEvent) {
@@ -70,24 +70,30 @@
 
 		// Animate the overlay to expand to the size of the demo component
 		gsap.to(overlayElement, {
-			duration: 0.25,
+			duration: 0.2,
 			top: demoRect.top,
 			left: demoRect.left,
 			width: demoRect.width,
 			height: demoRect.height,
-			padding: 10,
-			ease: 'power2.in',
+			ease: 'power2.inOut',
+			opacity: 0,
 			onComplete: () => {
 				isExpandingOrShrinking = false;
 				// After expansion, fade out the overlay over 1 second.
 				gsap.to(overlayElement, {
-					duration: 0.25,
+					duration: 0.1,
 					opacity: 0,
 					onComplete: () => {
 						isTransitioning = false;
 					}
 				});
 			}
+		});
+
+		gsap.to(demoContainerElement, {
+			duration: 0.2,
+			opacity: 1,
+			ease: 'power2.inOut'
 		});
 	}
 
@@ -96,18 +102,17 @@
 		isTransitioning = true;
 
 		gsap.to(overlayElement, {
-			duration: 0.25,
+			duration: 0.2,
 			opacity: 1,
 			onComplete: () => {
 				isExpandingOrShrinking = true;
 				gsap.to(overlayElement, {
-					duration: 0.25,
+					duration: 0.1,
 					top: clickedElementOriginalStyles.top,
 					left: clickedElementOriginalStyles.left,
 					width: clickedElementOriginalStyles.width,
 					height: clickedElementOriginalStyles.height,
-					padding: 0,
-					ease: 'power2.out',
+					ease: 'power2.inOut',
 					onComplete: () => {
 						if (clickedElement && originalParent) {
 							if (originalNextSibling) {
@@ -133,14 +138,15 @@
 	data-slice-type={slice.slice_type} data-slice-variation={slice.variation}
 	class="w-screen h-screen"
 >
-	<div class="bg-neutral-800 w-full h-full">
+	<div class="w-full h-full bg-gradient-to-b from-neutral-700 to to-neutral-900 via-neutral-800">
 
 		{#if !activeDemo || isExpandingOrShrinking}
-			<div class="grid grid-cols-3 w-full h-full bg-neutral-800">
+			<div class="grid grid-cols-3 w-full h-full">
 				{#each slice.primary.demo_preview as preview, index}
 					<div class="w-full p-3 place-content-center">
 						<span class="text-seasalt text-2xl">{preview.title}</span>
-						<div class="video-container w-full h-max aspect-video">
+						<div
+							class="video-container w-full h-max aspect-video outline-1 outline-neutral-600 rounded-2xl overflow-hidden">
 							<video
 								onclick={(e) => handlePreviewClick(String(preview.slug), e)}
 								src={preview.video.text}
@@ -161,8 +167,11 @@
 		<!--			<div class="rounded-2xl w-full h-full overflow-hidden">-->
 		<!--			</div>-->
 		<!--		</div>-->
-		<div bind:this={overlayElement}
-				 class="fixed pointer-events-none inset-0 rounded-2xl overflow-hidden bg-transparent"></div>
+		<div
+			bind:this={overlayElement}
+			class="fixed pointer-events-none inset-0 rounded-2xl overflow-hidden bg-transparent"
+		>
+		</div>
 
 		<div class="pointer-events-none fixed inset-0 z-0 bg-transparent p-10">
 			<div bind:this={demoContainerElement} class="pointer-events-none rounded-2xl w-full h-full overflow-hidden">

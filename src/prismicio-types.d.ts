@@ -537,12 +537,12 @@ export interface HomeSliceDefaultPrimaryPageLinkItem {
 	/**
 	 * Video field in *Home → Default → Primary → Page Link*
 	 *
-	 * - **Field Type**: Embed
-	 * - **Placeholder**: Video
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
 	 * - **API ID Path**: home.default.primary.page_link[].video
-	 * - **Documentation**: https://prismic.io/docs/field#embed
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	video: prismic.EmbedField;
+	video: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**

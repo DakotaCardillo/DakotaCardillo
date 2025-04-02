@@ -6,6 +6,7 @@
 	import '@fontsource-variable/kode-mono';
 	import '@fontsource/commit-mono';
 	import '@fontsource-variable/source-code-pro';
+	import '@fontsource-variable/inter';
 
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
@@ -30,7 +31,7 @@
 	{/if}
 </svelte:head>
 
-<main>
+<main class="flex-grow">
 	<slot />
 </main>
 <Footer settings={data.settings} />

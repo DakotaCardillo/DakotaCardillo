@@ -171,10 +171,14 @@
                 }
               },
               "video": {
-                "type": "Embed",
+                "type": "Link",
                 "config": {
                   "label": "Video",
-                  "placeholder": "Video"
+                  "placeholder": "",
+                  "select": null,
+                  "allowTargetBlank": true,
+                  "allowText": true,
+                  "repeat": false
                 }
               }
             }
