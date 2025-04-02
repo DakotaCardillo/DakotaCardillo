@@ -3,6 +3,7 @@
 	import { T, useTask, useThrelte } from '@threlte/core';
 	import * as THREE from 'three';
 	import { DoubleSide, MathUtils } from 'three';
+	import { Environment } from '@threlte/extras';
 
 	export let waveCount = 0;
 	export let fragmentWaveCount = 40;
@@ -11,11 +12,7 @@
 	export let wireframe = false;
 
 	const { scene } = useThrelte();
-	scene.background = new THREE.Color(0xff0000);
-
-	const { renderer } = useThrelte();
-	console.log(renderer.outputColorSpace);
-	renderer.setClearColor(0xff0000, 1);
+	scene.background = new THREE.Color(0x000000);
 
 	import utilsShader from '../../shaders/utils.glsl';
 	import vertexShaderMain from '../../shaders/water.vert';
@@ -29,14 +26,17 @@
 	import phongFragmentShader from '../../shaders/phong.frag';
 	import wireframeShader from '../../shaders/wireframe.frag';
 
-	import { OrbitControls, Sky } from '@threlte/extras';
+	import { OrbitControls } from '@threlte/extras';
 
 	const waterVertexShader = `${utilsShader}\n${vertexShaderMain}`;
 	const waterFragmentShader = `${utilsShader}\n${fragmentShaderMain}`;
 
+	let environmentUrl = 'assets/autumn_field_puresky_4k.exr';
+
 	let waterGeometry = new THREE.PlaneGeometry(20, 20, 100, 100);
 	waterGeometry.rotateX(MathUtils.degToRad(-90));
 
+	// Needed for wireframe shader
 	function setupAttributes(geometry: THREE.BufferGeometry) {
 		const vectors = [
 			new THREE.Vector3(1, 0, 0),
@@ -51,15 +51,13 @@
 			vectors[i % 3].toArray(centers, i * 3);
 		}
 		geometry.setAttribute('center', new THREE.BufferAttribute(centers, 3));
-		console.log(centers);
 	}
 
 	setupAttributes(waterGeometry);
-	//console.log(waterGeometry.attributes);
 
 	let camera: THREE.PerspectiveCamera;
 	let cameraPosition = new THREE.Vector3(0, 25, 30);
-	let sunPosition = new THREE.Vector3(15, 13, 0);
+	let sunPosition = new THREE.Vector3(16, 10, 11);
 
 	let newEuler = new THREE.Euler();
 	const up = new THREE.Vector3(0, 1, 0);
@@ -69,7 +67,7 @@
 	const orbitRadius = 20;
 	let angle = 0;
 	const angularSpeed = 0.05;
-	
+
 	const uniforms = {
 		uTime: { value: 0 },
 		uCameraPosition: { value: cameraPosition },
@@ -80,6 +78,7 @@
 		uAmbientColor: { value: new THREE.Vector3(0.04, 0.04, 0.04) },
 		uSpecularColor: { value: new THREE.Vector3(1, 1, 1) },
 		uShininess: { value: 200.0 },
+		uSkybox: { value: scene.environment },
 		uWaveAlgorithm: { value: waveAlgorithm },
 		uNumWaves: { value: waveCount },
 		uNumVertexWaves: { value: waveCount },
@@ -114,13 +113,16 @@
 		uniforms.uNumWaves.value = waveCount;
 		uniforms.uNumVertexWaves.value = waveCount;
 		uniforms.uNumFragmentWaves.value = fragmentWaveCount;
+		uniforms.uSkybox.value = scene.environment;
 
 		angle += angularSpeed * delta;
 		const x = orbitCenter.x + orbitRadius * Math.cos(angle);
 		const z = orbitCenter.z + orbitRadius * Math.sin(angle);
 
-		sunPosition.set(x, sunPosition.y, z);
-		sunPosition = sunPosition;
+		//sunPosition.set(x, sunPosition.y, z);
+		//sunPosition = sunPosition;
+
+		//console.log(camera.rotation);
 
 		const matrix = new THREE.Matrix4().lookAt(sunPosition, new THREE.Vector3(0), up);
 		newEuler.setFromRotationMatrix(matrix);
@@ -134,14 +136,19 @@
 	});
 </script>
 
-<Sky
-	turbidity={14.35}
-	rayleigh={3.0}
-	azimuth={100.0}
-	elevation={0.5}
-	mieCoefficient={0.005}
-	mieDirectionalG={0.7}
-	exposure={0.37}
+<!--<Sky-->
+<!--	turbidity={14.35}-->
+<!--	rayleigh={3.0}-->
+<!--	azimuth={100.0}-->
+<!--	elevation={0.5}-->
+<!--	mieCoefficient={0.005}-->
+<!--	mieDirectionalG={0.7}-->
+<!--	exposure={0.37}-->
+<!--/>-->
+
+<Environment
+	isBackground={true}
+	url={environmentUrl}
 />
 
 <T.PointLight position={[10, 10, 10]} intensity={0} />

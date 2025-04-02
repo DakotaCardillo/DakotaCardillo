@@ -33,6 +33,10 @@ Wave(vec2(-1.0, 0.5), vec2(-3.0, 5.0), 0.07, 1.9, 3.0, 5.0),
 Wave(vec2(0.3, -1.0), vec2(-1.5, -4.2), 0.02, 2.6, 0.8, 2.0)
 );
 
+float randomFloatFromFloat(float seed) {
+    return fract(sin(seed) * 43758.5453123);
+}
+
 vec2 random2FromInt(int n) {
     // Convert the integer to float and create a seed vector.
     float nf = float(n);
@@ -99,7 +103,8 @@ vec3 GetFBM(vec3 vertexWorldPos)
 
     for (int i = 0; i < uNumVertexWaves; i++)
     {
-        vec2 randomDirection = normalize(vec2(cos(waveSeed), sin(waveSeed)));
+        float angle = randomFloatFromFloat(waveSeed) * 6.2831853; // 2π
+        vec2 randomDirection = normalize(vec2(cos(angle), sin(angle)));
         float x = dot(point.xz, randomDirection) * frequency + uTime * speed;
         float wave = amplitude * exp(sin(x) - 1.0);
         height += wave;
@@ -111,7 +116,7 @@ vec3 GetFBM(vec3 vertexWorldPos)
         amplitudeSum += amplitude;
         amplitude *= 0.82;
         frequency *= 1.18;
-        waveSeed += 1253.2131f;
+        waveSeed += 32137.27180;
     }
 
     return vec3(height, normal.x, normal.y) / amplitudeSum;
@@ -121,7 +126,8 @@ void main() {
     vCenter = center;
     vUV = uv;
     vModelMatrix = modelMatrix;
-    vec3 vertexWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+    //vec3 vertexWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+    vec3 vertexWorldPos = position.xyz;
 
     float waveHeight = 0.0;
 
@@ -139,7 +145,6 @@ void main() {
         {
             waveHeight += GetWaveHeight(position, waves[i]);
             normal += GetWaveNormal(position, waves[i]);
-
         }
         normal = normalize(vec3(-normal.x, 1.0, -normal.y));
         normal = normalize(mat3(modelMatrix) * normal);

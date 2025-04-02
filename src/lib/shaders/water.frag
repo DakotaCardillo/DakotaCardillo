@@ -8,6 +8,9 @@ uniform vec3 uAmbientColor;
 uniform vec3 uSpecularColor;
 uniform float uShininess;
 
+// Reflections
+uniform samplerCube uSkybox;
+
 // Wave uniforms
 uniform int uWaveAlgorithm;
 uniform int uNumWaves;
@@ -42,6 +45,10 @@ Wave(vec2(-1.0, 0.5), vec2(-3.0, 5.0), 0.07, 1.9, 3.0, 5.0),
 Wave(vec2(0.3, -1.0), vec2(-1.5, -4.2), 0.02, 2.6, 0.8, 2.0)
 );
 
+float randomFloatFromFloat(float seed) {
+    return fract(sin(seed) * 43758.5453123);
+}
+
 vec3 GetFBM()
 {
     float height = 0.0;
@@ -55,7 +62,8 @@ vec3 GetFBM()
 
     for (int i = 0; i < uNumFragmentWaves; i++)
     {
-        vec2 randomDirection = normalize(vec2(cos(waveSeed), sin(waveSeed)));
+        float angle = randomFloatFromFloat(waveSeed) * 6.2831853; // 2π
+        vec2 randomDirection = normalize(vec2(cos(angle), sin(angle)));
         float x = dot(point.xz, randomDirection) * frequency + uTime * speed;
         float wave = amplitude * exp(sin(x) - 1.0);
         height += wave;
@@ -67,7 +75,7 @@ vec3 GetFBM()
         amplitudeSum += amplitude;
         amplitude *= 0.82;
         frequency *= 1.18;
-        waveSeed += 1253.2131f;
+        waveSeed += 32137.27180;
     }
 
     return vec3(height, normal.x, normal.y) / amplitudeSum;
@@ -123,8 +131,8 @@ void main() {
     float lambertian = max(dot(lightDirection, normal), 0.0);
     float specular = 0.0;
 
+    vec3 cameraDirection = normalize(uCameraPosition - vWorldPosition);
     if (lambertian > 0.0) {
-        vec3 cameraDirection = normalize(uCameraPosition - vWorldPosition);
         vec3 halfwayDirection = normalize(lightDirection + cameraDirection);
         float specularAngle = max(dot(halfwayDirection, normal), 0.0);
         specular = pow(specularAngle, uShininess);
@@ -136,6 +144,27 @@ void main() {
 
     vec3 tipColor = vec3(0.0, 0.7, 0.4);
     colorLinear += tipColor * pow(waveHeight, 5.0);
+
+    // Fresnel
+    vec3 fresnelNormal = normal;
+    //fresnelNormal.xz *= _FresnelNormalStrength;
+    //fresnelNormal = normalize(fresnelNormal);
+    float base = 1.0 - dot(cameraDirection, fresnelNormal);
+    float exponential = pow(base, 5.0);
+    float R = exponential + 1.0 * (1.0f - exponential);
+    R *= 1.0;
+
+    vec3 fresnel = vec3(1.0) * R;
+
+    vec3 reflection = reflect(-cameraDirection, normal);
+    vec3 skyColor = textureCube(uSkybox, reflection).rgb;
+
+    fresnel = skyColor.rgb * R;
+
+    colorLinear += fresnel;
+
+    //float reflectivity = 0.5; // adjust as needed
+    //vec3 finalColor = mix(colorLinear, skyColor, reflectivity);
 
     gl_FragColor = vec4(colorLinear, 1.0);
 }
