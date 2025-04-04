@@ -112,7 +112,6 @@ vec3 GetFBM(vec3 vertexWorldPos)
 
         float waveDerivative = wave * cos(x);
         point.xz += randomDirection * -waveDerivative * amplitude * 0.3;
-        //vUV.xy += randomDirection * -waveDerivative * amplitude * 0.3;
         normal += waveDerivative;
 
         amplitudeSum += amplitude;
@@ -153,6 +152,7 @@ void main() {
     }
     vHeight = waveHeight;
     vec3 newVertexPosition = vertexWorldPos + vec3(0.0, waveHeight, 0.0);
+    //vWorldPosition = newVertexPosition;
     vWorldPosition = (modelMatrix * vec4(newVertexPosition, 1.0)).xyz;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(vWorldPosition, 1.0);
 }
