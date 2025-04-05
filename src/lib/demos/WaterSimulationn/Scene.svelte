@@ -5,11 +5,19 @@
 	import { DoubleSide, MathUtils } from 'three';
 	import { Environment, Gizmo, useGltf } from '@threlte/extras';
 
-	export let waveCount = 0;
-	export let fragmentWaveCount = 40;
-	export let waveType = 0;
-	export let waveAlgorithm = 0;
-	export let wireframe = false;
+
+	const {
+		waveCount,
+		fragmentWaveCount,
+		waveType,
+		waveAlgorithm,
+		wireframe
+	} = $props();
+	// export let waveCount = 0;
+	// export let fragmentWaveCount = 40;
+	// export let waveType = 0;
+	// export let waveAlgorithm = 0;
+	// export let wireframe = false;
 
 	const { scene, renderer } = useThrelte();
 	scene.background = new THREE.Color(0xff0000);
@@ -32,6 +40,7 @@
 	import newWaterShader from '../../shaders/newWater.frag';
 
 	import { OrbitControls } from '@threlte/extras';
+	import { SimplexNoise } from 'three/examples/jsm/Addons.js';
 
 	const waterVertexShader = `${utilsShader}\n${vertexShaderMain}`;
 	const waterFragmentShader = `${utilsShader}\n${fragmentShaderMain}`;
@@ -55,6 +64,22 @@
 
 	let underwaterGeometry = new THREE.BoxGeometry(20, 20, 20, 100, 100, 100);
 
+	let sandGeometry = new THREE.PlaneGeometry(20, 20, 100, 100);
+	sandGeometry.rotateX(MathUtils.degToRad(-90));
+
+	let flatness = 5.0;
+	const positions = sandGeometry.getAttribute('position');
+	const noise = new SimplexNoise();
+	$effect(() => {
+		for (let i = 0; i < positions.count; i += 1) {
+			const x = positions.getX(i) / flatness;
+			const z = positions.getZ(i) / flatness;
+			positions.setY(i, noise.noise(x, z));
+		}
+		positions.needsUpdate = true;
+		// needed for lighting
+		sandGeometry.computeVertexNormals();
+	});
 
 	// Needed for wireframe shader
 	function setupAttributes(geometry: THREE.BufferGeometry) {
@@ -141,7 +166,7 @@
 		vertexShader: waterVertexShader,
 		fragmentShader: newWaterShader,
 		defines: defines,
-		alphaToCoverage: false
+		alphaToCoverage: true
 	});
 
 	let wireframeMaterial = new THREE.ShaderMaterial({
@@ -161,40 +186,13 @@
 		side: THREE.DoubleSide
 	});
 
-	// Pseudocode for the volumetric underwater approach
-	// const underwaterMaterial = new THREE.ShaderMaterial({
-	// 	uniforms: {
-	// 		waterSurfaceTexture: { value: renderTarget.texture },
-	// 		waterDepth: { value: 0.0 },
-	// 		waterColor: { value: new THREE.Color(0x0066ff) }
-	// 	},
-	// 	vertexShader: basicVertexShader,
-	// 	fragmentShader: `
-	//   uniform sampler2D waterSurfaceTexture;
-	//   uniform float waterDepth;
-	//   uniform vec3 waterColor;
-	//
-	//   varying vec3 vWorldPosition;
-	//
-	//   void main() {
-	//     // Sample water height at this xz position
-	//     vec2 waterUV = (vWorldPosition.xz + 0.5) * 0.5;
-	//     float waterHeight = texture2D(waterSurfaceTexture, waterUV).r;
-	//
-	//     // Calculate depth below water
-	//     float depth = max(0.0, waterHeight - vWorldPosition.y);
-	//     float depthFactor = depth / waterDepth;
-	//
-	//     // Apply underwater effects based on depth
-	//     vec3 color = mix(waterColor, vec3(0.0, 0.02, 0.05), depthFactor);
-	//
-	//     // Add caustics, scattering, etc.
-	//
-	//     gl_FragColor = vec4(color, 1.0);
-	//   }
-	// `
-	// });
-
+	let sandMaterial = new THREE.ShaderMaterial({
+		uniforms: uniforms,
+		vertexShader: underwaterVertexShader,
+		fragmentShader: underwaterFragmentShader,
+		alphaToCoverage: true,
+		side: THREE.DoubleSide
+	});
 
 	const orthoCamera = new THREE.OrthographicCamera(-10, 10, 10, -10, 0, 100);
 	orthoCamera.position.set(0, 1, 0);
@@ -208,7 +206,7 @@
 
 
 	//const gltf = useGltf('/assets/wave.glb');
-	const cubeGlb = useGltf('/assets/cube.glb');
+	//const cubeGlb = useGltf('/assets/cube.glb');
 
 	useTask((delta) => {
 		// Render the offscreen scene to the render target.
@@ -246,17 +244,6 @@
 	});
 </script>
 
-
-<!--<Sky-->
-<!--	turbidity={14.35}-->
-<!--	rayleigh={3.0}-->
-<!--	azimuth={100.0}-->
-<!--	elevation={0.5}-->
-<!--	mieCoefficient={0.005}-->
-<!--	mieDirectionalG={0.7}-->
-<!--	exposure={0.37}-->
-<!--/>-->
-
 <Environment
 	isBackground={true}
 	url={environmentUrl}
@@ -280,11 +267,19 @@
 <!-- WATER -->
 <T.Mesh
 	scale={[1, 1, 1]}
-	position={[0, 0, 10]}
+	position={[0, 10, 20]}
 	material={wireframe ? wireframeMaterial : waterMaterial}
 	geometry={waterGeometry}
 >
 </T.Mesh>
+
+<!-- WATER FROM TEX -->
+<T.Mesh
+	geometry={waterGeometry}
+	material={newWaterMaterial}
+	scale={[1, 1, 1]}
+	position={[0, 0, 0]}
+/>
 
 <!-- SUN -->
 <T.Mesh
@@ -318,20 +313,23 @@
 	scale={[1, 1, 1]}
 	position={[0, 0, 0]}
 />
-<!--{#if $cubeGlb}-->
-<!--	<T.Mesh-->
-<!--		geometry={$cubeGlb.nodes['Cube'].geometry}-->
-<!--		material={underwaterMaterial}-->
-<!--		scale={[10, 10, 10]}-->
-<!--		position={[0, -10, 20]}-->
-<!--	/>-->
-<!--{/if}-->
 
-
+<!-- SAND -->
 <T.Mesh
-	geometry={new THREE.BoxGeometry(5, 5, 5)}
-	material={new THREE.ShaderMaterial({vertexShader: normalVertexShader, fragmentShader: normalFragmentShader})}
-	position={[0, 10, 0]}
+	scale={[1, 1, 1]}
+	position={[0, -10, 0]}
+	material={waterMapMaterial}
+	geometry={sandGeometry}
+>
+</T.Mesh>
+
+
+<!-- TEX MAP -->
+<T.Mesh
+	geometry={offscreenWaterGeometry}
+	material={waterMapMaterial}
+	scale={[1, 1, 1]}
+	position={[30, 10, 0]}
 />
 
 <!--&lt;!&ndash; This is a mesh that renders the view of the orto camera in the offscreen scene &ndash;&gt;-->
@@ -341,22 +339,6 @@
 <!--	scale={[1, 1, 1]}-->
 <!--	position={[5, 10, 0]}-->
 <!--/>-->
-
-<!-- This is a mesh that shows the output of the map -->
-<T.Mesh
-	geometry={offscreenWaterGeometry}
-	material={waterMapMaterial}
-	scale={[1, 1, 1]}
-	position={[20, 0, 0]}
-/>
-
-<!-- This is the mesh that uses said map to render the water -->
-<T.Mesh
-	geometry={waterGeometry}
-	material={newWaterMaterial}
-	scale={[1, 1, 1]}
-	position={[0, 0, 0]}
-/>
 
 <!--{#if $gltf}-->
 <!--	<T.Mesh-->

@@ -102,5 +102,5 @@ void main() {
 
     //float reflectivity = 0.5; // adjust as needed
     //vec3 finalColor = mix(colorLinear, skyColor, reflectivity);
-    gl_FragColor = vec4(colorLinear, 1.0);
+    gl_FragColor = vec4(colorLinear, 0.9);
 }

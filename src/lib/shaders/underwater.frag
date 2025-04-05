@@ -29,5 +29,12 @@ void main() {
         return;
     }
 
-    gl_FragColor = vec4(waterUV, 0.0, 1.0);
+    float depth = heightData.y - vWorldPosition.y;
+    depth = clamp(depth, 0.0, 10.0);
+
+    float fogFactor = 1.0 - exp(-depth * 0.3);
+
+    vec3 color = mix(vec3(0.0, 0.7, 0.8), vec3(0.0, 0.2, 0.6), fogFactor);
+
+    gl_FragColor = vec4(color, 0.6);
 }
