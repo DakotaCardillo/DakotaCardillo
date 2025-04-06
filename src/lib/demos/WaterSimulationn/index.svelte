@@ -1,8 +1,12 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { Canvas } from '@threlte/core';
 	import Scene from './Scene.svelte';
 	import { Pane, Folder, List, Slider, Button, Checkbox } from 'svelte-tweakpane-ui';
 	import type { ListOptions } from 'svelte-tweakpane-ui';
+	import { WebGPURenderer } from 'three/webgpu';
+	import { WebGLRenderer } from 'three';
+	import Scene_WebGPU from '$lib/demos/WaterSimulationn/Scene_WebGPU.svelte';
 
 	const waveAlgoOptions: ListOptions<number> = {
 		sum_of_sines: 0,
@@ -21,6 +25,14 @@
 	let waveType = $state(0);
 	let waveAlgorithm = $state(0);
 	let wireframe = $state(false);
+
+	let useWebGPU = false;
+	onMount(() => {
+		if (navigator.gpu) {
+			useWebGPU = true;
+		}
+		console.log('using WebGPU');
+	});
 
 </script>
 
@@ -64,7 +76,22 @@
 		</Pane>
 	</div>
 
-	<Canvas>
-		<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
+	<Canvas createRenderer={(canvas) => {
+		const renderer = useWebGPU ? new WebGPURenderer({
+			canvas,
+			antialias: true,
+			alpha: true,
+			}) : new WebGLRenderer({
+			canvas,
+			antialias: true,
+			alpha: true,
+			});
+		return renderer;
+	}}>
+		{#if useWebGPU}
+			<Scene_WebGPU {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
+		{:else}
+			<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
+		{/if}
 	</Canvas>
 </div>

@@ -9,7 +9,7 @@ export default defineConfig({
 		sveltekit(),
 		tailwindcss(),
 		glsl({
-			include: ['**/*.vert', '**/*.frag', '**/*.glsl']
+			include: ['**/*.vert', '**/*.frag', '**/*.glsl', '**/*.wgsl']
 		}),
 		Icons({
 			compiler: 'svelte',
