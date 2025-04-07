@@ -6,7 +6,10 @@
 	import type { ListOptions } from 'svelte-tweakpane-ui';
 	import { WebGPURenderer } from 'three/webgpu';
 	import { WebGLRenderer } from 'three';
+	import WebGPU from 'three/addons/capabilities/WebGPU.js';
 	import Scene_WebGPU from '$lib/demos/WaterSimulationn/Scene_WebGPU.svelte';
+
+
 
 	const waveAlgoOptions: ListOptions<number> = {
 		sum_of_sines: 0,
@@ -28,7 +31,7 @@
 
 	let useWebGPU = false;
 	onMount(() => {
-		if (navigator.gpu) {
+		if (WebGPU.isAvailable()) {
 			useWebGPU = true;
 		}
 		console.log('using WebGPU');
@@ -76,19 +79,8 @@
 		</Pane>
 	</div>
 
-	<Canvas createRenderer={(canvas) => {
-		const renderer = useWebGPU ? new WebGPURenderer({
-			canvas,
-			antialias: true,
-			alpha: true,
-			}) : new WebGLRenderer({
-			canvas,
-			antialias: true,
-			alpha: true,
-			});
-		return renderer;
-	}}>
-		{#if useWebGPU}
+	<Canvas >
+		{#if false}
 			<Scene_WebGPU {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
 		{:else}
 			<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />

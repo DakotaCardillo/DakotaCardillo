@@ -208,6 +208,7 @@
 	//const gltf = useGltf('/assets/wave.glb');
 	//const cubeGlb = useGltf('/assets/cube.glb');
 
+	uniforms.uSkybox.value = scene.environment;
 	useTask((delta) => {
 		// Render the offscreen scene to the render target.
 
@@ -217,7 +218,6 @@
 		uniforms.uNumWaves.value = waveCount;
 		uniforms.uNumVertexWaves.value = waveCount;
 		uniforms.uNumFragmentWaves.value = fragmentWaveCount;
-		uniforms.uSkybox.value = scene.environment;
 
 		renderer.setRenderTarget(renderTarget);
 		renderer.render(offscreenScene, orthoCamera);
@@ -278,7 +278,7 @@
 	geometry={waterGeometry}
 	material={newWaterMaterial}
 	scale={[1, 1, 1]}
-	position={[0, 0, 0]}
+	position={[0, 10, 0]}
 />
 
 <!-- SUN -->

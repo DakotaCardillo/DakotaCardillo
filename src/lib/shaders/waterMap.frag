@@ -8,7 +8,7 @@ void main() {
     vec4 outputColor = texture2D(uWaterTextureMap, vUV).rgba;
     //normal = vec3(outputColor.x, outputColor.y, outputColor.z);
 
-    gl_FragColor = vec4(0.0,outputColor.g + 10.0 / 20.0, 0.0, 1.0);
+    gl_FragColor = vec4(0.0,outputColor.g, 0.0, 1.0);
 }
 
 

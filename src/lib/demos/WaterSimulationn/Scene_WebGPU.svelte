@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { T, useTask, useThrelte } from '@threlte/core';
-	import * as THREE from 'three';
+	import * as THREE from 'three/webgpu';
 	import { DoubleSide, MathUtils } from 'three';
 	import { Environment, Gizmo, useGltf } from '@threlte/extras';
-
+	import * as TSL from 'three/tsl';
 
 	const {
 		waveCount,
@@ -22,7 +22,7 @@
 	const { scene, renderer } = useThrelte();
 	scene.background = new THREE.Color(0xff0000);
 
-	import waterShader from '../../shaders/waterVertex.wgsl';
+	import waterShader from '../../shaders/water.wgsl';
 
 	import { OrbitControls } from '@threlte/extras';
 	import { SimplexNoise } from 'three/examples/jsm/Addons.js';
@@ -117,11 +117,17 @@
 		SUM_OF_SINES: `1`
 	};
 
-	let waterMaterial = new THREE.RawShaderMaterial({
-		uniforms: uniforms,
-		vertexShader: waterShader,
-		fragmentShader: waterShader
-	});
+	// let waterVertexNode = new TSL.ShaderNode({
+	// 	stage:
+	// 	uniforms: uniforms,
+	// 	vertexShader: waterShader,
+	// 	fragmentShader: waterShader,
+	// 	glslVersion: THREE.GLSL3
+	// });
+
+	const waterMaterial = new THREE.MeshStandardNodeMaterial( {color: 'blue', roughness: 0.15 });
+
+
 
 	useTask((delta) => {
 		// Render the offscreen scene to the render target.

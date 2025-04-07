@@ -21,5 +21,13 @@ export default defineConfig({
 			// Allow access to files from the project root.
 			allow: ['..']
 		}
+	},
+	optimizeDeps: {
+		esbuildOptions: {
+			target: 'esnext'
+		}
+	},
+	build: {
+		target: 'esnext'
 	}
 });
