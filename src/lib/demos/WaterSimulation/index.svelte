@@ -7,9 +7,7 @@
 	import { WebGPURenderer } from 'three/webgpu';
 	import { WebGLRenderer } from 'three';
 	import WebGPU from 'three/addons/capabilities/WebGPU.js';
-	import Scene_WebGPU from '$lib/demos/WaterSimulationn/Scene_WebGPU.svelte';
-
-
+	import Scene_WebGPU from '$lib/demos/WaterSimulation/Scene_WebGPU.svelte';
 
 	const waveAlgoOptions: ListOptions<number> = {
 		sum_of_sines: 0,
@@ -79,7 +77,7 @@
 		</Pane>
 	</div>
 
-	<Canvas >
+	<Canvas>
 		{#if false}
 			<Scene_WebGPU {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
 		{:else}

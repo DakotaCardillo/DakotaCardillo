@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
 	import { default as ShellTexturing } from '$lib/demos/ShellTexturing/index.svelte';
-	import { default as WaterSimulation } from '$lib/demos/WaterSimulationn/index.svelte';
+	import { default as WaterSimulation } from '$lib/demos/WaterSimulation/index.svelte';
 	import { default as BlinnPhong } from '$lib/demos/BlinnPhong/index.svelte';
 
 	export let slice: Content.DemoSlice;

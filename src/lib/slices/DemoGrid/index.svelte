@@ -2,7 +2,7 @@
 	import type { Content } from '@prismicio/client';
 	import type { SvelteComponent } from 'svelte';
 	import gsap from 'gsap';
-	import WaterSimulation from '$lib/demos/WaterSimulationn/index.svelte';
+	import WaterSimulation from '$lib/demos/WaterSimulation/index.svelte';
 	import ShellTexturing from '$lib/demos/ShellTexturing/index.svelte';
 	import BlinnPhong from '$lib/demos/BlinnPhong/index.svelte';
 

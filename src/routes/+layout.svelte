@@ -7,6 +7,7 @@
 	import '@fontsource/commit-mono';
 	import '@fontsource-variable/source-code-pro';
 	import '@fontsource-variable/inter';
+	import '@fontsource/poppins';
 
 	import { PrismicPreview } from '@prismicio/svelte/kit';
 	import { page } from '$app/stores';
