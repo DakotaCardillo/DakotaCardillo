@@ -31,8 +31,10 @@
 	onMount(() => {
 		if (WebGPU.isAvailable()) {
 			useWebGPU = true;
+			console.log('using WebGPU');
+		} else {
+			console.log('NOT using WebGPU');
 		}
-		console.log('using WebGPU');
 	});
 
 </script>
@@ -78,7 +80,7 @@
 	</div>
 
 	<Canvas>
-		{#if false}
+		{#if useWebGPU}
 			<Scene_WebGPU {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
 		{:else}
 			<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />

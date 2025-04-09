@@ -1,25 +1,74 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
+	import gsap from 'gsap';
 	import Scene from './Scene.svelte';
+	import { onMount } from 'svelte';
+	import WebGPU from 'three/addons/capabilities/WebGPU.js';
 
-	export let slice: Content.HeroSlice;
 
+	const { slice } = $props();
+	//export let slice: Content.HeroSlice;
 
-	let translateX = 0;
-	let translateY = 0;
+	let foregroundElement: HTMLDivElement;
+
+	let state = $state({ translateX: 0, translateY: 0 });
 	const maxTranslation = 50; // max translation in pixels
 
-	function handleMouseMove(event) {
+	function getOffset(event) {
 		const { clientX, clientY } = event;
 		const { innerWidth, innerHeight } = window;
 		// Normalize mouse coordinates to a range between -1 and 1.
 		const offsetX = (clientX / innerWidth - 0.5) * 2;
 		const offsetY = (clientY / innerHeight - 0.5) * 2;
 
-		// Move in the opposite direction
-		translateX = -offsetX * maxTranslation;
-		translateY = -offsetY * maxTranslation;
+		return { x: -offsetX * maxTranslation, y: -offsetY * maxTranslation }
 	}
+
+	function handleMouseMove(event) {
+		gsap.to(state, {
+			duration: 1,
+			ease: 'power2.out',
+			translateX: getOffset(event).x,
+			translateY: getOffset(event).y,
+			onUpdate: () => {
+				//console.log(state.translateX, state.translateY);
+			}
+		});
+	}
+
+	function handleMouseEnter(event) {
+		// gsap.to(state, {
+		// 	duration: 1,
+		// 	ease: 'power2.out',
+		// 	translateX: getOffset(event).x,
+		// 	translateY: getOffset(event).y,
+		// 	onUpdate: () => {
+		// 		console.log(state.translateX, state.translateY);
+		// 	}
+		// });
+	}
+
+	function handleMouseLeave(event) {
+		gsap.to(state, {
+			duration: 1,
+			ease: 'power2.out',
+			translateX: 0,
+			translateY: 0,
+			onUpdate: () => {
+				//console.log(state.translateX, state.translateY);
+			}
+		});
+	}
+
+	let useWebGPU = false;
+	onMount(() => {
+		if (WebGPU.isAvailable()) {
+			useWebGPU = true;
+			console.log('using WebGPU');
+		} else {
+			console.log('NOT using WebGPU');
+		}
+	});
 </script>
 
 <section
@@ -27,14 +76,17 @@
 	data-slice-variation={slice.variation}
 	class="w-screen h-screen bg-neutral-50"
 >
-<!--	<div class="absolute top-0 left-0 w-full h-full bg-black z-[0]">-->
-<!--		<Scene />-->
-<!--	</div>-->
+	<div class="pointer-events-auto top-0 left-0 w-full h-full bg-black z-[0]">
+		<Scene {useWebGPU}/>
+	</div>
 
 	<!-- Fullscreen container that listens for mouse movement -->
 	<div
+		bind:this={foregroundElement}
 		class="w-screen h-screen relative overflow-hidden"
-		on:mousemove={handleMouseMove}
+		onmousemove={handleMouseMove}
+		onmouseenter={handleMouseEnter}
+		onmouseleave={handleMouseLeave}
 		aria-hidden="true"
 	>
 <!--		style="box-shadow: 0 0 200px rgba(0,0,0,0.9) inset"-->
@@ -66,7 +118,7 @@
 
 		<div
 				class="absolute top-0 left-0 w-full h-full z-[10] pointer-events-none"
-				style="transform: translate({translateX * 0.5}px, {translateY * 0.5}px);"
+				style="transform: translate({state.translateX * 0.5}px, {state.translateY * 0.5}px);"
 		>
 			<h1
 				class="ml-8 mt-6 mb-2 md:mb-8 text-[clamp(3rem,15vmin,13rem)] leading-none font-regular text-nowrap z-10 pointer-events-none">
@@ -80,6 +132,8 @@
 					{slice.primary.last_name}
 				</span>
 			</h1>
+
+			<div class="bg-red-500 ml-8 w-8 h-8 " style="transform: translate({state.translateX}px, {state.translateY}px);"></div>
 		</div>
 
 <!--	/* Vertical line: 90deg corresponds to a left-to-right gradient */-->

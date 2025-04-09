@@ -1,9 +1,27 @@
 <script lang="ts">
 	import { Canvas } from '@threlte/core';
-	import Shapes from './Shapes.svelte';
 	import Background from '$lib/slices/Hero/Background.svelte';
+	import { WebGPURenderer } from 'three/webgpu';
+
+	export let useWebGPU : boolean;
+
 </script>
 
-<Canvas autoRender={false}>
-	<Background />
-</Canvas>
+{#if useWebGPU}
+	<Canvas
+		createRenderer={(canvas) => {
+    	return new WebGPURenderer({
+				canvas,
+				antialias: true,
+				forceWebGL: false
+			})
+  	}}
+		autoRender={false}
+	>
+		<Background {useWebGPU}/>
+	</Canvas>
+{:else}
+	<Canvas autoRender={false}>
+		<Background {useWebGPU}/>
+	</Canvas>
+{/if}

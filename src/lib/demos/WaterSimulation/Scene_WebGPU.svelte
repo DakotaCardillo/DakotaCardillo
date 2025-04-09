@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { T, useTask, useThrelte } from '@threlte/core';
+	import { T, useRenderer, useTask, useThrelte } from '@threlte/core';
 	import * as THREE from 'three/webgpu';
 	import { DoubleSide, MathUtils } from 'three';
 	import { Environment, Gizmo, useGltf } from '@threlte/extras';
 	import * as TSL from 'three/tsl';
+	import { WebGPURenderer } from 'three/webgpu';
 
 	const {
 		waveCount,
@@ -19,10 +20,14 @@
 	// export let waveAlgorithm = 0;
 	// export let wireframe = false;
 
-	const { scene, renderer } = useThrelte();
-	scene.background = new THREE.Color(0xff0000);
+	const { renderer } = useRenderer();
+	const gpuRenderer = renderer as WebGPURenderer;
+	console.log(gpuRenderer);
 
-	import waterShader from '../../shaders/water.wgsl';
+	const { scene } = useThrelte();
+	scene.background = new THREE.Color(0x000000);
+
+	// import waterShader from '../../shaders/water.wgsl';
 
 	import { OrbitControls } from '@threlte/extras';
 	import { SimplexNoise } from 'three/examples/jsm/Addons.js';
@@ -31,12 +36,12 @@
 
 	const renderWidth = 2048;
 	const renderHeight = 2048;
-	const renderTarget = new THREE.WebGLRenderTarget(renderWidth, renderHeight, {
-		minFilter: THREE.LinearFilter,
-		magFilter: THREE.LinearFilter,
-		format: THREE.RGBAFormat,
-		type: THREE.FloatType
-	});
+	// const renderTarget = new THREE.WebGLRenderTarget(renderWidth, renderHeight, {
+	// 	minFilter: THREE.LinearFilter,
+	// 	magFilter: THREE.LinearFilter,
+	// 	format: THREE.RGBAFormat,
+	// 	type: THREE.FloatType
+	// });
 
 	let waterGeometry = new THREE.PlaneGeometry(20, 20, 100, 100);
 	waterGeometry.rotateX(MathUtils.degToRad(-90));
@@ -83,81 +88,11 @@
 
 	let camera: THREE.PerspectiveCamera;
 	let cameraPosition = new THREE.Vector3(0, 25, 30);
-	let sunPosition = new THREE.Vector3(16, 10, 11);
 
-	let newEuler = new THREE.Euler();
-	const up = new THREE.Vector3(0, 1, 0);
+	const waterMaterial = new THREE.MeshBasicNodeMaterial( {color: 'blue'});
 
-	// Set your orbit center and parameters.
-	const orbitCenter = new THREE.Vector3(0, 10, 0);
-	const orbitRadius = 20;
-	let angle = 0;
-	const angularSpeed = 0.05;
-
-	const uniforms = {
-		uTime: { value: 0 },
-		uCameraPosition: { value: cameraPosition },
-		uLightPosition: { value: sunPosition },
-		uLightColor: { value: new THREE.Vector3(1, 0.7, 0.5) },
-		uLightIntensity: { value: 500.0 },
-		uDiffuseColor: { value: new THREE.Vector3(0.0, 0.5, 1.0) },
-		uAmbientColor: { value: new THREE.Vector3(0.04, 0.04, 0.04) },
-		uSpecularColor: { value: new THREE.Vector3(1, 1, 1) },
-		uShininess: { value: 200.0 },
-		uSkybox: { value: scene.environment },
-		uWaveAlgorithm: { value: waveAlgorithm },
-		uNumWaves: { value: waveCount },
-		uNumVertexWaves: { value: waveCount },
-		uNumFragmentWaves: { value: fragmentWaveCount },
-		uWaveType: { value: waveType },
-		uWaterTextureMap: { value: renderTarget.texture }
-	};
-
-	const defines = {
-		SUM_OF_SINES: `1`
-	};
-
-	// let waterVertexNode = new TSL.ShaderNode({
-	// 	stage:
-	// 	uniforms: uniforms,
-	// 	vertexShader: waterShader,
-	// 	fragmentShader: waterShader,
-	// 	glslVersion: THREE.GLSL3
-	// });
-
-	const waterMaterial = new THREE.MeshStandardNodeMaterial( {color: 'blue', roughness: 0.15 });
-
-
-
-	useTask((delta) => {
-		// Render the offscreen scene to the render target.
-
-		uniforms.uTime.value += delta;
-		uniforms.uWaveAlgorithm.value = waveAlgorithm;
-		uniforms.uWaveType.value = waveType;
-		uniforms.uNumWaves.value = waveCount;
-		uniforms.uNumVertexWaves.value = waveCount;
-		uniforms.uNumFragmentWaves.value = fragmentWaveCount;
-		uniforms.uSkybox.value = scene.environment;
-
-		// renderer.setRenderTarget(renderTarget);
-		// renderer.render(offscreenScene, orthoCamera);
-		// renderer.setRenderTarget(null);
-		angle += angularSpeed * delta;
-		angle = angle;
-		const x = orbitCenter.x + orbitRadius * Math.cos(angle);
-		const z = orbitCenter.z + orbitRadius * Math.sin(angle);
-
-		const matrix = new THREE.Matrix4().lookAt(sunPosition, new THREE.Vector3(0), up);
-		newEuler.setFromRotationMatrix(matrix);
-		newEuler = newEuler;
-
-		if (camera) {
-			cameraPosition.set(camera.position.x, camera.position.y, camera.position.z);
-			cameraPosition = cameraPosition;
-			uniforms.uCameraPosition.value = cameraPosition;
-		}
-	});
+	const geo = new THREE.SphereGeometry(10);
+	const water = new THREE.Mesh(geo, waterMaterial);
 </script>
 
 <T.PerspectiveCamera
@@ -174,36 +109,12 @@
 </T.PerspectiveCamera>
 
 <!-- WATER -->
-<T.Mesh
-	scale={[1, 1, 1]}
-	position={[0, 10, 20]}
-	material={waterMaterial}
-	geometry={waterGeometry}
->
-</T.Mesh>
+<!--<T.Mesh-->
+<!--	scale={[1, 1, 1]}-->
+<!--	position={[0, 10, 20]}-->
+<!--	material={waterMaterial}-->
+<!--	geometry={waterGeometry}-->
+<!--&gt;-->
+<!--</T.Mesh>-->
 
-<!-- SUN -->
-<T.Mesh
-	geometry={new THREE.SphereGeometry(1)}
-	material={new THREE.MeshBasicMaterial({color: 'red'})}
-	scale={[1, 1, 1]}
-	position={[sunPosition.x, sunPosition.y, sunPosition.z]}
->
-</T.Mesh>
-
-<!-- SUN DIR -->
-<T.Mesh
-	material={new THREE.MeshBasicMaterial({color: 'yellow'})}
-	position={[sunPosition.x, sunPosition.y, sunPosition.z]}
-	rotation={[newEuler.x, newEuler.y, newEuler.z]}
->
-	<T.CylinderGeometry
-		args={[0.01, 0.01, 8, 32]}
-		oncreate={(geom) => {
-      // Shift the geometry upward so the bottom is at (0,0,0)
-      geom.translate(0, 8 / 2, 0);
-      geom.rotateX(-Math.PI / 2);
-    }}
-	/>
-</T.Mesh>
-
+{water}
