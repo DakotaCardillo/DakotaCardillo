@@ -60,13 +60,13 @@
 		});
 	}
 
-	let useWebGPU = false;
+	let useWebGPU = $state();
 	onMount(() => {
 		if (WebGPU.isAvailable()) {
 			useWebGPU = true;
-			console.log('using WebGPU');
+			console.log('WebGPU is available');
 		} else {
-			console.log('NOT using WebGPU');
+			console.log('WebGPU is not available');
 		}
 	});
 </script>
@@ -76,9 +76,6 @@
 	data-slice-variation={slice.variation}
 	class="w-screen h-screen bg-neutral-50"
 >
-	<div class="pointer-events-auto top-0 left-0 w-full h-full bg-black z-[0]">
-		<Scene {useWebGPU}/>
-	</div>
 
 	<!-- Fullscreen container that listens for mouse movement -->
 	<div
@@ -89,6 +86,9 @@
 		onmouseleave={handleMouseLeave}
 		aria-hidden="true"
 	>
+	<div class="absolute pointer-events-auto top-0 left-0 w-full h-full bg-black z-[0]">
+		<Scene {useWebGPU}/>
+	</div>
 <!--		style="box-shadow: 0 0 200px rgba(0,0,0,0.9) inset"-->
 		<!-- The grid container uses inline style for background gradients and transform -->
 <!--		<div-->
