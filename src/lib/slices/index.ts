@@ -4,6 +4,7 @@ import Demo from './Demo/index.svelte';
 import DemoGrid from './DemoGrid/index.svelte';
 import Hero from './Hero/index.svelte';
 import Home from './Home/index.svelte';
+import Resume from './Resume/index.svelte';
 import RichText from './RichText/index.svelte';
 
 export const components = {
@@ -11,5 +12,6 @@ export const components = {
 	demo_grid: DemoGrid,
 	hero: Hero,
 	home: Home,
+	resume: Resume,
 	rich_text: RichText
 };

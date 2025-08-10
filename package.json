@@ -17,7 +17,7 @@
 		"@iconify-json/file-icons": "^1.2.1",
 		"@iconify-json/mdi": "^1.2.3",
 		"@iconify-json/ri": "^1.2.5",
-		"@iconify-json/simple-icons": "^1.2.30",
+		"@iconify-json/simple-icons": "^1.2.47",
 		"@slicemachine/adapter-sveltekit": "^0.3.69",
 		"@sveltejs/adapter-auto": "^4.0.0",
 		"@sveltejs/kit": "^2.19.2",

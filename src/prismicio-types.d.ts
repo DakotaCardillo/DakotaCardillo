@@ -708,6 +708,33 @@ type HomeSliceVariation = HomeSliceDefault;
 export type HomeSlice = prismic.SharedSlice<'home', HomeSliceVariation>;
 
 /**
+ * Default variation for Resume Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ResumeSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Record<string, never>,
+	never
+>;
+
+/**
+ * Slice variation for *Resume*
+ */
+type ResumeSliceVariation = ResumeSliceDefault;
+
+/**
+ * Resume Shared Slice
+ *
+ * - **API ID**: `resume`
+ * - **Description**: Resume
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ResumeSlice = prismic.SharedSlice<'resume', ResumeSliceVariation>;
+
+/**
  * Primary content in *RichText → Default → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -799,6 +826,9 @@ declare module '@prismicio/client' {
 			HomeSliceDefaultPrimary,
 			HomeSliceVariation,
 			HomeSliceDefault,
+			ResumeSlice,
+			ResumeSliceVariation,
+			ResumeSliceDefault,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
