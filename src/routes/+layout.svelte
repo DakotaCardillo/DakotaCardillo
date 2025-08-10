@@ -33,6 +33,23 @@
 </svelte:head>
 
 <main class="flex-grow">
+	<!-- +layout.svelte (near the top of <body>) -->
+	<svg aria-hidden="true" class="absolute w-0 h-0">
+		<defs>
+		<!-- Option A: turbulence-based displacement (no external image) -->
+		<!-- <filter id="displacementFilter" x="0%" y="0%" width="100%" height="100%">
+			<feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" seed="3" result="noise" />
+			<feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G" />
+		</filter> -->
+	
+		<!-- Option B: use an external map image (keep it same-origin, e.g. /static/glass.png) -->
+		<filter id="displacementFromImage" x="0%" y="0%" width="100%" height="100%">
+			<feImage href="/glass.png" preserveAspectRatio="none" result="map" />
+			<feDisplacementMap in="SourceGraphic" in2="map" scale="200" xChannelSelector="R" yChannelSelector="G" />
+		</filter>
+		</defs>
+	</svg>
+
 	<slot />
 </main>
 <Footer settings={data.settings} />

@@ -1,15 +1,62 @@
 @import "tailwindcss";
 
-body {
-    /*font-family: "Outfit Variable";*/
-    /*font-family: "Inter Variable";*/
-    font-family: "Poppins";
-    background: #222222;
+/* Design tokens → generate utilities like bg-bg, text-text, rounded-pill, shadow-soft */
+@theme {
+  --color-bg: #111214;
+  --color-bg-2: #0d0e10;
+  --color-text: #e5e7eb;
+  --color-text-muted: #a1a1aa;
+  --color-accent: #DAA520;     /* goldenrod */
+  --color-accent-alt: #7dd3fc;
+  --color-accent-alt2: #a78bfa;
+
+  --radius-pill: 9999px;
+  --shadow-soft: 0 10px 25px rgba(0,0,0,.35);
+  --shadow-glow:
+    0 0 0 2px color-mix(in oklab, var(--color-accent) 28%, transparent),
+    0 10px 25px rgba(218,165,32,.15);
 }
 
-@theme {
-    --color-goldenrod: #FE9A00;
-    --color-charcoal: #37505C;
-    --color-seasalt: #F9F9F9;
-    --color-verdigris: #44A1A0;
+/* slightly dimmer glass than before */
+@utility glass {
+    @apply backdrop-blur-md border border-white/8 shadow-soft;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.01)
+      );
+      backdrop-filter: saturate(140%) blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  
+/* if you want a “strong” version for hover */
+/* @utility glass-strong {
+@apply backdrop-blur-md border border-white/12 shadow-soft;
+background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.02));
+backdrop-filter: saturate(140%) blur(8px);
+} */
+
+@utility filter-displace-img { filter: url(#displacementFromImage); }
+
+/* Global base */
+html, body, #svelte {
+  height: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
 }
+
+/* Smooth fonts on macOS */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* body {
+    background-image: linear-gradient(180deg,
+    color-mix(in oklab, black 35%, transparent),
+    transparent 30%),
+  url("/leaves.png");
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+} */
