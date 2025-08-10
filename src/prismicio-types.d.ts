@@ -69,6 +69,7 @@ export type HomeDocument<Lang extends string = string> = prismic.PrismicDocument
 >;
 
 type PageDocumentDataSlicesSlice =
+	| ResumeSlice
 	| DemoGridSlice
 	| HomeSlice
 	| DemoSlice

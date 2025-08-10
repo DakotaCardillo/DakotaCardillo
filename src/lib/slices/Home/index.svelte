@@ -8,12 +8,12 @@
 
 	export let slice: Content.HomeSlice;
 
-	// Iconify components (install unplugin-icons and @iconify-json/*)
   import IconGithub from '~icons/simple-icons/github';
-  import IconNewspaper from '~icons/mdi/newspaper-variant';   // example
+  import IconNewspaper from '~icons/mdi/newspaper-variant';
   import IconFile from '~icons/ri/file-list-3-line';
   import IconCube from '~icons/mdi/cube-outline';
   import IconVideo from '~icons/ph/video-camera-duotone';
+
 
   const items = [
     { id: 'resume', label: 'Resume', href: '/resume', icon: IconFile },
