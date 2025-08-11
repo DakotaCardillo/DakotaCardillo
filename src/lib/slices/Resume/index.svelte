@@ -10,8 +10,9 @@
 	// ────────────────────────────────────────────────────────────────────────────────
 	const profile = {
 		name: 'Dakota Cardillo',
-		title: 'Software Engineer • Unreal Engine 5',
-		email: 'Dakota.Cardillo@protonmail.com',
+		title: 'Software Engineer',
+		domain: 'Simulation • DevOps • Graphics',
+		email: 'Dakota.Cardillo@pm.me',
 		phone: '(631) 276-9148',
 		location: 'USA',
 		clearance: 'Active Secret Clearance',
@@ -32,16 +33,16 @@
 
 	const skills = [
 		{
-		label: 'Core (UE5)',
-		items: ['C++', 'Blueprints', 'Multiplayer', 'Slate/UMG', 'Horde & Zen', 'VR']
+		label: 'Core',
+		items: ['Multiplayer', 'Image Processing', 'Developer Tools', 'VR', 'Build Pipelines', 'Encryption', 'Performance Optimization']
 		},
 		{
 		label: 'Tools & Platforms',
-		items: ['Perforce', 'Unity', 'Git', 'Visual Studio', 'CMake', 'Jenkins', 'Jira', 'VMWare', 'Blender', 'Windows', 'Linux', 'macOS']
+		items: ['Unreal Engine', 'Unity', 'Peforce', 'Git', 'Visual Studio', 'CMake', 'Jenkins', 'Horde', 'Zen', 'Blender', 'Virtual Machines']
 		},
 		{
-		label: 'Web & Data',
-		items: ['C#/.NET', 'React/Redux', 'SQL', 'Encryption', 'APIs']
+		label: 'Languages & Frameworks',
+		items: ['C++', 'C#/.NET', 'Python', 'Lua', 'JavaScript', 'SQL', 'REST APIs']
 		}
 	];
 
@@ -176,6 +177,7 @@
 				<span class="text-accent"> • </span>
 				<span class="text-zinc-100">{profile.title}</span>
 			  </h1>
+			  <p class="hero-stagger text-2xl mt-3 text-accent">{profile.domain}</p>
 			  <p class="hero-stagger mt-3 text-zinc-400">{profile.clearance}</p>
 	  
 			  <div class="hero-stagger mt-5 flex flex-wrap items-center gap-3 text-sm text-zinc-300">
@@ -190,7 +192,6 @@
 			<div class="hero-stagger mt-1 grid grid-cols-2 gap-2 text-right text-sm text-zinc-400 md:text-base">
 			  <div class="font-semibold text-zinc-300">Email</div><div><a class="link-underline" href={"mailto:" + profile.email}>{profile.email}</a></div>
 			  <div class="font-semibold text-zinc-300">Phone</div><div>{profile.phone}</div>
-			  <div class="font-semibold text-zinc-300">Location</div><div>{profile.location}</div>
 			</div>
 		  </div>
 		</header>

@@ -2,7 +2,7 @@
 
 /* Design tokens → generate utilities like bg-bg, text-text, rounded-pill, shadow-soft */
 @theme {
-  --color-bg: #111214;
+  --color-background: #0f1115;
   --color-bg-2: #0d0e10;
   --color-text: #e5e7eb;
   --color-text-muted: #a1a1aa;
@@ -10,10 +10,7 @@
   --color-accent-alt: #7dd3fc;
   --color-accent-alt2: #a78bfa;
 
-  /* Semantic surface colors (for glassy cards, panels, etc.) */
-  /* Provides utilities like bg-surface, text-surface, etc. */
-  --color-surface: color-mix(in oklab, var(--color-bg) 90%, white);
-  --color-surface-2: color-mix(in oklab, var(--color-bg) 94%, white);
+  --color-surface: #151922;
 
   --radius-pill: 9999px;
   --shadow-soft: 0 10px 25px rgba(0,0,0,.35);
@@ -23,8 +20,14 @@
 }
 
 /* Raw CSS variables that can be referenced via arbitrary values like bg-[--surface-2] */
+/* App theme tokens */
 :root {
-  --surface-2: var(--color-surface-2);
+  --bg: #0f1115;
+  --surface: #151922;
+  --surface-2: #191f2b;
+  --muted: #8b8fa3;
+  --accent: #DAA520; /* goldenrod */
+  --ring: rgba(218,165,32,0.25);
 }
 
 /* Subtle glass card */
@@ -57,8 +60,6 @@ backdrop-filter: saturate(140%) blur(8px);
 /* Global base */
 html, body, #svelte {
   height: 100%;
-  background: var(--color-bg);
-  color: var(--color-text);
 }
 
 /* Smooth fonts on macOS */

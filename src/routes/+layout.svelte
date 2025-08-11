@@ -32,7 +32,7 @@
 	{/if}
 </svelte:head>
 
-<main class="flex-grow">
+<main class="">
 	<!-- +layout.svelte (near the top of <body>) -->
 	<svg aria-hidden="true" class="absolute w-0 h-0">
 		<defs>
