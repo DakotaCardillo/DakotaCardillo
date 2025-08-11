@@ -1,19 +1,16 @@
 <script lang="ts">
-	//import Icon from '$lib/components/icons/Icon.svelte';
-	import type { Component } from 'svelte';
+    import Icon from '@iconify/svelte';
 
 	export let id;
 	export let label;
 	export let href;
 	// export let onClick: (e: MouseEvent, meta: CardClickMeta) => void = () => {
 	// };
-
-	type AnyProps = Record<string, unknown>;
-	export let icon: Component<AnyProps> | null = null;
-  	export let iconClass = 'text-accent';   // tweak with Tailwind if you like
-  	export let iconSize = 28;               // px size for width/height
-
+	
 	let el: HTMLButtonElement | null;
+    export let iconName: string | null = null;
+	export let iconClass = 'text-accent';   // tweak with Tailwind if you like
+	export let iconSize = 28;               // px size for width/height
 </script>
 
 <button
@@ -31,10 +28,9 @@
            glass [filter:url(#displacementFromImage)]"
   ></span> -->
 
-  {#if icon}
-    <!-- Iconify components accept width/height/class -->
-    <svelte:component this={icon} width={iconSize} height={iconSize} class={iconClass} />
-  {/if}
+    {#if iconName}
+        <Icon icon={iconName} width={iconSize} height={iconSize} class={iconClass} />
+    {/if}
 
 	<div class="text-left">
 		<h3 class="text-lg md:text-xl font-semibold">{label}</h3>

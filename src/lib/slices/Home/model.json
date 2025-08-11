@@ -180,6 +180,13 @@
                   "allowText": true,
                   "repeat": false
                 }
+              },
+              "icon": {
+                "type": "Text",
+                "config": {
+                  "label": "Icon",
+                  "placeholder": "tdesign:icon"
+                }
               }
             }
           }

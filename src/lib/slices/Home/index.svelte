@@ -1,27 +1,18 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
-	import { NAV_ITEMS } from '$lib/data/nav';
 	import FloatingCard from '$lib/components/FloatingCard.svelte';
-	import Label from '$lib/slices/RichText/Label.svelte';
-	import { PrismicRichText, PrismicLink } from '@prismicio/svelte';
-	import IconUnreal from '~icons/file-icons/unrealscript';
+	import * as prismic from '@prismicio/client';
 
 	export let slice: Content.HomeSlice;
 
-  import IconGithub from '~icons/simple-icons/github';
-  import IconNewspaper from '~icons/mdi/newspaper-variant';
-  import IconFile from '~icons/ri/file-list-3-line';
-  import IconCube from '~icons/mdi/cube-outline';
-  import IconVideo from '~icons/ph/video-camera-duotone';
-
-
-  const items = [
-    { id: 'resume', label: 'Resume', href: '/resume', icon: IconFile },
-	{ id: 'demos',  label: 'Demos',  href: '/demos',  icon: IconCube },
-    { id: 'blog',   label: 'Blog',   href: '/blog',   icon: IconNewspaper },
-    { id: 'github', label: 'GitHub', href: 'https://github.com/you', icon: IconGithub },
-    { id: 'videos', label: 'Videos', href: '/videos', icon: IconVideo }
-  ];
+  const items = (slice.primary.page_link ?? []).map((pl, index) => {
+    const label = pl.title ?? '';
+    const normalized = label.toLowerCase().trim();
+    const id = normalized.replace(/\s+/g, '-') || `link-${index}`;
+    const href = prismic.asLink(pl.link) ?? '#';
+    const iconName = pl.icon ?? null; // optional text field in slice, fallback to title mapping
+    return { id, label, href, iconName };
+  });
 </script>
 
 <!--<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>-->

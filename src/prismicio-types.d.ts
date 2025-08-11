@@ -544,6 +544,16 @@ export interface HomeSliceDefaultPrimaryPageLinkItem {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	video: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Icon field in *Home → Default → Primary → Page Link*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: tdesign:icon
+	 * - **API ID Path**: home.default.primary.page_link[].icon
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	icon: prismic.KeyTextField;
 }
 
 /**

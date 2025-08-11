@@ -10,11 +10,27 @@
   --color-accent-alt: #7dd3fc;
   --color-accent-alt2: #a78bfa;
 
+  /* Semantic surface colors (for glassy cards, panels, etc.) */
+  /* Provides utilities like bg-surface, text-surface, etc. */
+  --color-surface: color-mix(in oklab, var(--color-bg) 90%, white);
+  --color-surface-2: color-mix(in oklab, var(--color-bg) 94%, white);
+
   --radius-pill: 9999px;
   --shadow-soft: 0 10px 25px rgba(0,0,0,.35);
   --shadow-glow:
     0 0 0 2px color-mix(in oklab, var(--color-accent) 28%, transparent),
     0 10px 25px rgba(218,165,32,.15);
+}
+
+/* Raw CSS variables that can be referenced via arbitrary values like bg-[--surface-2] */
+:root {
+  --surface-2: var(--color-surface-2);
+}
+
+/* Subtle glass card */
+/* Subtle glass card */
+@utility card {
+  @apply bg-surface/70 backdrop-blur rounded-2xl shadow-soft border border-zinc-800/60;
 }
 
 /* slightly dimmer glass than before */
@@ -60,3 +76,53 @@ html {
   background-position: center;
   background-repeat: no-repeat;
 } */
+
+/* Accent underline used for headings */
+.underline-accent {
+  background-image: linear-gradient(90deg, rgba(218,165,32,0.35), rgba(218,165,32,0));
+  background-repeat: no-repeat;
+  background-size: 100% 2px;
+  background-position: 0 100%;
+}
+
+/* Timeline styles */
+.timeline {
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 1.125rem; /* aligns with bullets */
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: linear-gradient(to bottom, rgba(218,165,32,0.35), rgba(218,165,32,0.05));
+}
+.timeline-item {
+  position: relative;
+  padding-left: 3rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 0.625rem;
+  top: 0.45rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 0 6px rgba(218,165,32,0.15);
+}
+
+/* Hover link underline */
+.link-underline {
+  @apply underline decoration-accent/60 decoration-2 underline-offset-4 hover:decoration-accent;
+}
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent text-black font-semibold hover:bg-yellow-500 transition-colors;
+}
+.btn-ghost {
+  @apply inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-zinc-700 hover:border-zinc-600 text-zinc-200;
+}

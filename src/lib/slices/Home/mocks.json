@@ -218,13 +218,21 @@
 							[
 								"video",
 								{
-									"__TYPE__": "LinkContent",
 									"key": "9b2ce148-226c-4eac-9dd7-bc67f35b7b72",
+									"__TYPE__": "LinkContent",
 									"value": {
 										"__TYPE__": "ExternalLink",
 										"url": "http://google.com",
 										"text": "cool"
 									}
+								}
+							],
+							[
+								"icon",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "may",
+									"type": "Text"
 								}
 							]
 						]
@@ -255,13 +263,21 @@
 							[
 								"video",
 								{
-									"__TYPE__": "LinkContent",
 									"key": "12fd152b-8547-4c2b-bfc4-346e1a076715",
+									"__TYPE__": "LinkContent",
 									"value": {
 										"__TYPE__": "ExternalLink",
 										"url": "https://prismic.io",
 										"text": "relationship"
 									}
+								}
+							],
+							[
+								"icon",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "mirror",
+									"type": "Text"
 								}
 							]
 						]
@@ -292,13 +308,21 @@
 							[
 								"video",
 								{
-									"__TYPE__": "LinkContent",
 									"key": "e413c798-c1dd-4261-ac3f-a76d17b48a46",
+									"__TYPE__": "LinkContent",
 									"value": {
 										"__TYPE__": "ExternalLink",
 										"url": "http://twitter.com",
 										"text": "frozen"
 									}
+								}
+							],
+							[
+								"icon",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "large",
+									"type": "Text"
 								}
 							]
 						]
@@ -329,13 +353,21 @@
 							[
 								"video",
 								{
-									"__TYPE__": "LinkContent",
 									"key": "2c80f423-43ce-48b7-86f2-a781f478bd77",
+									"__TYPE__": "LinkContent",
 									"value": {
 										"__TYPE__": "ExternalLink",
 										"url": "http://twitter.com",
 										"text": "wife"
 									}
+								}
+							],
+							[
+								"icon",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "gave",
+									"type": "Text"
 								}
 							]
 						]
@@ -366,13 +398,21 @@
 							[
 								"video",
 								{
-									"__TYPE__": "LinkContent",
 									"key": "d53c98e5-f2b0-4180-9e90-f71e81cf6759",
+									"__TYPE__": "LinkContent",
 									"value": {
 										"__TYPE__": "ExternalLink",
 										"url": "https://slicemachine.dev",
 										"text": "needle"
 									}
+								}
+							],
+							[
+								"icon",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "human",
+									"type": "Text"
 								}
 							]
 						]
