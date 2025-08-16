@@ -11,6 +11,7 @@
       el && observer.observe(el);
       return () => observer?.disconnect();
     });
+
   </script>
   
   <article bind:this={el} class="card overflow-hidden group">
