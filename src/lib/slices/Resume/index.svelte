@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Content } from '@prismicio/client';
-
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -124,7 +123,7 @@
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
 		// Intro title
-		gsap.from('.hero-stagger', {
+		gsap.from('.slide-stagger', {
 		y: 20,
 		opacity: 0,
 		duration: 0.7,
@@ -168,19 +167,19 @@
 
 <section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>
 	  <!-- Page container -->
-	  <div class="min-h-screen bg-[radial-gradient(60%_60%_at_0%_0%,rgba(218,165,32,0.06),transparent_60%),radial-gradient(70%_70%_at_100%_0%,rgba(218,165,32,0.05),transparent_60%)]">
+	  <div class="min-h-screen">
 		<header class="max-w-5xl mx-auto px-5 pt-10 pb-6">
-		  <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+		  <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
 			<div>
-			  <h1 class="hero-stagger text-4xl sm:text-5xl font-extrabold tracking-tight">
+			  <h1 class="slide-stagger text-4xl sm:text-5xl font-extrabold tracking-tight">
 				<span class="text-zinc-100">{profile.name}</span>
 				<span class="text-accent"> • </span>
 				<span class="text-zinc-100">{profile.title}</span>
 			  </h1>
-			  <p class="hero-stagger text-2xl mt-3 text-accent">{profile.domain}</p>
-			  <p class="hero-stagger mt-3 text-zinc-400">{profile.clearance}</p>
+			  <p class="slide-stagger text-2xl mt-3 text-accent">{profile.domain}</p>
+			  <p class="slide-stagger mt-3 text-zinc-400">{profile.clearance}</p>
 	  
-			  <div class="hero-stagger mt-5 flex flex-wrap items-center gap-3 text-sm text-zinc-300">
+			  <div class="slide-stagger mt-5 flex flex-wrap items-center gap-3 text-sm text-zinc-300">
 				<a class="btn" href="/DakotaCardillo_Resume.pdf" download>Download PDF</a>
 				<a class="btn-ghost" href={"mailto:" + profile.email}>Email</a>
 				<a class="btn-ghost" href={profile.links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
@@ -189,7 +188,7 @@
 				</button>
 			  </div>
 			</div>
-			<div class="hero-stagger mt-1 grid grid-cols-2 gap-2 text-right text-sm text-zinc-400 md:text-base">
+			<div class="slide-stagger mt-1 grid grid-cols-[max-content_1fr] gap-2 text-right text-sm text-zinc-400 md:text-base">
 			  <div class="font-semibold text-zinc-300">Email</div><div><a class="link-underline" href={"mailto:" + profile.email}>{profile.email}</a></div>
 			  <div class="font-semibold text-zinc-300">Phone</div><div>{profile.phone}</div>
 			</div>

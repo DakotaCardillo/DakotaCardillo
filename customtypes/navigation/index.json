@@ -1,0 +1,74 @@
+{
+	"id": "navigation",
+	"label": "Navigation",
+	"repeatable": false,
+	"status": true,
+	"format": "custom",
+	"json": {
+		"Main": {
+			"logo": {
+				"type": "Image",
+				"config": {
+					"label": "Logo",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"links": {
+				"type": "Group",
+				"config": {
+					"label": "Links",
+					"fields": {
+						"label": {
+							"type": "Text",
+							"config": {
+								"label": "Label",
+								"placeholder": "e.g., About, Blog, Contact"
+							}
+						},
+						"link": {
+							"type": "Link",
+							"config": {
+								"label": "Link",
+								"placeholder": "Select a page or paste a URL",
+								"select": null
+							}
+						},
+						"mobile_only": {
+							"type": "Boolean",
+							"config": {
+								"label": "Mobile Only",
+								"placeholder_false": "false",
+								"placeholder_true": "true",
+								"default_value": false
+							}
+						},
+						"desktop_only": {
+							"type": "Boolean",
+							"config": {
+								"label": "Desktop Only",
+								"placeholder_false": "false",
+								"placeholder_true": "true",
+								"default_value": false
+							}
+						}
+					}
+				}
+			},
+			"cta_button": {
+				"type": "StructuredText",
+				"config": {
+					"label": "CTA Button Label",
+					"single": "heading1,heading2,heading3,heading4,heading5,heading6"
+				}
+			},
+			"cta_link": {
+				"type": "Link",
+				"config": {
+					"label": "CTA Button Link",
+					"select": null
+				}
+			}
+		}
+	}
+}

@@ -7,7 +7,7 @@ import Home from './Home/index.svelte';
 import Resume from './Resume/index.svelte';
 import RichText from './RichText/index.svelte';
 
-export const components = {
+export const components: Record<string, any> = {
 	demo: Demo,
 	demo_grid: DemoGrid,
 	hero: Hero,

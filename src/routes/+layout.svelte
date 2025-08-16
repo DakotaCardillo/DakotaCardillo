@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import '../app.css';
 
 	// Supports weights 100-900
@@ -14,6 +14,7 @@
 	import { repositoryName } from '$lib/prismicio';
 
 	import Footer from '$lib/components/Footer.svelte';
+	import NavBar from '$lib/components/NavBar.svelte';
 
 	export let data;
 </script>
@@ -32,26 +33,11 @@
 	{/if}
 </svelte:head>
 
-<main class="">
+<main class="bg-[radial-gradient(60%_60%_at_0%_0%,rgba(218,165,32,0.06),transparent_60%),radial-gradient(70%_70%_at_100%_0%,rgba(218,165,32,0.05),transparent_60%)]">
 	<!-- +layout.svelte (near the top of <body>) -->
-	<svg aria-hidden="true" class="absolute w-0 h-0">
-		<defs>
-		<!-- Option A: turbulence-based displacement (no external image) -->
-		<!-- <filter id="displacementFilter" x="0%" y="0%" width="100%" height="100%">
-			<feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" seed="3" result="noise" />
-			<feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G" />
-		</filter> -->
-	
-		<!-- Option B: use an external map image (keep it same-origin, e.g. /static/glass.png) -->
-		<filter id="displacementFromImage" x="0%" y="0%" width="100%" height="100%">
-			<feImage href="/glass.png" preserveAspectRatio="none" result="map" />
-			<feDisplacementMap in="SourceGraphic" in2="map" scale="200" xChannelSelector="R" yChannelSelector="G" />
-		</filter>
-		</defs>
-	</svg>
-
+	<NavBar navigation={data.navigation} />
 	<slot />
 </main>
-<Footer settings={data.settings} />
+<!-- <Footer settings={data.settings} /> -->
 
 <PrismicPreview {repositoryName} />

@@ -2,6 +2,21 @@
 	import type { Content } from '@prismicio/client';
 	import FloatingCard from '$lib/components/FloatingCard.svelte';
 	import * as prismic from '@prismicio/client';
+	import { onMount } from 'svelte';
+	import { gsap } from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	onMount(() => {
+		gsap.registerPlugin(ScrollTrigger);
+		// Intro title
+		gsap.from('.slide-stagger', {
+		y: 20,
+		opacity: 0,
+		duration: 0.7,
+		stagger: 0.08,
+		ease: 'power2.out'
+		});
+	});
 
 	export let slice: Content.HomeSlice;
 
@@ -92,27 +107,50 @@
 
 <section class="flex-1">
 	<div class="max-w-5xl mx-auto px-4 pt-12 md:pt-16 pb-10">
-		<header class="text-center md:text-left space-y-5">
+		<header class="text-center md:text-left">
 			<h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
-				<span class="text-text"> {slice.primary.first_name} {slice.primary.last_name} </span>
-				<span class="text-accent">·</span>
-				<span class="text-text"> {slice.primary.title} </span>
+				<span class="slide-stagger text-text"> {slice.primary.first_name} {slice.primary.last_name} </span>
+				<span class="slide-stagger text-accent">·</span>
+				<span class="slide-stagger text-text"> {slice.primary.title} </span>
 			</h1>
-			<p class="text-text-muted max-w-3xl mx-auto md:mx-0">
-				{slice.primary.about_me}
+			<p class="slide-stagger text-text-muted max-w-3xl mx-auto md:mx-0 mt-2">
+				I build fast, reliable real-time systems—and the tooling that keeps them shipping.
 			</p>
-		</header>
+			<p class="slide-stagger text-text-muted max-w-3xl mx-auto md:mx-0 mt-2">
 
-		<div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+For the past eight years I’ve worked across Unreal Engine 5, Unity, and C++ on simulation and game projects, owning performance, rendering, and CI/CD at scale. I’ve led efforts to modernize build farms (Perforce, Jenkins, Unreal Horde/BuildGraph), cut sync times, and move large teams toward reproducible, cache-friendly workflows. I care about clean architectures, telemetry, and closing the loop between code and on-screen results.
+
+I’m now specializing in Graphics + ML Systems: GPU compute, modern APIs (DX12/Vulkan/Metal), profiling with Nsight/PIX/RenderDoc, and ML-assisted rendering (denoisers/upscalers). I like problems where visibility, scheduling, and data layout decide the frame time.
+			</p>
+			<div class="mt-5 flex gap-3">
+				<a class="slide-stagger btn" href="/demos">View Demos</a>
+				<a class="slide-stagger btn-ghost" href="/resume">Resume</a>
+				<a class="slide-stagger btn-ghost" href="https://www.linkedin.com/in/dakotacardillo">LinkedIn</a>
+			</div>
+		</header>
+		<!-- <section class="max-w-5xl mx-auto px-5 mt-14">
+			<h1 class="text-4xl md:text-5xl font-extrabold">Dakota Cardillo • Software Developer</h1>
+			<p class="mt-2 text-zinc-400">Real-time simulation • Unreal Engine 5 • Tools</p>
+
+		  </section> -->
+
+		  <!-- <section class="max-w-5xl mx-auto mt-10">
+			<h2 class="text-xl font-bold underline-accent mb-4">Featured</h2>
+			<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+			  <article class="card p-5">
+				<div class="text-accent mb-2">📄</div>
+				<h3 class="font-semibold">Resume</h3>
+				<p class="text-zinc-400 mt-1">Highlights, experience, and recent work.</p>
+				<a class="mt-3 inline-flex items-center gap-2 text-accent link-underline" href="/resume">View →</a>
+			  </article>
+			</div>
+		  </section> -->
+
+		<h2 class="slide-stagger text-xl font-bold underline-accent mb-4 mt-4">Featured</h2>
+		<div class="slide-stagger mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
 			{#each items as item}
 				<FloatingCard {...item} />
 			{/each}
-		</div>
-
-		<div class="mt-6 md:mt-10 text-center md:text-left">
-			<p class="text-xs text-text-muted">
-				Tip: click a card to enter via the navbar animation.
-			</p>
 		</div>
 	</div>
 </section>

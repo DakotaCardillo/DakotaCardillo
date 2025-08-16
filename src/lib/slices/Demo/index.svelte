@@ -4,19 +4,19 @@
 	import { default as WaterSimulation } from '$lib/demos/WaterSimulation/index.svelte';
 	import { default as BlinnPhong } from '$lib/demos/BlinnPhong/index.svelte';
 
-	export let slice: Content.DemoSlice;
+	//export let slice: Content.DemoSlice;
 
-	let demoComponent = ShellTexturing;
-	if (slice.primary.demo === 'Shell Texturing') {
-		demoComponent = ShellTexturing;
-	} else if (slice.primary.demo === 'Water Simulation') {
-		demoComponent = WaterSimulation;
-	} else if (slice.primary.demo === 'Blinn-Phong') {
-		demoComponent = BlinnPhong;
-	}
+	// let demoComponent = ShellTexturing;
+	// if (slice.primary.demo === 'Shell Texturing') {
+	// 	demoComponent = ShellTexturing;
+	// } else if (slice.primary.demo === 'Water Simulation') {
+	// 	demoComponent = WaterSimulation;
+	// } else if (slice.primary.demo === 'Blinn-Phong') {
+	// 	demoComponent = BlinnPhong;
+	// }
 </script>
 
-<section
+<!-- <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
 	class="w-screen h-screen flex container place-content-center"
@@ -28,4 +28,8 @@
 			{/if}
 		</div>
 	</div>
+</section> -->
+
+<section>
+	<p>Hello</p>
 </section>

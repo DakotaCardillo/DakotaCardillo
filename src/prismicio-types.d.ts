@@ -4,6 +4,167 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+/**
+ * Item in *Demo → Tags*
+ */
+export interface DemoDocumentDataTagsItem {
+	/**
+	 * Tag field in *Demo → Tags*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Unreal
+	 * - **API ID Path**: demo.tags[].tag
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	tag: prismic.KeyTextField;
+}
+
+/**
+ * Item in *Demo → Links*
+ */
+export interface DemoDocumentDataLinksItem {
+	/**
+	 * Link Type field in *Demo → Links*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: play
+	 * - **API ID Path**: demo.links[].link_type
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	link_type: prismic.SelectField<'play' | 'watch' | 'read' | 'code' | 'download', 'filled'>;
+
+	/**
+	 * URL field in *Demo → Links*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo.links[].url
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	url: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Content for Demo documents
+ */
+interface DemoDocumentData {
+	/**
+	 * Title field in *Demo*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Demo Title
+	 * - **API ID Path**: demo.title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	title: prismic.KeyTextField;
+
+	/**
+	 * Summary field in *Demo*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Summary
+	 * - **API ID Path**: demo.summary
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	summary: prismic.KeyTextField;
+
+	/**
+	 * Year field in *Demo*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: 1970
+	 * - **API ID Path**: demo.year
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	year: prismic.KeyTextField;
+
+	/**
+	 * Tags field in *Demo*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo.tags[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	tags: prismic.GroupField<Simplify<DemoDocumentDataTagsItem>>;
+
+	/**
+	 * Poster field in *Demo*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo.poster
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	poster: prismic.ImageField<never>;
+
+	/**
+	 * MP4 Video field in *Demo*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo.mp4_video
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	mp4_video: prismic.LinkToMediaField<prismic.FieldState, never>;
+
+	/**
+	 * WebM Video field in *Demo*
+	 *
+	 * - **Field Type**: Link to Media
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo.webm_video
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	webm_video: prismic.LinkToMediaField<prismic.FieldState, never>;
+
+	/**
+	 * Links field in *Demo*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: demo.links[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	links: prismic.GroupField<Simplify<DemoDocumentDataLinksItem>>;
+
+	/**
+	 * Flagship Demo field in *Demo*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: demo.flagship_demo
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	flagship_demo: prismic.BooleanField;
+}
+
+/**
+ * Demo document from Prismic
+ *
+ * - **API ID**: `demo`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type DemoDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<DemoDocumentData>,
+	'demo',
+	Lang
+>;
+
 type HomeDocumentDataSlicesSlice = HomeSlice;
 
 /**
@@ -65,6 +226,117 @@ interface HomeDocumentData {
 export type HomeDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
 	Simplify<HomeDocumentData>,
 	'home',
+	Lang
+>;
+
+/**
+ * Item in *Navigation → Links*
+ */
+export interface NavigationDocumentDataLinksItem {
+	/**
+	 * Label field in *Navigation → Links*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: e.g., About, Blog, Contact
+	 * - **API ID Path**: navigation.links[].label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+
+	/**
+	 * Link field in *Navigation → Links*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: Select a page or paste a URL
+	 * - **API ID Path**: navigation.links[].link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+
+	/**
+	 * Mobile Only field in *Navigation → Links*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: navigation.links[].mobile_only
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	mobile_only: prismic.BooleanField;
+
+	/**
+	 * Desktop Only field in *Navigation → Links*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: navigation.links[].desktop_only
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	desktop_only: prismic.BooleanField;
+}
+
+/**
+ * Content for Navigation documents
+ */
+interface NavigationDocumentData {
+	/**
+	 * Logo field in *Navigation*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: navigation.logo
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	logo: prismic.ImageField<never>;
+
+	/**
+	 * Links field in *Navigation*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: navigation.links[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	links: prismic.GroupField<Simplify<NavigationDocumentDataLinksItem>>;
+
+	/**
+	 * CTA Button Label field in *Navigation*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: navigation.cta_button
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	cta_button: prismic.TitleField;
+
+	/**
+	 * CTA Button Link field in *Navigation*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: navigation.cta_link
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	cta_link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Navigation document from Prismic
+ *
+ * - **API ID**: `navigation`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NavigationDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+	Simplify<NavigationDocumentData>,
+	'navigation',
 	Lang
 >;
 
@@ -302,7 +574,12 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 	Lang
 >;
 
-export type AllDocumentTypes = HomeDocument | PageDocument | SettingsDocument;
+export type AllDocumentTypes =
+	| DemoDocument
+	| HomeDocument
+	| NavigationDocument
+	| PageDocument
+	| SettingsDocument;
 
 /**
  * Primary content in *Demo → Default → Primary*
@@ -808,9 +1085,16 @@ declare module '@prismicio/client' {
 
 	namespace Content {
 		export type {
+			DemoDocument,
+			DemoDocumentData,
+			DemoDocumentDataTagsItem,
+			DemoDocumentDataLinksItem,
 			HomeDocument,
 			HomeDocumentData,
 			HomeDocumentDataSlicesSlice,
+			NavigationDocument,
+			NavigationDocumentData,
+			NavigationDocumentDataLinksItem,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,

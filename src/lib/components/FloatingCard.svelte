@@ -17,7 +17,7 @@
 	bind:this={el}
 	data-card={id}
 	onclick={() => { window.location.href = href; }}
-	class="relative glass rounded-2xl p-4 md:p-6 shadow-soft w-full h-32 md:h-40
+	class="relative card rounded-2xl p-4 md:p-6 shadow-soft w-full h-32 md:h-40
 	flex flex-col items-start justify-between hover:shadow-glow transition will-change-transform">
 <!-- 
 	<span class="absolute inset-0 -z-10 pointer-events-none glass
