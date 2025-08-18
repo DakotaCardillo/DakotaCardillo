@@ -1,44 +1,13 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { NAV_ITEMS } from '$lib/data/nav';
     import { page } from '$app/stores';
-    import Icon from '@iconify/svelte';
-    let navVisible = false;
     let currentPath = $derived($page.url.pathname);
 
-    // Show when we’re not on the homepage (e.g., /resume, /demos, etc.)
-    onMount(() => {
-        navVisible = true;
-        if (typeof window !== 'undefined') {
-          //currentPath = window.location.pathname;
-        }
-        if (currentPath !== '/') navVisible = true;
-
-        console.log(navigation);
-    });
-
-  function hideNav() { navVisible = false; }
-
-    // Keep navbar mounted but optionally hidden so the homepage animation
-    // can measure target button positions.
-    if (typeof localStorage !== 'undefined') {
-      try {
-        navVisible = localStorage.getItem('navVisible') === 'true';
-      } catch {}
-    }
-  
-    function showNav() {
-      navVisible = true;
-      try { localStorage.setItem('navVisible','true'); } catch {}
-    }
-  
-    // Expose a custom event so home can request the bar become visible at the end of animation
-    function handleShowNav(e: Event) {
-      showNav();
-    }
-
     function isActive(url: string) {
-      return currentPath === url;
+      if (url === '/') {
+        return currentPath === url;
+      } else {
+        return currentPath.includes(url);
+      }
     }
 
     const { navigation } = $props();
@@ -65,7 +34,7 @@
                hover:shadow-glow hover:bg-white/5">Blog</a></li>
     </ul> -->
     <div class="hidden sm:flex">
-      <a href="/resume" class="btn">Download PDF</a>
+      <a href="/DakotaCardillo_Resume.pdf" download rel="external" class="btn">Download PDF</a>
     </div>
     </div>
   </nav>

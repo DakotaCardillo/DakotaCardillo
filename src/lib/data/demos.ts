@@ -7,6 +7,12 @@ export type Demo = {
     media: { poster: string; mp4?: string; webm?: string; };
     links: { live?: string; watch?: string; read?: string; code?: string; download?: string; };
     flagship?: boolean;
+    interactive?: boolean;
+    webgl?: {
+        width: number;
+        height: number;
+        antialias: boolean;
+    };
   };
   
   export const demos: Demo[] = [
@@ -17,8 +23,14 @@ export type Demo = {
       year: '2025',
       tags: ['Unreal','Tools','Build/CI'],
       media: { poster: '/poster.svg' },
-      links: { read: '#/demos/ue5-horde-perf' },
-      flagship: true
+      links: { read: '/demos/ue5-horde-perf' },
+      flagship: true,
+      interactive: true,
+      webgl: {
+        width: 1000,
+        height: 1000,
+        antialias: true,
+      }
     },
     {
       slug: 'lyra-fps-camera',
@@ -27,7 +39,7 @@ export type Demo = {
       year: '2025',
       tags: ['Unreal','Gameplay','Rendering'],
       media: { poster: '/poster.svg' },
-      links: { read: '#/demos/lyra-fps-camera' },
+      links: { read: '/demos/lyra-fps-camera' },
       flagship: true
     },
     {
@@ -37,7 +49,7 @@ export type Demo = {
       year: '2020',
       tags: ['Unity','Tools','Testing'],
       media: { poster: '/poster.svg' },
-      links: { read: '#/demos/unity-regression' }
+      links: { read: '/demos/unity-regression' }
     }
   ];
   

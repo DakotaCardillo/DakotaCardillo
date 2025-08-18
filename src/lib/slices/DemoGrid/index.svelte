@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { demos } from '../../data/demos';
+	import type { Demo } from '$lib/data/demos';
+	const { demos } = $props<{ demos: Demo[] }>();
 	import DemoCard from '../../components/DemoCard.svelte';
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
@@ -21,7 +22,7 @@
 	let active = $state(new Set<string>());
 	const toggle = (t: string) => { active.has(t) ? active.delete(t) : active.add(t); active = new Set(active); };
 	const filtered = $derived(
-	  demos.filter(d =>
+	  demos.filter((d: Demo) =>
 		([...active].every(t => d.tags.includes(t))) &&
 		(d.title.toLowerCase().includes(query.toLowerCase()) || d.summary.toLowerCase().includes(query.toLowerCase()))
 	  )
@@ -42,11 +43,13 @@
 	  {/each}
 	</div>
   
-	{#if demos.some(d => d.flagship)}
+	{#if demos.some((d: Demo) => d.flagship)}
 	  <h2 class="slide-stagger mt-8 text-xl font-bold underline-accent">Featured</h2>
 	  <div class="slide-stagger grid md:grid-cols-3 gap-4 mt-3">
-		{#each filtered.filter(d=>d.flagship) as d}
-		  <DemoCard {d}/>
+		{#each filtered.filter((d: Demo) => d.flagship) as d}
+		  <div id={d.slug}>
+		    <DemoCard {d}/>
+		  </div>
 		{/each}
 	  </div>
 	{/if}
@@ -54,7 +57,9 @@
 	<h2 class="slide-stagger mt-8 text-xl font-bold underline-accent">All demos</h2>
 	<div class="slide-stagger grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
 	  {#each filtered as d}
-		<DemoCard {d}/>
+		<div id={d.slug}>
+		  <DemoCard {d}/>
+		</div>
 	  {/each}
 	</div>
   </section>
