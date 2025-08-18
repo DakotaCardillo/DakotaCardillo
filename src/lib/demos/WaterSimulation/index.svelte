@@ -80,7 +80,7 @@
 	</div>
 
 	<Canvas>
-		{#if useWebGPU}
+		{#if !useWebGPU}
 			<Scene_WebGPU {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
 		{:else}
 			<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />

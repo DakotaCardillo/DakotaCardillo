@@ -33,6 +33,22 @@ export type Demo = {
       }
     },
     {
+      slug: 'web-gpu-demo',
+      title: 'WebGPU Demo',
+      summary: 'A simple demo of WebGPU',
+      year: '2025',
+      tags: ['WebGPU','Graphics'],
+      media: { poster: '/poster.svg' },
+      links: { read: '/demos/web-gpu-demo' },
+      flagship: true,
+      interactive: true,
+      webgl: {
+        width: 1000,
+        height: 1000,
+        antialias: true,
+      }
+    },
+    {
       slug: 'lyra-fps-camera',
       title: 'Lyra-based FPS Camera (Destiny-like)',
       summary: 'Custom first-person pipeline with mannequin split for modular armor.',

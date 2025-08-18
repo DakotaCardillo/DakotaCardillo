@@ -45,7 +45,7 @@
 	const waterVertexShader = `${utilsShader}\n${vertexShaderMain}`;
 	const waterFragmentShader = `${utilsShader}\n${fragmentShaderMain}`;
 
-	let environmentUrl = 'assets/autumn_field_puresky_4k.exr';
+	let environmentUrl = '../assets/autumn_field_puresky_4k.exr';
 
 	const renderWidth = 2048;
 	const renderHeight = 2048;
@@ -278,7 +278,7 @@
 	geometry={waterGeometry}
 	material={newWaterMaterial}
 	scale={[1, 1, 1]}
-	position={[0, 10, 0]}
+	position={[0, 0, 0]}
 />
 
 <!-- SUN -->

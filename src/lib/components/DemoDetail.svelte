@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
     const { demo } = $props();
-  </script>
+    import Demo from './Demo.svelte';
+</script>
   
  
   {#if !demo}
@@ -23,7 +24,11 @@
   
       <div class="card overflow-hidden">
         <div class="aspect-video bg-zinc-900">
-          <img src={demo.media.poster} alt="poster" class="h-full w-full object-cover" />
+            {#if demo.interactive}
+                <Demo {demo} />
+            {:else}
+                <img src={demo.media.poster} alt="poster" class="h-full w-full object-cover" />
+            {/if}
         </div>
       </div>
   

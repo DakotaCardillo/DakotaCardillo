@@ -114,7 +114,6 @@
 <!--	position={[0, 10, 20]}-->
 <!--	material={waterMaterial}-->
 <!--	geometry={waterGeometry}-->
-<!--&gt;-->
 <!--</T.Mesh>-->
 
 {water}
