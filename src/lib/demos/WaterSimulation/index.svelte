@@ -8,6 +8,7 @@
 	import { WebGLRenderer } from 'three';
 	import WebGPU from 'three/addons/capabilities/WebGPU.js';
 	import Scene_WebGPU from '$lib/demos/WaterSimulation/Scene_WebGPU.svelte';
+	import * as THREE from 'three/webgpu';
 
 	const waveAlgoOptions: ListOptions<number> = {
 		sum_of_sines: 0,
@@ -41,7 +42,7 @@
 
 <div class="pointer-events-auto relative w-full h-full">
 
-	<div class="absolute top-0 left-0 ml-4 mt-16 z-10">
+	<!-- <div class="absolute top-0 left-0 ml-4 mt-16 z-10">
 		<Pane
 			position="inline"
 			title="Water"
@@ -77,10 +78,23 @@
 				bind:value={wireframe}
 			/>
 		</Pane>
-	</div>
+	</div> -->
 
-	<Canvas>
-		{#if !useWebGPU}
+	<Canvas toneMapping={THREE.NoToneMapping} colorSpace={THREE.SRGBColorSpace} createRenderer={(canvas) => {
+		if (useWebGPU) {
+			return new THREE.WebGPURenderer({
+			canvas,
+					antialias: true,
+					forceWebGL: false
+			});
+		} else {
+			return new WebGLRenderer({
+				canvas,
+				antialias: true,
+			});
+		}
+	}}>
+		{#if useWebGPU}
 			<Scene_WebGPU {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />
 		{:else}
 			<Scene {waveCount} {waveType} {waveAlgorithm} {wireframe} {fragmentWaveCount} />

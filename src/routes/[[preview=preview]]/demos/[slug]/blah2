@@ -1,0 +1,71 @@
+  <script>
+    // main.ts (Vite/TS)
+import * as THREE from 'three/webgpu';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// TSL / Nodes
+import {
+  // core nodes
+  texture, uv, vec2, vec4, time, uniform,
+  // compute / storage
+ wgslFn, storage // (aka StorageTextureNode helper)
+} from 'three/tsl';
+
+const renderer = new THREE.WebGPURenderer({ antialias: true });
+renderer.setSize(innerWidth, innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 100);
+camera.position.set(0, 0, 2);
+new OrbitControls(camera, renderer.domElement);
+
+// 1) Make a storage texture we can WRITE to in compute and READ in a material
+const W = 512, H = 512;
+const storageTex = new THREE.Texture(); // a placeholder Texture for TSL to wrap
+// In TSL, wrap it as a storage target (rgba8 is enough for a gradient)
+const storageNode = storage(storageTex, { width: W, height: H, format: 'rgba8unorm' });
+
+// 2) Define a tiny WGSL helper (TSL will inline this into a compute kernel)
+const kernel = wgslFn(`
+  fn shade(uv: vec2<f32>, t: f32) -> vec4<f32> {
+    let r = uv.x;
+    let g = uv.y;
+    let b = 0.5 + 0.5 * sin(t + 6.28318 * (uv.x - uv.y));
+    return vec4<f32>(r, g, b, 1.0);
+  }
+`);
+
+// 3) Build a ComputeNode that writes one pixel per invocation
+//    Most three versions provide a normalized compute UV; if not, just divide by size.
+const t = time(); // GPU time node
+const computeNode = new THREE.ComputeNode(storageNode, ({ uv: cuv }) => {
+  // cuv: vec2 0..1 across the storage surface (on recent r17x+)
+  return kernel(cuv, t);
+}, { workgroupSize: [8, 8, 1], size: [W, H, 1] });
+
+// 4) Material that SAMPLES the texture we just filled
+const quadGeo = new THREE.PlaneGeometry(1.6, 0.9);
+const texNode = texture(storageTex);
+const mat = new THREE.MeshBasicNodeMaterial();
+mat.fragmentNode = vec4(texNode.sample(uv()));
+const quad = new THREE.Mesh(quadGeo, mat);
+scene.add(quad);
+
+// 5) Frame loop: run compute, then render
+function onResize() {
+  renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', onResize);
+
+renderer.setAnimationLoop(async () => {
+  // (A) do the compute pass — fills storageTex on GPU
+  // If the backend isn't initialized yet, use computeAsync (await it the first frame).
+  renderer.compute(computeNode); // or: await renderer.computeAsync(computeNode);
+
+  // (B) render a simple quad that samples the texture
+  renderer.render(scene, camera);
+});
+  </script>

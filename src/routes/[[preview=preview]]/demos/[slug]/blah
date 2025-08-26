@@ -1,0 +1,212 @@
+  <script lang="ts">
+    import { onMount } from 'svelte';
+  
+    let canvas: HTMLCanvasElement;
+  
+    // ---------- WGSL: compute writes colors to a storage texture ----------
+    const computeWGSL = /* wgsl */`
+  struct Params {
+    res: vec2<f32>,
+    time: f32,
+    _pad: f32,
+  };
+  
+  @group(0) @binding(0) var outTex : texture_storage_2d<rgba8unorm, write>;
+  @group(0) @binding(1) var<uniform> params : Params;
+  
+  @compute @workgroup_size(8, 8)
+  fn main(@builtin(global_invocation_id) gid: vec3<u32>) {
+    if (gid.x >= u32(params.res.x) || gid.y >= u32(params.res.y)) { return; }
+  
+    let uv = vec2<f32>(gid.xy) / params.res; // 0..1
+    // Simple animated gradient
+    let r = uv.x;
+    let g = uv.y;
+    let b = 0.5 + 0.5 * sin(params.time + 6.2831 * (uv.x - uv.y));
+    textureStore(outTex, vec2<i32>(gid.xy), vec4<f32>(r, g, b, 1.0));
+  }
+  `;
+  
+    // ---------- WGSL: render samples the texture to a fullscreen triangle ----------
+    const renderWGSL = /* wgsl */`
+  @group(0) @binding(0) var samp : sampler;
+  @group(0) @binding(1) var img  : texture_2d<f32>;
+  
+  struct VSOut {
+    @builtin(position) pos: vec4<f32>,
+    @location(0) uv: vec2<f32>,
+  };
+  
+  @vertex
+  fn vs_main(@builtin(vertex_index) vid: u32) -> VSOut {
+    // Fullscreen triangle (no vertex buffer)
+    var p = array<vec2<f32>, 3>(
+      vec2<f32>(-1.0, -1.0),
+      vec2<f32>( 3.0, -1.0),
+      vec2<f32>(-1.0,  3.0)
+    );
+    var uv = array<vec2<f32>, 3>(
+      vec2<f32>(0.0, 0.0),
+      vec2<f32>(2.0, 0.0),
+      vec2<f32>(0.0, 2.0)
+    );
+    var out: VSOut;
+    out.pos = vec4<f32>(p[vid], 0.0, 1.0);
+    out.uv  = uv[vid];
+    return out;
+  }
+  
+  @fragment
+  fn fs_main(in: VSOut) -> @location(0) vec4<f32> {
+    return textureSample(img, samp, in.uv);
+  }
+  `;
+  
+    onMount(async () => {
+      if (!('gpu' in navigator)) {
+        alert('WebGPU not available in this browser.');
+        return;
+      }
+  
+      const adapter = await navigator.gpu.requestAdapter();
+      const device  = await adapter!.requestDevice();
+  
+      const ctx = canvas.getContext('webgpu') as GPUCanvasContext;
+      const format = navigator.gpu.getPreferredCanvasFormat();
+      const configure = () =>
+        ctx.configure({ device, format, alphaMode: 'opaque' });
+  
+      configure();
+  
+      // Resources
+      const sampler = device.createSampler({
+        magFilter: 'linear',
+        minFilter: 'linear',
+        addressModeU: 'clamp-to-edge',
+        addressModeV: 'clamp-to-edge'
+      });
+  
+      // Uniform buffer for (res.xy, time, pad)
+      const paramBuf = device.createBuffer({
+        size: 16, // vec2 + f32 + pad
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
+      });
+  
+      // Pipelines
+      const compModule = device.createShaderModule({ code: computeWGSL });
+      const computePipeline = device.createComputePipeline({
+        layout: 'auto',
+        compute: { module: compModule, entryPoint: 'main' }
+      });
+  
+      const rendModule = device.createShaderModule({ code: renderWGSL });
+      const renderPipeline = device.createRenderPipeline({
+        layout: 'auto',
+        vertex:   { module: rendModule, entryPoint: 'vs_main' },
+        fragment: { module: rendModule, entryPoint: 'fs_main', targets: [{ format }] },
+        primitive: { topology: 'triangle-list' }
+      });
+  
+      // Helper to (re)create the storage/sampled texture on resize
+      let outTex: GPUTexture;
+      let computeBind: GPUBindGroup;
+      let renderBind: GPUBindGroup;
+  
+      function createOrResizeTexture(width: number, height: number) {
+        outTex?.destroy();
+        outTex = device.createTexture({
+          size: { width, height },
+          format: 'rgba8unorm',
+          usage:
+            GPUTextureUsage.STORAGE_BINDING |
+            GPUTextureUsage.TEXTURE_BINDING |
+            GPUTextureUsage.COPY_SRC
+        });
+  
+        computeBind = device.createBindGroup({
+          layout: computePipeline.getBindGroupLayout(0),
+          entries: [
+            { binding: 0, resource: outTex.createView() },
+            { binding: 1, resource: { buffer: paramBuf } }
+          ]
+        });
+  
+        renderBind = device.createBindGroup({
+          layout: renderPipeline.getBindGroupLayout(0),
+          entries: [
+            { binding: 0, resource: sampler },
+            { binding: 1, resource: outTex.createView() }
+          ]
+        });
+      }
+  
+      // Resize handling (device pixels)
+      function resize() {
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        const w = Math.floor(canvas.clientWidth  * dpr);
+        const h = Math.floor(canvas.clientHeight * dpr);
+        canvas.width = w;
+        canvas.height = h;
+        configure();
+        createOrResizeTexture(w, h);
+      }
+  
+      const ro = new ResizeObserver(resize);
+      ro.observe(canvas);
+      resize();
+  
+      // Frame loop
+      let t0 = performance.now();
+      function frame() {
+        const now = performance.now();
+        const timeSec = (now - t0) / 1000;
+  
+        // Update uniforms: (res, time)
+        const res = new Float32Array([canvas.width, canvas.height, timeSec, 0]);
+        device.queue.writeBuffer(paramBuf, 0, res);
+  
+        // Encode commands
+        const enc = device.createCommandEncoder();
+  
+        // 1) Compute pass: write to outTex
+        {
+          const cpass = enc.beginComputePass();
+          cpass.setPipeline(computePipeline);
+          cpass.setBindGroup(0, computeBind);
+          const wgX = Math.ceil(canvas.width  / 8);
+          const wgY = Math.ceil(canvas.height / 8);
+          cpass.dispatchWorkgroups(wgX, wgY);
+          cpass.end();
+        }
+  
+        // 2) Render pass: sample outTex to screen
+        {
+          const view = ctx.getCurrentTexture().createView();
+          const rpass = enc.beginRenderPass({
+            colorAttachments: [{
+              view,
+              clearValue: { r: 0, g: 0, b: 0, a: 1 },
+              loadOp: 'clear',
+              storeOp: 'store'
+            }]
+          });
+          rpass.setPipeline(renderPipeline);
+          rpass.setBindGroup(0, renderBind);
+          rpass.draw(3, 1, 0, 0); // fullscreen triangle
+          rpass.end();
+        }
+  
+        device.queue.submit([enc.finish()]);
+        requestAnimationFrame(frame);
+      }
+  
+      frame();
+    });
+  </script>
+  
+  <style>
+    :global(html, body, #svelte) { height: 100%; margin: 0; }
+    canvas { width: 100%; height: 100%; display: block; }
+  </style>
+  
+  <canvas bind:this={canvas}></canvas>

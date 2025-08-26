@@ -62,6 +62,6 @@
 		"@threlte/extras": "^9.0.2",
 		"gsap": "^3.12.7",
 		"svelte-tweakpane-ui": "^1.5.6",
-		"three": "^0.174.0"
+		"three": "^0.179.1"
 	}
 }
