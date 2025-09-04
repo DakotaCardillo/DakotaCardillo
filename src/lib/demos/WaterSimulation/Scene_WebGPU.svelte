@@ -11,10 +11,11 @@
 	console.log('TSL vec2 test:', typeof (TSL.vec2(1, 2) as any).mul === 'function'); // should be true
 
 	const {
-		Fn, uniform, float, uint, vec2, vec3, vec4,
+		Fn, If, uniform, float, uint, vec2, vec3, vec4,
 		floor, fract, sin, dot, mix, abs, length,
 		texture, textureStore, instanceIndex, compute,
-		uv, positionLocal, normalLocal
+		uv, positionLocal, normalLocal, positionWorld, min,
+		attribute, fwidth, smoothstep, frontFacing, select
 	} = TSL;
 
 	type Vec2Node = ReturnType<typeof vec2>;
@@ -24,7 +25,7 @@
 		fragmentWaveCount,
 		waveType,
 		waveAlgorithm,
-		wireframe
+		isWireframe
 	} = $props();
 
 	const { scene, dom, invalidate, renderer } = useThrelte();
@@ -36,15 +37,6 @@
 
 	let environmentUrl = '../assets/autumn_field_puresky_4k.exr';
 
-	const renderWidth = 2048;
-	const renderHeight = 2048;
-	// const renderTarget = new THREE.WebGLRenderTarget(renderWidth, renderHeight, {
-	// 	minFilter: THREE.LinearFilter,
-	// 	magFilter: THREE.LinearFilter,
-	// 	format: THREE.RGBAFormat,
-	// 	type: THREE.FloatType
-	// });
-
 	let waterGeometry = new THREE.PlaneGeometry(20, 20, 100, 100);
 	waterGeometry.rotateX(MathUtils.degToRad(-90));
 	let waterOutputGeometry = new THREE.PlaneGeometry(20, 20, 100, 100);
@@ -54,77 +46,7 @@
 	let sandGeometry = new THREE.PlaneGeometry(20, 20, 100, 100);
 	sandGeometry.rotateX(MathUtils.degToRad(-90));
 
-
-	// const particleCount = 200_000;
-
-	// const positions = instancedArray( particleCount, 'vec3' );
-	// const velocities = instancedArray( particleCount, 'vec3' );
-	// const colors = instancedArray( particleCount, 'vec3' );
-
-	// const separation = 0.2;
-	// const amount = Math.sqrt( particleCount );
-	// const offset = float( amount / 2 );
-
-	// const computeInit = Fn( () => {
-	// 	const position = positions.element( instanceIndex );
-	// 	const color = colors.element( instanceIndex );
-
-	// 	const x = instanceIndex.mod( amount );
-	// 	const z = instanceIndex.div( amount );
-
-	// 	position.x = offset.sub( x ).mul( separation );
-	// 	position.z = offset.sub( z ).mul( separation );
-
-	// 	color.x = hash( instanceIndex );
-	// 	color.y = hash( instanceIndex.add( 2 ) );
-
-	// } )().compute( particleCount );
-
-
-	// const computeUpdate = Fn( () => {
-
-	// 	const position = positions.element( instanceIndex );
-	// 	const velocity = velocities.element( instanceIndex );
-
-	// 	velocity.addAssign( vec3( 0.00, gravity, 0.00 ) );
-	// 	position.addAssign( velocity );
-
-	// 	velocity.mulAssign( friction );
-
-	// 	// floor
-
-	// 	If( position.y.lessThan( 0 ), () => {
-
-	// 		position.y = 0;
-	// 		velocity.y = velocity.y.negate().mul( bounce );
-
-	// 		// floor friction
-
-	// 		velocity.x = velocity.x.mul( .9 );
-	// 		velocity.z = velocity.z.mul( .9 );
-
-	// 	} );
-	// } );
-
-	// const mat = new THREE.ShaderMaterial({
-	// 	// note: under WebGPU these fields are interpreted as WGSL
-	// 	vertexShader:   waterShader,
-	// 	fragmentShader: waterShader,
-	// 	uniforms: {
-	// 		uTime:           { value: 0.0 },
-	// 		uWaveAlgorithm:  { value: 0 },
-	// 		uNumWaves:       { value: 4 },
-	// 		uWaveType:       { value: 0 },
-	// 		modelMatrix:     { value: new THREE.Matrix4() },
-	// 		viewMatrix:      { value: new THREE.Matrix4() },
-	// 		projectionMatrix:{ value: new THREE.Matrix4() },
-	// 		// …and any other uniforms your WGSL file declares…
-	// 	},
-	// 	glslVersion: THREE.GLSL3  // required even though we're really feeding WGSL
-	// });
-
-	// --- storage texture written by compute ---
-	const W = 512, H = 512;
+	const W = 100, H = 100;
 	const heightTex = new THREE.StorageTexture(W, H);
 
 	heightTex.format = THREE.RGBAFormat;
@@ -133,7 +55,6 @@
 	heightTex.minFilter = THREE.LinearFilter;
 	heightTex.magFilter = THREE.LinearFilter;
 	heightTex.generateMipmaps = false;
-
 
 	const hash = Fn(([p]: [Vec2Node]) =>
 		fract(sin(dot(p, vec2(127.1, 311.7))).mul(43758.5453123))
@@ -156,11 +77,8 @@
 		let freq = float(1.0);
 		let gain = float(0.5);
 
-		let pFreq = p.mul(freq);
 		for (let k = 0; k < 5; k++) {
-
-			// p is read-only; we scale it per octave
-			sum = sum.add(valueNoise2D(pFreq).mul(gain));
+			sum = sum.add(valueNoise2D(p.mul(freq)).mul(gain));
 			freq = freq.mul(2.0);
 			gain = gain.mul(0.5);
 		}
@@ -171,7 +89,15 @@
 	const uScale = uniform(6.0);
 	const uAmp = uniform(0.25);
 
-	const writeHeight = Fn(({ outTex }: { outTex: any }) => {
+
+	// For each texel, create a normalized value and assign it to vec2 p.
+	// Then, scale p by uScale and add uTime.
+	// Then, pass p into FBM to calculate the fractional brownian motion value.
+	// p will now be in the range of [0, uScale] + uTime.
+	// The FBM function will loop over 5 octaves, doubling the frequency each time while halving the gain.
+	// The frequency is multiplied with p and passed into valueNoise2D, and the result is multiplied by gain.
+	// The sum of these is returned.
+	const writeHeight = Fn(({ outTex }: { outTex: THREE.StorageTexture }) => {
 		const uiW = uint(W);
 		const y = instanceIndex.div(uiW);
 		const x = instanceIndex.sub(y.mul(uiW));
@@ -181,76 +107,11 @@
 
 		const p = vec2(px, py);
 		const q = p.mul(uScale).add(vec2(uTime, uTime.mul(0.7)));
-		const n = fbm(q); // 0..1
+		const n = fbm(q);
 		textureStore(outTex, vec2(x, y), vec4(n, n, n, 1.0));
 	});
 
 	const heightmapPass = compute(writeHeight({ outTex: heightTex }), W * H); // omit workgroupSize for now
-
-
-	const mat = new THREE.MeshStandardNodeMaterial({ roughness: 1, metalness: 0 });
-
-	const h = texture(heightTex).sample(uv()).r;
-
-	const albedo = mix(vec3(0.1, 0.3, 0.6), vec3(0.8, 0.9, 1.0), h);
-
-	mat.positionNode = positionLocal.add(normalLocal.mul(h.mul(uAmp)));
-	mat.colorNode = albedo;
-	mat.side = THREE.DoubleSide;
-
-	const geo = new THREE.PlaneGeometry(1, 1, W, H);
-	geo.rotateX(-Math.PI / 2);
-	const mesh2 = new THREE.Mesh(geo, mat);
-	scene.add(mesh2);
-
-
-	// uniforms for compute
-	//const params = new THREE.Uniform({ time: 0.0, width: TEX_SIZE, height: TEX_SIZE });
-
-	//let flatness = 5.0;
-	//const positions = sandGeometry.getAttribute('position');
-	//const noise = new SimplexNoise();
-	// $effect(() => {
-	// 	for (let i = 0; i < positions.count; i += 1) {
-	// 		const x = positions.getX(i) / flatness;
-	// 		const z = positions.getZ(i) / flatness;
-	// 		positions.setY(i, noise.noise(x, z));
-	// 	}
-	// 	positions.needsUpdate = true;
-	// 	// needed for lighting
-	// 	sandGeometry.computeVertexNormals();
-	// });
-
-	// Needed for wireframe shader
-	function setupAttributes(geometry: THREE.BufferGeometry) {
-		const vectors = [
-			new THREE.Vector3(1, 0, 0),
-			new THREE.Vector3(0, 1, 0),
-			new THREE.Vector3(0, 0, 1)
-		];
-
-		const position = geometry.attributes.position;
-		const centers = new Float32Array(position.count * 3);
-
-		for (let i = 0, l = position.count; i < l; i++) {
-			vectors[i % 3].toArray(centers, i * 3);
-		}
-		geometry.setAttribute('center', new THREE.BufferAttribute(centers, 3));
-	}
-
-	setupAttributes(waterGeometry);
-	setupAttributes(underwaterGeometry);
-
-
-	const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
-	let cameraPosition = new THREE.Vector3(0, 0, 3);
-	camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
-
-	//const waterMaterial = new THREE.MeshBasicNodeMaterial( {color: 'blue'});
-	const waterMaterial = new THREE.NodeMaterial();
-
-	// expose the storage texture as a sampleable texture for nodes:
-	//const heightTex = heightST.texture; // read view of the same GPU resource
 
 	const main = Fn(() => {
 		const p = positionLocal.toVar();
@@ -266,16 +127,142 @@
 		return p;
 	});
 
+	class Wave {
+		amplitude = uniform(Math.random() * 0.5 + 0.1);
+		frequency = uniform(Math.random() * 1.0 + 0.1);
+		direction = uniform(new THREE.Vector2(Math.random(), Math.random()));
+		phase = uniform(Math.random() * Math.PI * 2);
+		speed = uniform(Math.random() * 2.0 + 0.1);
+
+		eval = Fn(([p]: [ReturnType<typeof vec3>]) => {
+			const d = vec2(this.direction.value.x, this.direction.value.y);
+			const k = this.frequency.mul(2.0 * Math.PI);
+			const arg = dot(p.xz, d).mul(k).add(this.phase.add(uTime.mul(this.speed)));
+			const h = sin(arg).mul(this.amplitude.value);
+			return p.add(TSL.vec3(0, h, 0));
+		});
+	}
+
+	function sumOfSines(waves: Wave[]) {
+		let sum = float(0.0);
+		for (let i = 0; i < waves.length; i++) {
+			sum = sum.add(waves[i].eval(positionLocal));
+		}
+		return positionLocal.add(normalLocal.mul(sum));
+	}
+
+	// Needed for wireframe shader
+	function addCenterAttribute(geometry: THREE.BufferGeometry) {
+		const g = geometry.index ? geometry.toNonIndexed() : geometry;
+
+		const count = g.attributes.position.count;
+		const centers = new Float32Array(count * 3);
+
+		for (let i = 0; i < count; i += 3) {
+			centers.set([1, 0, 0], (i + 0) * 3);
+			centers.set([0, 1, 0], (i + 1) * 3);
+			centers.set([0, 0, 1], (i + 2) * 3);
+		}
+		g.setAttribute('center', new THREE.BufferAttribute(centers, 3));
+	}
+
+	const waves: Wave[] = [];
+	for (let i = 0; i < 10; i++) {
+		waves.push(new Wave());
+	}
+
+	const wireframe = Fn(() => {
+		const center = attribute('center', 'vec3');
+		const afwidth = fwidth(center);
+		const edge3 = smoothstep(0.0, afwidth.mul(1.0), center.xyz);
+		const edge = float(1.0).sub(min(edge3.x, min(edge3.y, edge3.z)));
+
+		const cFront = vec3(0.9, 0.9, 1.0);
+		const cBack = vec3(0.4, 0.4, 0.5);
+
+		const baseColor = select(frontFacing, cFront, cBack);
+
+		return vec4(baseColor, edge);
+	});
+
+	addCenterAttribute(waterGeometry);
+	addCenterAttribute(underwaterGeometry);
+
+	const mat = new THREE.NodeMaterial();
+
+	const h = texture(heightTex).sample(uv()).r;
+
+	const albedo = mix(vec4(0.1, 0.3, 0.6, 0.3), vec4(0.8, 0.9, 1.0, 0.6), h);
+
+	mat.positionNode = positionLocal.add(normalLocal.mul(h.mul(uAmp)));
+	mat.colorNode = albedo;
+	mat.side = THREE.DoubleSide;
+
+	const textureMat = new THREE.NodeMaterial();
+	textureMat.colorNode = texture(heightTex).sample(uv());
+	textureMat.side = THREE.DoubleSide;
+
+	const geo = new THREE.PlaneGeometry(20, 20, 100, 100).toNonIndexed();
+	geo.rotateX(-Math.PI / 2);
+
+	addCenterAttribute(geo);
+	console.log(geo.getAttribute('center')?.itemSize);
+
+	const waterMesh = new THREE.Mesh(geo, mat);
+	const textureMesh = new THREE.Mesh(geo, textureMat);
+	textureMesh.translateX(20);
+
+
+	const thickness = float(1.0);
+	const center = attribute('center', 'vec3');
+	const afwidth = fwidth(center);
+	const edge3 = smoothstep(afwidth.mul(thickness.sub(1.0).max(float(0.0))), afwidth.mul(thickness), center);
+	const edge = float(1.0).sub(min(edge3.x, min(edge3.y, edge3.z)));
+
+	const cFront = vec3(0.9, 0.9, 1.0);
+	const cBack = vec3(0.4, 0.4, 0.5);
+
+	const baseColor = select(frontFacing, cFront, cBack);
+
+	const waterSinesMat = new THREE.NodeMaterial();
+	waterSinesMat.positionNode = sumOfSines(waves);
+	waterSinesMat.fragmentNode = wireframe();
+	//waterSinesMat.colorNode = albedo;
+	waterSinesMat.side = THREE.DoubleSide;
+	waterSinesMat.transparent = true;
+	const waterSinesMesh = new THREE.Mesh(geo, waterSinesMat);
+
+	waterSinesMesh.translateZ(-20);
+
+	//let flatness = 5.0;
+	//const positions = sandGeometry.getAttribute('position');
+	//const noise = new SimplexNoise();
+	// $effect(() => {
+	// 	for (let i = 0; i < positions.count; i += 1) {
+	// 		const x = positions.getX(i) / flatness;
+	// 		const z = positions.getZ(i) / flatness;
+	// 		positions.setY(i, noise.noise(x, z));
+	// 	}
+	// 	positions.needsUpdate = true;
+	// 	// needed for lighting
+	// 	sandGeometry.computeVertexNormals();
+	// });
+
+
+	const camera = new THREE.PerspectiveCamera(30, window.innerWidth / window.innerHeight, 0.1, 1000);
+	let cameraPosition = new THREE.Vector3(-25, 20, 25);
+	camera.position.set(cameraPosition.x, cameraPosition.y, cameraPosition.z);
+
+	//const waterMaterial = new THREE.MeshBasicNodeMaterial( {color: 'blue'});
+	const waterMaterial = new THREE.NodeMaterial();
+
+	// expose the storage texture as a sampleable texture for nodes:
+	//const heightTex = heightST.texture; // read view of the same GPU resource
 
 	//const amp = float(0.3);
 	//const h = texture(heightTex, uv()).r.mul(2.0).sub(1.0);   // [-1, 1]
 	//waterMaterial.positionNode = TSL.positionLocal.add(TSL.normalLocal.mul(height));
 	waterMaterial.fragmentNode = main();
-
-
-	//const mesh = new THREE.Mesh(new THREE.PlaneGeometry(), waterMaterial);
-
-	//scene.add(mesh);
 
 	// webgpuRenderer.debug.getShaderAsync(scene, camera, mesh).then((e) => {
 	// 	console.log(e.fragmentShader);
@@ -296,10 +283,10 @@
 
 <T.DirectionalLight intensity={3.4} />
 
-<!-- <Environment
-	isBackground={true}
-	url={environmentUrl}
-/> -->
+<!--<Environment-->
+<!--	isBackground={true}-->
+<!--	url={environmentUrl}-->
+<!--/>-->
 
 <T.PerspectiveCamera
 	ref={camera}
@@ -316,6 +303,10 @@
 
 
 <!-- WATER -->
+<T is={waterMesh} />
+<T is={textureMesh} />
+<T is={waterSinesMesh} />
+
 <!-- <T.Mesh
 	ref={mesh}
 >
