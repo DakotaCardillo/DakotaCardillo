@@ -24,7 +24,7 @@ export const demos: Demo[] = [
 		tags: ['Unreal', 'Tools', 'Build/CI'],
 		media: { poster: '/poster.svg' },
 		links: { read: '/demos/unreal-homelab' },
-		flagship: true,
+		flagship: false,
 		interactive: false
 	},
 	{
@@ -35,7 +35,7 @@ export const demos: Demo[] = [
 		tags: ['WebGPU', 'Graphics', 'Simulation'],
 		media: { poster: '/poster.svg' },
 		links: { play: '/demos/ocean-simulation' },
-		flagship: true,
+		flagship: false,
 		interactive: true,
 		webgl: {
 			width: 1000,
@@ -62,7 +62,7 @@ export const demos: Demo[] = [
 		tags: ['C++', 'OpenCV', 'Image Processing'],
 		media: { poster: '/poster.svg' },
 		links: { read: '/demos/cell-counter' },
-		flagship: true
+		flagship: false
 	},
 	{
 		slug: 'bullet-bloom',
@@ -84,14 +84,4 @@ export const demos: Demo[] = [
 		links: { read: '/demos/unity-animation' },
 		flagship: false
 	}
-
-	// {
-	//   slug: 'unity-regression',
-	//   title: 'Unity UI Regression Recorder',
-	//   summary: 'Record-replay harness for validation & discrepancy capture in trainers.',
-	//   year: '2020',
-	//   tags: ['Unity','Tools','Testing'],
-	//   media: { poster: '/poster.svg' },
-	//   links: { read: '/demos/unity-regression' }
-	// }
 ];

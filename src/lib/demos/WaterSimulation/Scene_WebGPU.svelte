@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { T, useRenderer, useTask, useThrelte } from '@threlte/core';
 	import Stats from 'three/addons/libs/stats.module.js';
 	import * as THREE from 'three/webgpu';
@@ -266,6 +266,21 @@
 		webgpuRenderer.compute(heightmapPass);
 
 		stats.begin();
+	});
+
+	onDestroy(() => {
+		if (stats?.dom?.parentNode === dom) {
+			dom.removeChild(stats.dom);
+		}
+		
+		waterGeometry.dispose();
+		waterOutputGeometry.dispose();
+		underwaterGeometry.dispose();
+		sandGeometry.dispose();
+		heightTex.dispose();
+		textureMat.dispose();
+		waterSinesMat.dispose();
+		heightmapPass.dispose();
 	});
 </script>
 

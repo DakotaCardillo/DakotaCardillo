@@ -33,40 +33,43 @@
 	);
 </script>
 
-<section class="max-w-5xl mx-auto px-5 mt-10">
-	<h1 class="slide-stagger text-3xl font-extrabold tracking-tight">Demos</h1>
-	<!--		<p class="slide-stagger mt-2 text-zinc-400">Filter by capability and engine. Click a card to read or watch—desktop builds link to downloads/videos.</p>-->
-	<p class="slide-stagger mt-2 text-zinc-400">Coming soon! - Each card represents a personal project I've worked on.
-		Full page write-ups and interactive demos are currently in the works.</p>
+<section class="flex-1">
+	<div class="max-w-5xl mx-auto px-5 pt-10 pb-6 text-center md:text-left">
+		<h1 class="slide-stagger text-3xl font-extrabold tracking-tight">Demos - Coming Soon!</h1>
+		<!--		<p class="slide-stagger mt-2 text-zinc-400">Filter by capability and engine. Click a card to read or watch—desktop builds link to downloads/videos.</p>-->
+		<p class="slide-stagger mt-2 text-zinc-400">Each card represents a personal project I've worked on.
+			Full page write-ups and interactive demos are currently in the works.</p>
 
-	<div class="slide-stagger mt-5 flex flex-wrap gap-2">
-		<input class="w-full sm:w-64 px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700"
-					 placeholder="Search demos…" bind:value={query} />
-		{#each tags as t}
-			<button class="px-3 py-1.5 rounded-full border text-sm
+		<div class="slide-stagger mt-5 flex flex-wrap gap-2">
+			<input class="w-full sm:w-64 px-3 py-2 rounded-lg bg-zinc-900 border border-zinc-700"
+						 placeholder="Search demos…" bind:value={query} />
+			{#each tags as t}
+				<button class="px-3 py-1.5 rounded-full border text-sm
 					   {active.has(t) ? 'bg-accent text-black border-accent' : 'bg-transparent border-zinc-700 text-zinc-300'}"
-							onclick={() => toggle(t)}>{t}</button>
-		{/each}
-	</div>
+								onclick={() => toggle(t)}>{t}</button>
+			{/each}
+		</div>
 
-	{#if demos.some((d: Demo) => d.flagship)}
-		<h2 class="slide-stagger mt-8 text-xl font-bold underline-accent">Featured</h2>
-		<div class="slide-stagger grid md:grid-cols-3 gap-4 mt-3">
-			{#each filtered.filter((d: Demo) => d.flagship) as d}
+		{#if demos.some((d: Demo) => d.flagship)}
+			<h2 class="slide-stagger mt-8 text-xl font-bold underline-accent">Featured</h2>
+			<div class="slide-stagger grid md:grid-cols-3 gap-4 mt-3">
+				{#each filtered.filter((d: Demo) => d.flagship) as d}
+					<div id={d.slug}>
+						<DemoCard {d} />
+					</div>
+				{/each}
+			</div>
+		{/if}
+
+		<h2 class="slide-stagger mt-8 text-xl font-bold underline-accent">All Demos</h2>
+		<div class="slide-stagger grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
+			{#each filtered as d}
 				<div id={d.slug}>
 					<DemoCard {d} />
 				</div>
 			{/each}
 		</div>
-	{/if}
-
-	<h2 class="slide-stagger mt-8 text-xl font-bold underline-accent">All demos</h2>
-	<div class="slide-stagger grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-3">
-		{#each filtered as d}
-			<div id={d.slug}>
-				<DemoCard {d} />
-			</div>
-		{/each}
 	</div>
 </section>
+
   

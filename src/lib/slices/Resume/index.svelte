@@ -94,27 +94,21 @@
 
 	const projects = [
 		{
-			name: 'Slayer — FPS on Lyra (WIP)',
-			stack: ['Unreal Engine 5', 'Blender'],
-			desc: 'Destiny‑style first‑person camera; mannequin split to support modular armor.',
-			year: '2025'
-		},
-		{
 			name: 'Home Server for Unreal Horde',
-			stack: ['Proxmox', 'Horde', 'Perforce', 'Tailscale'],
-			desc: 'Windows/Ubuntu VMs host Horde & P4; remote commits trigger incremental builds.',
+			stack: ['Proxmox', 'Horde', 'Perforce', 'Tailscale', 'Windows Server', 'Ubuntu Server', 'Build Graph'],
+			desc: 'Proxmox server with Windows/Ubuntu VMs hosting Horde and Perforce respectively. Remote commits to my UE5 projects trigger incremental builds from anywhere in the world.',
 			year: '2024'
 		},
 		{
 			name: 'Unity Animation Tools for Motion Graphics',
-			stack: ['Unity', 'Blender', 'Blend Shapes', 'Animation Tweening'],
+			stack: ['Unity', 'Blender', 'Blend Shapes', 'Animation Tweening', 'Timeline'],
 			desc: 'A motion graphics project made with Unity; illustrating how 3D models are created using custom animation scripts.',
 			year: '2020'
 		},
 		{
 			name: 'Cell Counter (PC)',
-			stack: ['C++', 'OpenCV'],
-			desc: 'Counts G‑CaMP neurons via filtering & color analysis; accurate per‑image totals.',
+			stack: ['C++', 'OpenCV', 'Image Processing', 'Color Analysis'],
+			desc: 'Counts G‑CaMP neurons via OpenCV image processing & color analysis. Highlights cells as an overlay with counts shown within user-defined layers.',
 			year: '2017'
 		}
 	];
@@ -178,7 +172,7 @@
 	<!-- Page container -->
 	<div class="min-h-screen">
 		<header class="max-w-5xl mx-auto px-5 pt-10 pb-6">
-			<div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+			<div class="flex flex-col text-center md:text-left md:justify-between">
 				<div>
 					<h1 class="slide-stagger text-4xl sm:text-5xl font-extrabold tracking-tight">
 						<span class="text-zinc-100">{profile.name}</span>
@@ -191,17 +185,21 @@
 							<p class="slide-stagger mt-3 text-zinc-400">{profile.clearance}</p>
 						</div>
 						<div
-							class="slide-stagger mt-3 grid grid-cols-[max-content_1fr] gap-2 text-right text-sm text-zinc-400 md:text-base">
-							<div class="font-semibold text-zinc-300">Email</div>
-							<div><a class="link-underline" href={"mailto:" + profile.email}>{profile.email}</a></div>
-							<div class="font-semibold text-zinc-300">Phone</div>
-							<div>{profile.phone}</div>
+							class="slide-stagger text-center flex flex-row justify-center md:mt-3 md:grid md:grid-cols-[max-content_1fr] gap-2 md:text-right text-sm text-zinc-400 md:text-base">
+							<div class="hidden md:block font-semibold text-zinc-300">Email</div>
+							<div class="inline md:block">
+								<a class="link-underline"
+									 href={"mailto:" + profile.email + "?subject=Regarding your portfolio"}>{profile.email}</a>
+							</div>
+							<div class="hidden md:block font-semibold text-zinc-300">Phone</div>
+							<div class="inline md:block">{profile.phone}</div>
 						</div>
 					</div>
 
-					<div class="slide-stagger mt-5 flex flex-wrap items-center gap-3 text-sm text-zinc-300">
+					<div
+						class="slide-stagger mt-5 flex flex-wrap items-center justify-center md:justify-start gap-3 text-zinc-300">
 						<a class="btn" href="/DakotaCardillo_Resume.pdf" download>Download PDF</a>
-						<a class="btn-ghost" href={"mailto:" + profile.email}>Email</a>
+						<a class="btn-ghost" href={"mailto:" + profile.email + "?subject=Regarding your portfolio"}>Contact</a>
 						<a class="btn-ghost" href={profile.links.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
 						<!--<button class="btn-ghost" onclick={() => compact = !compact}>
 							{compact ? 'Expand details' : 'Condense details'}
@@ -281,7 +279,7 @@
 			<!-- Projects -->
 			<section class="reveal">
 				<div class="card p-6 md:p-8">
-					<h2 class="text-xl font-bold mb-4 underline-accent">Selected Projects</h2>
+					<h2 class="text-xl font-bold mb-4 underline-accent">Personal Projects</h2>
 					<div class="grid md:grid-cols-3 gap-4">
 						{#each projects as p}
 							<div class="rounded-2xl border border-zinc-700 bg-[--surface-2] p-4">
@@ -328,8 +326,8 @@
 								systems</p>
 						</div>
 						<div class="flex gap-3">
-							<a class="btn" href={"mailto:" + profile.email}>Contact</a>
-							<a class="btn-ghost" href="/DakotaCardillo_Resume.pdf" download>Get PDF</a>
+							<a class="btn" href={"mailto:" + profile.email + "?subject=Regarding your portfolio"}>Contact</a>
+							<a class="btn-ghost" href="/DakotaCardillo_Resume.pdf" download>Download PDF</a>
 						</div>
 					</div>
 				</div>

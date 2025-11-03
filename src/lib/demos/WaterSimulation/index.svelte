@@ -82,16 +82,20 @@
 
 	<Canvas toneMapping={THREE.NoToneMapping} colorSpace={THREE.SRGBColorSpace} createRenderer={(canvas) => {
 		if (useWebGPU) {
-			return new THREE.WebGPURenderer({
+			const renderer = new THREE.WebGPURenderer({
 			canvas,
 					antialias: true,
 					forceWebGL: false
 			});
+			renderer.dispose = renderer.dispose.bind(renderer);
+			return renderer;
 		} else {
-			return new WebGLRenderer({
+			const renderer = new WebGLRenderer({
 				canvas,
 				antialias: true,
 			});
+			renderer.dispose = renderer.dispose.bind(renderer);
+			return renderer;
 		}
 	}}>
 		{#if useWebGPU}

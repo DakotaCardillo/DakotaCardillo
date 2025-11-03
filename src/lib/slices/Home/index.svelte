@@ -106,23 +106,23 @@
 <!--</section>-->
 
 <section class="flex-1">
-	<div class="max-w-5xl mx-auto px-4 pt-12 md:pt-16 pb-10">
+	<div class="max-w-5xl mx-auto px-5 pt-10 pb-6">
 		<header class="text-center md:text-left">
-			<h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
-				<span class="slide-stagger text-text"> {slice.primary.first_name} {slice.primary.last_name} </span>
-				<span class="slide-stagger text-accent">·</span>
-				<span class="slide-stagger text-text"> {slice.primary.title} </span>
+			<h1 class="slide-stagger text-4xl sm:text-5xl font-extrabold tracking-tight">
+				<span class="text-zinc-100">{slice.primary.first_name} {slice.primary.last_name}</span>
+				<span class="text-accent"> • </span>
+				<span class="text-zinc-100">{slice.primary.title}</span>
 			</h1>
 			<!--			<p class="slide-stagger text-text-muted max-w-3xl mx-auto md:mx-0 mt-2">-->
 			<!--				Welcome to my website!-->
 			<!--			</p>-->
 			<p class="slide-stagger text-text-muted max-w-3xl mx-auto md:mx-0 mt-2">
-				10+ years building real-time games and simulations. Specialized in graphics performance, build/release
-				automation, and editor/pipeline tools that cut iteration time.
+				10+ years building real-time games and simulations. Specialized in graphics performance, DevOps
+				automation, and writing custom tools that accelerate development.
 			</p>
-			<div class="mt-5 flex gap-3">
+			<div class="mt-5 flex justify-center md:justify-start gap-3">
 				<a class="slide-stagger btn" href="/demos">View Demos</a>
-				<a class="slide-stagger btn-ghost" href="/resume">Resume</a>
+				<a class="slide-stagger btn-ghost" href="/resume">View Resume</a>
 				<a class="slide-stagger btn-ghost" href="https://www.linkedin.com/in/dakotacardillo">LinkedIn</a>
 			</div>
 		</header>

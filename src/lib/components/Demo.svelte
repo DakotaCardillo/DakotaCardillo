@@ -5,16 +5,14 @@
 	import { default as WaterSimulation } from '$lib/demos/WaterSimulation/index.svelte';
 	import { default as BlinnPhong } from '$lib/demos/BlinnPhong/index.svelte';
 
-	let demoComponent = ShellTexturing;
-	if (demo.slug === 'ocean-simulation') {
-		demoComponent = WaterSimulation;
-	}
+	// Hardcoded to water simulation for now
+	const DemoComponent = WaterSimulation;
 </script>
 
 <section class="w-full h-full">
 	<div class="w-full h-full bg-black">
-		{#if demoComponent}
-			<svelte:component this={demoComponent} />
+		{#if DemoComponent}
+			<DemoComponent />
 		{/if}
 	</div>
 </section>

@@ -1,12 +1,18 @@
 <script lang="ts">
 	const { demo } = $props();
 	import Demo from './Demo.svelte';
+	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
+
+	const goBack = () => {
+		goto(`/demos`);
+	};
 </script>
 
 
 {#if !demo}
 	<section class="max-w-5xl mx-auto px-5 py-10 mt-10">
-		<a href="/demos" class="text-sm text-zinc-400 hover:underline">← Back</a>
+		<button type="button" onclick={goBack} class="text-sm text-zinc-400 hover:underline">← Back</button>
 		<p class="text-zinc-400">Demo not found.</p>
 	</section>
 {:else}
@@ -32,22 +38,23 @@
 			</div>
 		</div>
 
-		<section class="card p-6 md:p-8">
-			<h2 class="text-xl font-bold underline-accent mb-4">Case Study (outline)</h2>
-			<ol class="list-decimal pl-6 space-y-2 text-zinc-300">
-				<li><span class="font-semibold">Problem:</span> Describe the challenge, constraints, and goals.</li>
-				<li><span class="font-semibold">Approach:</span> Architecture, key techniques, trade-offs.</li>
-				<li><span class="font-semibold">Results:</span> Numbers: fps, memory, build time, accuracy, etc.</li>
-				<li><span class="font-semibold">What’s interesting:</span> Two technical highlights.</li>
-			</ol>
 
-			<div class="mt-5 flex flex-wrap gap-2">
-				{#if demo.links.live}<a class="btn" href={demo.links.live} target="_blank">Live</a>{/if}
-				{#if demo.links.watch}<a class="btn-ghost" href={demo.links.watch} target="_blank">Watch</a>{/if}
-				{#if demo.links.code}<a class="btn-ghost" href={demo.links.code} target="_blank">Code</a>{/if}
-				{#if demo.links.download}<a class="btn-ghost" href={demo.links.download} target="_blank">Download</a>{/if}
-			</div>
-		</section>
+		<!--		<section class="card p-6 md:p-8">-->
+		<!--			&lt;!&ndash;			<h2 class="text-xl font-bold underline-accent mb-4">Case Study (outline)</h2>&ndash;&gt;-->
+		<!--			&lt;!&ndash;			<ol class="list-decimal pl-6 space-y-2 text-zinc-300">&ndash;&gt;-->
+		<!--			&lt;!&ndash;				<li><span class="font-semibold">Problem:</span> Describe the challenge, constraints, and goals.</li>&ndash;&gt;-->
+		<!--			&lt;!&ndash;				<li><span class="font-semibold">Approach:</span> Architecture, key techniques, trade-offs.</li>&ndash;&gt;-->
+		<!--			&lt;!&ndash;				<li><span class="font-semibold">Results:</span> Numbers: fps, memory, build time, accuracy, etc.</li>&ndash;&gt;-->
+		<!--			&lt;!&ndash;				<li><span class="font-semibold">What’s interesting:</span> Two technical highlights.</li>&ndash;&gt;-->
+		<!--			&lt;!&ndash;			</ol>&ndash;&gt;-->
+
+		<!--			<div class="mt-5 flex flex-wrap gap-2">-->
+		<!--				{#if demo.links.play}<a class="btn" href={demo.links.play} target="_blank">Play</a>{/if}-->
+		<!--				{#if demo.links.watch}<a class="btn-ghost" href={demo.links.watch} target="_blank">Watch</a>{/if}-->
+		<!--				{#if demo.links.code}<a class="btn-ghost" href={demo.links.code} target="_blank">Code</a>{/if}-->
+		<!--				{#if demo.links.download}<a class="btn-ghost" href={demo.links.download} target="_blank">Download</a>{/if}-->
+		<!--			</div>-->
+		<!--		</section>-->
 	</article>
 {/if}
   

@@ -41,11 +41,11 @@
 			{#each d.tags as t}<span class="border border-zinc-700 px-2 py-0.5 rounded">{t}</span>{/each}
 		</div>
 		<div class="mt-4 flex flex-wrap gap-2">
-			{#if d.links.play}<a class="btn" href={d.links.play} target="_blank">Play</a>{/if}
-			{#if d.links.watch}<a class="btn-ghost" href={d.links.watch} target="_blank">Watch</a>{/if}
+			{#if d.links.play}<a class="btn" href={d.links.play} target="_self">Play</a>{/if}
+			{#if d.links.watch}<a class="btn-ghost" href={d.links.watch} target="_self">Watch</a>{/if}
 			{#if d.links.read}<a class="btn-ghost" href={d.links.read}>Read</a>{/if}
-			{#if d.links.code}<a class="btn-ghost" href={d.links.code} target="_blank">Code</a>{/if}
-			{#if d.links.download}<a class="btn-ghost" href={d.links.download} target="_blank">Download</a>{/if}
+			{#if d.links.code}<a class="btn-ghost" href={d.links.code} target="_self">Code</a>{/if}
+			{#if d.links.download}<a class="btn-ghost" href={d.links.download} target="_self">Download</a>{/if}
 		</div>
 	</div>
 </article>
