@@ -1,20 +1,20 @@
 <script lang="ts">
-    const { demo } = $props();
+	const { demo } = $props();
 	import type { Content } from '@prismicio/client';
 	import { default as ShellTexturing } from '$lib/demos/ShellTexturing/index.svelte';
 	import { default as WaterSimulation } from '$lib/demos/WaterSimulation/index.svelte';
 	import { default as BlinnPhong } from '$lib/demos/BlinnPhong/index.svelte';
 
 	let demoComponent = ShellTexturing;
-	if (demo.slug === 'web-gpu-demo') {
+	if (demo.slug === 'ocean-simulation') {
 		demoComponent = WaterSimulation;
 	}
 </script>
 
 <section class="w-full h-full">
-    <div class="w-full h-full bg-black">
-        {#if demoComponent}
-            <svelte:component this={demoComponent} />
-        {/if}
-    </div>
+	<div class="w-full h-full bg-black">
+		{#if demoComponent}
+			<svelte:component this={demoComponent} />
+		{/if}
+	</div>
 </section>

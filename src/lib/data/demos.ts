@@ -5,7 +5,7 @@ export type Demo = {
 	year?: string;
 	tags: string[];
 	media: { poster: string; mp4?: string; webm?: string };
-	links: { live?: string; watch?: string; read?: string; code?: string; download?: string };
+	links: { play?: string; watch?: string; read?: string; code?: string; download?: string };
 	flagship?: boolean;
 	interactive?: boolean;
 	webgl?: {
@@ -20,7 +20,7 @@ export const demos: Demo[] = [
 		slug: 'unreal-homelab',
 		title: 'Unreal Homelab',
 		summary: 'A home server setup for automating Unreal Engine 5 builds.',
-		year: '2025',
+		year: '2024',
 		tags: ['Unreal', 'Tools', 'Build/CI'],
 		media: { poster: '/poster.svg' },
 		links: { read: '/demos/unreal-homelab' },
@@ -34,7 +34,7 @@ export const demos: Demo[] = [
 		year: '2025',
 		tags: ['WebGPU', 'Graphics', 'Simulation'],
 		media: { poster: '/poster.svg' },
-		links: { read: '/demos/web-gpu-demo' },
+		links: { play: '/demos/ocean-simulation' },
 		flagship: true,
 		interactive: true,
 		webgl: {
@@ -51,7 +51,7 @@ export const demos: Demo[] = [
 		tags: ['Unreal', 'Gameplay', 'Rendering'],
 		media: { poster: '/poster.svg' },
 		links: { read: '/demos/lyra-fps-camera' },
-		flagship: true
+		flagship: false
 	},
 	{
 		slug: 'cell-counter',
