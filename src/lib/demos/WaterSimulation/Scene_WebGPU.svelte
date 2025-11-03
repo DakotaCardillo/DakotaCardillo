@@ -212,18 +212,6 @@
 	const textureMesh = new THREE.Mesh(geo, textureMat);
 	textureMesh.translateX(20);
 
-
-	const thickness = float(1.0);
-	const center = attribute('center', 'vec3');
-	const afwidth = fwidth(center);
-	const edge3 = smoothstep(afwidth.mul(thickness.sub(1.0).max(float(0.0))), afwidth.mul(thickness), center);
-	const edge = float(1.0).sub(min(edge3.x, min(edge3.y, edge3.z)));
-
-	const cFront = vec3(0.9, 0.9, 1.0);
-	const cBack = vec3(0.4, 0.4, 0.5);
-
-	const baseColor = select(frontFacing, cFront, cBack);
-
 	const waterSinesMat = new THREE.NodeMaterial();
 	waterSinesMat.positionNode = sumOfSines(waves);
 	waterSinesMat.fragmentNode = wireframe();

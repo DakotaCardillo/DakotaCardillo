@@ -861,7 +861,7 @@ export interface HomeSliceDefaultPrimary {
 	 * Title field in *Home → Default → Primary*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: Software Developer
+	 * - **Placeholder**: Senior Software Engineer
 	 * - **API ID Path**: home.default.primary.title
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */

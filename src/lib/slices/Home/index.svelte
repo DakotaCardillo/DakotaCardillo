@@ -10,24 +10,24 @@
 		gsap.registerPlugin(ScrollTrigger);
 		// Intro title
 		gsap.from('.slide-stagger', {
-		y: 20,
-		opacity: 0,
-		duration: 0.7,
-		stagger: 0.08,
-		ease: 'power2.out'
+			y: 20,
+			opacity: 0,
+			duration: 0.7,
+			stagger: 0.08,
+			ease: 'power2.out'
 		});
 	});
 
 	export let slice: Content.HomeSlice;
 
-  const items = (slice.primary.page_link ?? []).map((pl, index) => {
-    const label = pl.title ?? '';
-    const normalized = label.toLowerCase().trim();
-    const id = normalized.replace(/\s+/g, '-') || `link-${index}`;
-    const href = prismic.asLink(pl.link) ?? '#';
-    const iconName = pl.icon ?? null; // optional text field in slice, fallback to title mapping
-    return { id, label, href, iconName };
-  });
+	const items = (slice.primary.page_link ?? []).map((pl, index) => {
+		const label = pl.title ?? '';
+		const normalized = label.toLowerCase().trim();
+		const id = normalized.replace(/\s+/g, '-') || `link-${index}`;
+		const href = prismic.asLink(pl.link) ?? '#';
+		const iconName = pl.icon ?? null; // optional text field in slice, fallback to title mapping
+		return { id, label, href, iconName };
+	});
 </script>
 
 <!--<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>-->
@@ -113,14 +113,12 @@
 				<span class="slide-stagger text-accent">·</span>
 				<span class="slide-stagger text-text"> {slice.primary.title} </span>
 			</h1>
+			<!--			<p class="slide-stagger text-text-muted max-w-3xl mx-auto md:mx-0 mt-2">-->
+			<!--				Welcome to my website!-->
+			<!--			</p>-->
 			<p class="slide-stagger text-text-muted max-w-3xl mx-auto md:mx-0 mt-2">
-				I build fast, reliable real-time systems—and the tooling that keeps them shipping.
-			</p>
-			<p class="slide-stagger text-text-muted max-w-3xl mx-auto md:mx-0 mt-2">
-
-For the past eight years I’ve worked across Unreal Engine 5, Unity, and C++ on simulation and game projects, owning performance, rendering, and CI/CD at scale. I’ve led efforts to modernize build farms (Perforce, Jenkins, Unreal Horde/BuildGraph), cut sync times, and move large teams toward reproducible, cache-friendly workflows. I care about clean architectures, telemetry, and closing the loop between code and on-screen results.
-
-I’m now specializing in Graphics + ML Systems: GPU compute, modern APIs (DX12/Vulkan/Metal), profiling with Nsight/PIX/RenderDoc, and ML-assisted rendering (denoisers/upscalers). I like problems where visibility, scheduling, and data layout decide the frame time.
+				10+ years building real-time games and simulations. Specialized in graphics performance, build/release
+				automation, and editor/pipeline tools that cut iteration time.
 			</p>
 			<div class="mt-5 flex gap-3">
 				<a class="slide-stagger btn" href="/demos">View Demos</a>
@@ -134,17 +132,17 @@ I’m now specializing in Graphics + ML Systems: GPU compute, modern APIs (DX12/
 
 		  </section> -->
 
-		  <!-- <section class="max-w-5xl mx-auto mt-10">
-			<h2 class="text-xl font-bold underline-accent mb-4">Featured</h2>
-			<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-			  <article class="card p-5">
-				<div class="text-accent mb-2">📄</div>
-				<h3 class="font-semibold">Resume</h3>
-				<p class="text-zinc-400 mt-1">Highlights, experience, and recent work.</p>
-				<a class="mt-3 inline-flex items-center gap-2 text-accent link-underline" href="/resume">View →</a>
-			  </article>
-			</div>
-		  </section> -->
+		<!-- <section class="max-w-5xl mx-auto mt-10">
+		<h2 class="text-xl font-bold underline-accent mb-4">Featured</h2>
+		<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+			<article class="card p-5">
+			<div class="text-accent mb-2">📄</div>
+			<h3 class="font-semibold">Resume</h3>
+			<p class="text-zinc-400 mt-1">Highlights, experience, and recent work.</p>
+			<a class="mt-3 inline-flex items-center gap-2 text-accent link-underline" href="/resume">View →</a>
+			</article>
+		</div>
+		</section> -->
 
 		<h2 class="slide-stagger text-xl font-bold underline-accent mb-4 mt-4">Featured</h2>
 		<div class="slide-stagger mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">

@@ -30,7 +30,7 @@
           "type": "Text",
           "config": {
             "label": "Title",
-            "placeholder": "Software Developer"
+            "placeholder": "Senior Software Engineer"
           }
         },
         "about_me": {
