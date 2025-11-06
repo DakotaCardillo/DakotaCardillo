@@ -5,8 +5,12 @@
 	import { default as WaterSimulation } from '$lib/demos/WaterSimulation/index.svelte';
 	import { default as BlinnPhong } from '$lib/demos/BlinnPhong/index.svelte';
 
+	let DemoComponent: typeof WaterSimulation | typeof ShellTexturing | typeof BlinnPhong | undefined = undefined;
+	if (demo.slug === 'shell-texturing') DemoComponent = ShellTexturing;
+	if (demo.slug === 'ocean-simulation') DemoComponent = WaterSimulation;
+	if (demo.slug === 'blinn-phong') DemoComponent = BlinnPhong;
+
 	// Hardcoded to water simulation for now
-	const DemoComponent = WaterSimulation;
 </script>
 
 <section class="w-full h-full">

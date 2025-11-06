@@ -12,9 +12,7 @@
 
 	const waveAlgoOptions: ListOptions<number> = {
 		sum_of_sines: 0,
-		exponential_sum_of_sines: 1,
-		fractional_brownian_motion: 2,
-		fast_forieuire_transform: 3
+		fractional_brownian_motion: 2
 	} as const;
 
 	const waveTypeOptions: ListOptions<number> = {
@@ -30,7 +28,10 @@
 
 	let useWebGPU = false;
 	onMount(() => {
-		if (WebGPU.isAvailable()) {
+		const params = new URLSearchParams(window.location.search);
+		const mode = params.get('mode'); // 'webgpu' or 'webgl'
+
+		if (mode === 'webgpu' && WebGPU.isAvailable()) {
 			useWebGPU = true;
 			console.log('using WebGPU');
 		} else {
@@ -42,7 +43,7 @@
 
 <div class="pointer-events-auto relative w-full h-full">
 
-	<!-- <div class="absolute top-0 left-0 ml-4 mt-16 z-10">
+	<div class="absolute top-0 left-0 ml-4 mt-16 z-10">
 		<Pane
 			position="inline"
 			title="Water"
@@ -78,7 +79,7 @@
 				bind:value={wireframe}
 			/>
 		</Pane>
-	</div> -->
+	</div>
 
 	<Canvas toneMapping={THREE.NoToneMapping} colorSpace={THREE.SRGBColorSpace} createRenderer={(canvas) => {
 		if (useWebGPU) {

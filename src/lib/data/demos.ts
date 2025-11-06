@@ -44,6 +44,38 @@ export const demos: Demo[] = [
 		}
 	},
 	{
+		slug: 'shell-texturing',
+		title: 'Shell Texturing',
+		summary: 'A simple demo of shell texturing in WebGL.',
+		year: '2025',
+		tags: ['WebGL', 'Graphics'],
+		media: { poster: '/poster.svg' },
+		links: { play: '/demos/shell-texturing' },
+		flagship: false,
+		interactive: true,
+		webgl: {
+			width: 1000,
+			height: 1000,
+			antialias: true
+		}
+	},
+	{
+		slug: 'blinn-phong',
+		title: 'Blinn-Phong Shading',
+		summary: 'A simple demo of Blinn-Phong shading in WebGL.',
+		year: '2025',
+		tags: ['WebGL', 'Graphics'],
+		media: { poster: '/poster.svg' },
+		links: { play: '/demos/blinn-phong' },
+		flagship: false,
+		interactive: true,
+		webgl: {
+			width: 1000,
+			height: 1000,
+			antialias: true
+		}
+	},
+	{
 		slug: 'lyra-fps-camera',
 		title: 'Lyra-based FPS Camera (Destiny-like)',
 		summary: 'Custom first-person pipeline with mannequin split for modular armor.',

@@ -265,18 +265,18 @@
 </T.PerspectiveCamera>
 
 <!-- WATER -->
-<T.Mesh
-	scale={[1, 1, 1]}
-	position={[0, 10, 20]}
-	material={wireframe ? wireframeMaterial : waterMaterial}
-	geometry={waterGeometry}
->
-</T.Mesh>
+<!--<T.Mesh-->
+<!--	scale={[1, 1, 1]}-->
+<!--	position={[0, 10, 20]}-->
+<!--	material={wireframe ? wireframeMaterial : waterMaterial}-->
+<!--	geometry={waterGeometry}-->
+<!--&gt;-->
+<!--</T.Mesh>-->
 
 <!-- WATER FROM TEX -->
 <T.Mesh
 	geometry={waterGeometry}
-	material={newWaterMaterial}
+	material={wireframe ? wireframeMaterial :newWaterMaterial}
 	scale={[1, 1, 1]}
 	position={[0, 0, 0]}
 />
@@ -329,7 +329,7 @@
 	geometry={offscreenWaterGeometry}
 	material={waterMapMaterial}
 	scale={[1, 1, 1]}
-	position={[30, 10, 0]}
+	position={[20, 0, 0]}
 />
 
 <!--&lt;!&ndash; This is a mesh that renders the view of the orto camera in the offscreen scene &ndash;&gt;-->

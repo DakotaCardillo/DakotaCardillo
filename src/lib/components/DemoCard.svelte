@@ -41,7 +41,12 @@
 			{#each d.tags as t}<span class="border border-zinc-700 px-2 py-0.5 rounded">{t}</span>{/each}
 		</div>
 		<div class="mt-4 flex flex-wrap gap-2">
-			{#if d.links.play}<a class="btn" href={d.links.play} target="_self">Play</a>{/if}
+			{#if d.links.play}<a class="btn" href={d.links.play} on:click|preventDefault={(e) => {
+														      const forceWebGL = e.shiftKey;       // Shift held = force WebGL
+																	const url = new URL(window.location.origin + d.links.play);
+																	url.searchParams.set('mode', forceWebGL ? 'webgl' : 'webgpu');
+																	window.location.href = url.toString();
+													 }} target="_self">Play</a>{/if}
 			{#if d.links.watch}<a class="btn-ghost" href={d.links.watch} target="_self">Watch</a>{/if}
 			{#if d.links.read}<a class="btn-ghost" href={d.links.read}>Read</a>{/if}
 			{#if d.links.code}<a class="btn-ghost" href={d.links.code} target="_self">Code</a>{/if}
